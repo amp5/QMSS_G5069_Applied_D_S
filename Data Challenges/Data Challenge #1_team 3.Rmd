@@ -162,13 +162,16 @@ Federal Police, Navy and Army?
 ```{r}
 #Stephanie:
   
-  
+#Brandon:  
+
 ```
 
 #1a) Provide a visualization that presents this information neatly.
 
 ```{r}
 #Stephanie:
+
+#Brandon: 
 
 ```
 
@@ -178,6 +181,8 @@ you'll need to do some additional munging in the data to get there).
 ```{r}
 #Stephanie:
 
+#Brandon:  
+
 ```
 
 #1c) If you could not replicate them, please show why and the difference relative to 
@@ -185,6 +190,8 @@ your own computations (also, include a neat graph that summarizes this).
 
 ```{r}
 #Stephanie:
+
+#Brandon:  
 
 ```
 
