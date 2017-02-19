@@ -12,6 +12,8 @@ library(tidyverse)
 
 path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges"
 
+#Brandon - you can put in your path here so the code works for you
+
 # define additional paths for files you will use. In each case, determine
 # appropriate additions to the path
 
@@ -161,6 +163,7 @@ Federal Police, Navy and Army?
 
 ```{r}
 #Stephanie:
+
   
 #Brandon:  
 
