@@ -4,7 +4,7 @@ Authors: "Brandon Wolff, Zachary Heinemann, and Stephanie Langeland	"
 Due Date: "02/22/2017"
 output: html_document
 ---
-Clean the data:
+###Cleaning the data:
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
@@ -158,19 +158,27 @@ fullData <-
         )
 ```
 
-
-#1) Can you replicate the 86.1% number? the overall lethality ratio? The ratios for the 
-Federal Police, Navy and Army?
+####1) Can you replicate the 86.1% number? 
+###The overall lethality ratio? 
+####The ratios for the Federal Police, Navy and Army?
 
 ```{r}
 #Stephanie:
 
+#Figure 1 - 86.1% of dead civilians who presumably participated in confrontations
+#with federal armed forces were killed in events of "perfect lethality" where 
+#there were only dead and no wounded:
+figure1 <-  ( sum(fullData$civilian.dead) / sum(fullData$total.people.dead) ) * 100
   
+#Overall lethality ratio:
+OLR <- 
+
+
 #Brandon:  
 
 ```
 
-#1a) Provide a visualization that presents this information neatly.
+###1a) Provide a visualization that presents this information neatly.
 
 ```{r}
 #Stephanie:
@@ -179,8 +187,9 @@ Federal Police, Navy and Army?
 
 ```
 
-1b) Please show the exact computations you used to calculate them (most likely than not, 
-you'll need to do some additional munging in the data to get there).
+###1b) Please show the exact computations you used to calculate them 
+###(most likely than not, 
+###you'll need to do some additional munging in the data to get there).
 
 ```{r}
 #Stephanie:
@@ -189,8 +198,9 @@ you'll need to do some additional munging in the data to get there).
 
 ```
 
-#1c) If you could not replicate them, please show why and the difference relative to 
-your own computations (also, include a neat graph that summarizes this).
+###1c) If you could not replicate them, please show why and the difference 
+###relative to your own computations (also, include a neat graph that summarizes
+###this).
 
 ```{r}
 #Stephanie:
@@ -199,41 +209,276 @@ your own computations (also, include a neat graph that summarizes this).
 
 ```
 
-#1d) Be very explicit: What are you assuming to generate these computations?
+###1d) Be very explicit: What are you assuming to generate these computations?
  
   *
 
-#2) Now you know the data more intimately. Think a little bit more about it, and 
-answer the following questions:
+###2) Now you know the data more intimately. Think a little bit more about it, 
+###and answer the following questions:
 
-#2a) Is this the right metric to look at? Why or why not? 2b) What is the "lethality index" showing explicitly? What is it not showing? What is the definition assuming?
+###2a) Is this the right metric to look at? Why or why not? 2b) What is the ###"lethality index" showing explicitly? What is it not showing? What is the
+###definition assuming?
 
-     There are quite a few critical considerations with regard to the dataset at one. First and foremost, it is worth critically assessing what exactly is being captured by this dataset. By the very definition of the dataset, a case is only ever included in this particular set if it is defined as a confrontation via the definition provided in the brief. In one regard, this is selecting on the dependent variable insofar as there are no cases of interactions with the police that do not have any violence and therefore any statistic will be likely inflating the overall percentage because it disregards the potentially large number of cases in which an interaction occurs in the absence of violence and therefore the denominator in the probability calculation is much lower than it should be. 
+There are quite a few critical considerations with regard to the dataset at one.
+First and foremost, it is worth critically assessing what exactly is being captured 
+by this dataset. By the very definition of the dataset, a case is only ever included
+in this particular set if it is defined as a confrontation via the definition 
+provided in the brief. In one regard, this is selecting on the dependent variable 
+insofar as there are no cases of interactions with the police that do not have any 
+violence and therefore any statistic will be likely inflating the overall percentage
+because it disregards the potentially large number of cases in which an interaction 
+occurs in the absence of violence and therefore the denominator in the probability 
+calculation is much lower than it should be. 
 
-     It is worth noting that not only is the definition of confrontation constrained to violent interactions, but actually the violent interactions that do occur must be between the police and members of organized crime. Indeed, as per the formal definition of confrontation, there must “be at least three (3) organized crime members, or less if using military-grade equipment and explosives,” which indicates that even instances where violence did occur but it was only between those who are not believed to or known to be organized crime members would still not be included in the dataset. Actually, via the definition of confrontation, there are a number of restraints, such as the instance must involve “violent resistance to armed forces and other government authorities” which would preclude an instance from being included in this dataset. The critical takeaway here is not even that some censoring on the dependent variable is occurring within this dataset (thereby artificially inflating the conditional probabilities calculated), but actually the tremendous amount of restraints on the dataset implemented by the narrow definition of confrontation that actually likely censor quite a large deal of cases so much so that the current statistics may not be entirely reliable. 
 
-     Under this framework, it may be meaningful to conclude that the lethality index is an inappropriate measure altogether because it likely inflates the extent to which the police are acting violently and killing as opposed to wounding in the general population. In some regard, this makes good sense. If hypothetically the police killed 5 for wounding every 1, but in actuality the cases presented are only .01% of all the interactions between police and people, then the gravity of this ratio is likely sensationalized as it presented. However, this does not necessarily reduce this metric to having no value; rather, it is critical just to report the statistic exactly as it is. The interpretation presented in the piece does inflate the ratio due to the aforementioned censoring problem, but the actual index is simply a measure of the number killed compared to the number wounded given that a confrontation has occurred. The article does use the word “confrontation” explicitly, but it does not give the formal (and rather narrow, quite frankly) definition that actually precludes a number of cases that the reader may assume when reading “confrontation” as presented in the piece. Therefore, the presentation of the index and the data is not necessarily dishonest outright insofar as it does use the proper word, but it fails to address the particular definition that was used to construct the dataset, thereby biasing the interpretation presented to the readers.
+It is worth noting that not only is the definition of confrontation constrained to 
+violent interactions, but actually the violent interactions that do occur must be 
+between the police and members of organized crime. Indeed, as per the formal 
+definition of confrontation, there must “be at least three (3) organized crime 
+members, or less if using military-grade equipment and explosives,” which indicates 
+that even instances where violence did occur but it was only between those who are 
+not believed to or known to be organized crime members would still not be included 
+in the dataset. Actually, via the definition of confrontation, there are a number of
+restraints, such as the instance must involve “violent resistance to armed forces 
+and other government authorities” which would preclude an instance from being 
+included in this dataset. The critical takeaway here is not even that some censoring
+on the dependent variable is occurring within this dataset (thereby artificially 
+inflating the conditional probabilities calculated), but actually the tremendous 
+amount of restraints on the dataset implemented by the narrow definition of 
+confrontation that actually likely censor quite a large deal of cases so much so 
+that the current statistics may not be entirely reliable. 
+
+
+Under this framework, it may be meaningful to conclude that the lethality index is 
+an inappropriate measure altogether because it likely inflates the extent to which 
+the police are acting violently and killing as opposed to wounding in the general 
+population. In some regard, this makes good sense. If hypothetically the police 
+killed 5 for wounding every 1, but in actuality the cases presented are only .01% of
+all the interactions between police and people, then the gravity of this ratio is 
+likely sensationalized as it presented. However, this does not necessarily reduce 
+this metric to having no value; rather, it is critical just to report the statistic 
+exactly as it is. The interpretation presented in the piece does inflate the ratio 
+due to the aforementioned censoring problem, but the actual index is simply a 
+measure of the number killed compared to the number wounded given that a 
+confrontation has occurred. The article does use the word “confrontation” 
+explicitly, but it does not give the formal (and rather narrow, quite frankly) 
+definition that actually precludes a number of cases that the reader may assume when
+reading “confrontation” as presented in the piece. Therefore, the presentation of 
+the index and the data is not necessarily dishonest outright insofar as it does use 
+the proper word, but it fails to address the particular definition that was used to 
+construct the dataset, thereby biasing the interpretation presented to the readers.
+
 	
-     Therefore, this metric is not necessarily meaningless, it can be used as an understanding of the rates at which police in general (and in comparison with other groups) kill versus wound in these particular situations, so long as it is interpreted with specific regard to exactly what it is measuring and not necessarily extrapolated to a general metric of brutality of a lack of training on behalf of the police. Whether or not this metric is appropriate, therein, is not necessarily an inherent property but instead contingent upon the question being asked. If a researcher or reporter wants to understand what groups are more adept at wounding instead of killing in confrontation situations, as per this narrow definition, then this index is perfectly acceptable; however, it does not appear that this was necessarily the question the article was interested in answering and instead there was an attempt to extrapolate this to an overall claim about the relative training of different groups in wounding versus killing, and such an extrapolation realistically cannot be supported by the data. Rather, this metric makes a very explicit assumption that a confrontation has occurred and then assesses the relative outcomes given the occurrence of that, which can certainly be meaningful, but is not able to answer the questions that the journalist presenting the piece appears to be interested in. For example, in order to extrapolate this to a broader claim about relative training of particular groups, one would need the data of non-confrontation encounters and compare those ratios to the ratios presented here; it is certainly possible that perhaps police officers have a lower lethality index in confrontation situations, but a higher one relative to their reference groups in non-confrontation situations – therefore undermining the claim of differential training that the piece suggests. 
+Therefore, this metric is not necessarily meaningless, it can be used as an 
+understanding of the rates at which police in general (and in comparison with other 
+groups) kill versus wound in these particular situations, so long as it is 
+interpreted with specific regard to exactly what it is measuring and not necessarily
+extrapolated to a general metric of brutality of a lack of training on behalf of the
+police. Whether or not this metric is appropriate, therein, is not necessarily an 
+inherent property but instead contingent upon the question being asked. If a 
+researcher or reporter wants to understand what groups are more adept at wounding 
+instead of killing in confrontation situations, as per this narrow definition, then 
+this index is perfectly acceptable; however, it does not appear that this was 
+necessarily the question the article was interested in answering and instead there 
+was an attempt to extrapolate this to an overall claim about the relative training 
+of different groups in wounding versus killing, and such an extrapolation 
+realistically cannot be supported by the data. Rather, this metric makes a very 
+explicit assumption that a confrontation has occurred and then assesses the relative
+outcomes given the occurrence of that, which can certainly be meaningful, but is not
+able to answer the questions that the journalist presenting the piece appears to be 
+interested in. For example, in order to extrapolate this to a broader claim about 
+relative training of particular groups, one would need the data of non-confrontation
+encounters and compare those ratios to the ratios presented here; it is certainly 
+possible that perhaps police officers have a lower lethality index in confrontation 
+situations, but a higher one relative to their reference groups in non-confrontation
+situations – therefore undermining the claim of differential training that the piece
+suggests. 
 
-     Additionally, it is worth noting that very little information about the actual event itself is gleaned besides very basic facts. This particular measure does not make recognition of the temporal aspect (does it matter when in the day and when in the year these events are occurring? Does it matter what year it is as crime rates change over time?), as well as the localization aspect (does it matter what state or municipality it is in?) and instead looks at a very globalized perspective; aggregated all of the space and time of the events to create one statistic. By definition, this may be a useful summary of the data, but it is most certainly reductive. There is reason to believe given the visualizations of the data that there is at least meaningful differences across different years and even within the same year of these dead rates and therefore lethality indices and therefore to aggregate such a tremendous amount of data into one point reduces meaningful trends and components of the relationship between the variables that helps elucidate the insight of police brutality in Mexico. Additionally, there may be reason to believe that similarly there are meaningful differences across the country that such a reductive aggregation does not capture. For example, perhaps this lethality index is actually being largely driven just by one year and only in one municipality due to an exogenous event that spiked the incidence of confrontations on the basis of organized crime in that area such that there were many killed. While the data does not necessarily appear to suggest this; this hypothetical point elucidates the possibility of significant trends being missed in the reduction of the data. Therefore, this index is not only censoring, but also reductive by definition – meaning that the insight suggested by the article may not necessarily approximate the reality. 
 
-     Additionally, there is limitations outside of the dataset about the nature of the events such that the insights being gleaned are dubious. The amount of data collected about the incident is largely demographic in nature and does not include specificities of the confrontation that could impact the interpretation of the numbers. For example, if in a particular confrontation – the army had to come in because of the severity of a crime and use something much more widespread (like a grenade for example) in order to quell the threat, it would make sense that the many civilians in the area in addition to the few dangerous criminals would be killed and therefore the overall statistic is being driven by the severity of the threat posed. Furthermore, instances in which the army or navy are required as opposed to police force may be fundamentally different instances such that there is a tremendous need for intervention and quelling of the threat immediately so much so that more destructive (and by definition less precise) methods of quelling the threat are necessary, thereby inflating the mortality rate. Therefore, there perhaps is a fundamentally different nature to the confrontations in which the navy or army is necessary that inflates the statistic, and not necessarily the lack of training in quelling targets without killing civilians (or wounding without killing) – which the article appears to suggest. Therefore, the lack of substantive information about the events is another form of censoring that reduces the tangible meaning of the lethality index. 
+Additionally, it is worth noting that very little information about the actual event
+itself is gleaned besides very basic facts. This particular measure does not make 
+recognition of the temporal aspect (does it matter when in the day and when in the 
+year these events are occurring? Does it matter what year it is as crime rates 
+change over time?), as well as the localization aspect (does it matter what state or
+municipality it is in?) and instead looks at a very globalized perspective; 
+aggregated all of the space and time of the events to create one statistic. By 
+definition, this may be a useful summary of the data, but it is most certainly 
+reductive. There is reason to believe given the visualizations of the data that 
+there is at least meaningful differences across different years and even within the 
+same year of these dead rates and therefore lethality indices and therefore to 
+aggregate such a tremendous amount of data into one point reduces meaningful trends 
+and components of the relationship between the variables that helps elucidate the 
+insight of police brutality in Mexico. Additionally, there may be reason to believe 
+that similarly there are meaningful differences across the country that such a 
+reductive aggregation does not capture. For example, perhaps this lethality index is
+actually being largely driven just by one year and only in one municipality due to 
+an exogenous event that spiked the incidence of confrontations on the basis of 
+organized crime in that area such that there were many killed. While the data does 
+not necessarily appear to suggest this; this hypothetical point elucidates the 
+possibility of significant trends being missed in the reduction of the data. 
+Therefore, this index is not only censoring, but also reductive by definition – 
+meaning that the insight suggested by the article may not necessarily approximate 
+the reality. 
 
-#2c) With the same available data, can you think of an alternative way to capture the same construct? Is it "better"?
 
-     The necessity or even use of a different metric is similarly contingent upon the question that the researcher wants to present and the insight that they wish to draw. It appears that the report was interested in two major insights: typically speaking in Mexico more are killed than wounded in confrontations and different groups (such as the army or navy) tend to have an even stronger effect for this than police. Under the narrow definition presented of confrontation, theoretically there is support for both claims with the existing metric. However, it is worth noting that the claim being made is likely more about the overall lethality of Mexico and not necessarily this particular metric. With the data given, the metric that was presented does make some sense (as the entire dataset itself is censored which is not necessarily the fault of the researcher) and is still providing an insight, albeit a limited one into a specific type of situation. 
+Additionally, there is limitations outside of the dataset about the nature of the 
+events such that the insights being gleaned are dubious. The amount of data 
+collected about the incident is largely demographic in nature and does not include 
+specificities of the confrontation that could impact the interpretation of the 
+numbers. For example, if in a particular confrontation – the army had to come in 
+because of the severity of a crime and use something much more widespread (like a 
+grenade for example) in order to quell the threat, it would make sense that the many
+civilians in the area in addition to the few dangerous criminals would be killed and
+therefore the overall statistic is being driven by the severity of the threat posed.
+Furthermore, instances in which the army or navy are required as opposed to police 
+force may be fundamentally different instances such that there is a tremendous need 
+for intervention and quelling of the threat immediately so much so that more 
+destructive (and by definition less precise) methods of quelling the threat are 
+necessary, thereby inflating the mortality rate. Therefore, there perhaps is a 
+fundamentally different nature to the confrontations in which the navy or army is 
+necessary that inflates the statistic, and not necessarily the lack of training in 
+quelling targets without killing civilians (or wounding without killing) – which the
+article appears to suggest. Therefore, the lack of substantive information about the
+events is another form of censoring that reduces the tangible meaning of the 
+lethality index. 
 
-     Theoretically, there are a few things that could perhaps improve the measurement. For one, it may be critically to provide a more dynamic measurement that incorporates municipality and time as components of the statistic (perhaps in the form of visualization or a specific statistical model). This measurement, while certainly less parsimonious, may give insight into specificities of the index as it varies and therefore provides more insight into the causes behind and severity of crime as opposed to homogenizing over all of Mexico. Indeed, it may be critical to have a nuanced understanding of the when and where such that the threat being suggested and the lack of training being accused by the article is perhaps solidified or tempered by taking into account factors related to the time and place of the confrontations.
 
-     As aforementioned, one of the major limitations of the previous measure is that it fails to incorporate (although the dataset does as well), idiosyncrasies of the confrontations that may change why a particular statistic (for example number of army or navy dead) is higher because of the extremity of the threat and subsequent necessity for quelling measures that result in quite a lot of death. However, the dataset does not necessarily provide a clear where to include this in the model. There are a number of variables about the amount of weaponry seized, which potentially could be used as a proxy for the severity or danger presented by the particular confrontation (for example if many guns were seized, it could indicate that the event was far more dangerous and therefore necessitated something like a grenade which would kill many in order to quell the threat). Incorporating this measure into the model or the calculation of the statistic may be helpful, but admittedly this is a rather weak proxy insofar as it does not necessarily give a clear depiction of the situation, just an after the fact measure of the number of guns seized (for example if 10 guns were seized, it could be 10 organized crime members who were quelled without any casualties who happened to have guns, but it also could indicate that there was a massive shoot-out which required the army or navy to intervene). Therefore, this measure may improve the statistic somewhat, but it is hard to assess by how much and there is a certain possibility that it may not necessarily improve it at all. In terms of estimating lethality, one could examine the ratio of non-civilian to civilian deaths as a means of understanding the situation (how many civilians were involved? Was it essentially just an explosion of deaths because of the severity of the situation? Was it an isolated event between the organized criminals and the armed forces?) and to give an idea of the danger presented not just to those involved, by definition, in the confrontation, but those not intentionally involved as well. However, this metric still does not capture many of the realities of the situation as the complexity of confrontations is difficult to boil down to just a comparison of some numbers; rather, it is near impossible to assess the constituents of a situation and the danger just by relative death counts – especially if the civilian count is 0 in a given confrontation, which is frequently is and could just indicate that all of the civilians in the area were kept safe by the armed forces even if many in the armed forces were harmed. 
+###2c) With the same available data, can you think of an alternative way to capture 
+###the same construct? Is it "better"?
 
-#2d) What additional information would you need to better understand the data? 2e) What additional information could help you better capture the construct behind the "lethality index"
 
-     In general, the biggest considerations for what the data would need would be data that involves all interactions with the police that are not the formal definition of confrontations to supplement the current dataset that is exclusively confrontations. Specifically – in order to make the claim that police officers in Mexico are good or bad with regard to injuring versus killing, one would at least need the data of all violent interactions (whether they be with an organized crime member or not) such that one could discern if situations that necessitate some form of violence are more likely to result in wounding instead of killing those involved. 
+The necessity or even use of a different metric is similarly contingent upon the 
+question that the researcher wants to present and the insight that they wish to 
+draw. It appears that the report was interested in two major insights: typically 
+speaking in Mexico more are killed than wounded in confrontations and different 
+groups (such as the army or navy) tend to have an even stronger effect for this than
+police. Under the narrow definition presented of confrontation, theoretically there 
+is support for both claims with the existing metric. However, it is worth noting 
+that the claim being made is likely more about the overall lethality of Mexico and 
+not necessarily this particular metric. With the data given, the metric that was 
+presented does make some sense (as the entire dataset itself is censored which is 
+not necessarily the fault of the researcher) and is still providing an insight, 
+albeit a limited one into a specific type of situation. 
 
-     However, even if this particular dataset would be flawed insofar as it does not necessarily address the source and the necessity of the violence. If the overall claim is being made about the skills and training of the police force, such a dataset would not necessarily be able to glean if the poor training results in police officers engaging in violent confrontations more than is necessary, thereby also inflating the statistic. This exposes an important consideration: in order to make many of the important claims about the general training and lethality of Mexico, there needs to be many more variables collected about the nature of each incident. For example, knowing what exactly happened, knowing why the violence occurred, knowing what type of threat and the gravity of the threat posed to the officer are among some of the information about the interaction that would help elucidate the claim being made by the piece. However, such an ideal dataset is difficult, if not impossible, to gather. In general, one of the issues of data science is the extent to which we are bound by the natural limitations of our data. 
 
-     Therefore, it is not necessarily a question of what would be the ideal dataset to answer the question, but rather what insights can be gathered from the specific data, so long as we are explicit and clear about what assumptions are or are not a part of the data. Even perhaps just something as broad as a statistic of the percentage of police interactions in this time that were confrontations could help scale the incidences and percentages such that it becomes more close to the reality of the danger presented by police officers overall in dealing with organized crime. For example, if the ratio of police officers killed to wounded is 2.6, but the number killed and number wounded are both incredibly low in the overall population (especially when compared with non-violent interactions), then the ratio may not be statistically significant and may instead be just because both numbers comparatively are quite low and just by chance happen to have one 2.6 times larger than the other (which is an even greater case for testing the statistical significance of all of these ratios). Additionally, such a situation would also indicate that even if the lethality index is high (when defined in those terms), overall it is quite safe to be a police officer and therefore this relative relationship may not necessarily be of importance. Again, this derives back to the question of what precisely constitutes the lethality index as the researchers and reporters wish to both understand and construe it to their readers at large; under the framework of wishing to define it simply as how much more likely a death is than a wounding, it is still critical to include all of the situational factors of the particular confrontation as well as the non-confrontation data in order to properly construct such an index. 
+Theoretically, there are a few things that could perhaps improve the measurement. 
+For one, it may be critically to provide a more dynamic measurement that 
+incorporates municipality and time as components of the statistic (perhaps in the 
+form of visualization or a specific statistical model). This measurement, while 
+certainly less parsimonious, may give insight into specificities of the index as it 
+varies and therefore provides more insight into the causes behind and severity of 
+crime as opposed to homogenizing over all of Mexico. Indeed, it may be critical to 
+have a nuanced understanding of the when and where such that the threat being 
+suggested and the lack of training being accused by the article is perhaps 
+solidified or tempered by taking into account factors related to the time and place 
+of the confrontations.
 
-     This index is a very specific probability which certainly has merit to some extent, but is not necessarily as expansive as it appears. If the researcher wants to understand the index more broadly with regard to the profession, all information of interactions would be necessary. If the researcher wants to understand the index with regard to dealing with organized crime, then at least confrontation and non-confrontation data would be necessary in order to derive the probability of confrontation and then calculate the conditional probability accordingly. If the researcher is interested in understand the relative risk of dying versus being wounded under the very specific definition of a confrontation (with all of the aforementioned stipulations as per the definition), then this statistic achieves such an aim and therein a conclusion can tentatively be made. This suggests that there is not necessarily an absolute “best” way to measure the lethality index, rather it is critical to define the index in the context of the insight that the analyst wishes to draw and then evaluate the data’s ability to do so. Rather, it is not necessarily fully possible to construct a “better” measure of the lethality index without widening the definition of said index with regard to the aforementioned considerations and subsequently then evaluating what is the type of data necessary to measure such an index. This elucidates a critical data science theme: the insights one can draw are limited by the data, and the data collected should theoretically be structured with the insights desired in mind. 
+
+As aforementioned, one of the major limitations of the previous measure is that it 
+fails to incorporate (although the dataset does as well), idiosyncrasies of the 
+confrontations that may change why a particular statistic (for example number of 
+army or navy dead) is higher because of the extremity of the threat and subsequent 
+necessity for quelling measures that result in quite a lot of death. However, the 
+dataset does not necessarily provide a clear where to include this in the model. 
+There are a number of variables about the amount of weaponry seized, which 
+potentially could be used as a proxy for the severity or danger presented by the 
+particular confrontation (for example if many guns were seized, it could indicate 
+that the event was far more dangerous and therefore necessitated something like a 
+grenade which would kill many in order to quell the threat). Incorporating this 
+measure into the model or the calculation of the statistic may be helpful, but 
+admittedly this is a rather weak proxy insofar as it does not necessarily give a 
+clear depiction of the situation, just an after the fact measure of the number of 
+guns seized (for example if 10 guns were seized, it could be 10 organized crime 
+members who were quelled without any casualties who happened to have guns, but it 
+also could indicate that there was a massive shoot-out which required the army or 
+navy to intervene). Therefore, this measure may improve the statistic somewhat, but 
+it is hard to assess by how much and there is a certain possibility that it may not 
+necessarily improve it at all. In terms of estimating lethality, one could examine 
+the ratio of non-civilian to civilian deaths as a means of understanding the 
+situation (how many civilians were involved? Was it essentially just an explosion of
+deaths because of the severity of the situation? Was it an isolated event between 
+the organized criminals and the armed forces?) and to give an idea of the danger 
+presented not just to those involved, by definition, in the confrontation, but those
+not intentionally involved as well. However, this metric still does not capture many
+of the realities of the situation as the complexity of confrontations is difficult 
+to boil down to just a comparison of some numbers; rather, it is near impossible to 
+assess the constituents of a situation and the danger just by relative death counts 
+– especially if the civilian count is 0 in a given confrontation, which is 
+frequently is and could just indicate that all of the civilians in the area were 
+kept safe by the armed forces even if many in the armed forces were harmed. 
+
+
+###2d) What additional information would you need to better understand the data? 
+###2e) What additional information could help you better capture the construct behind the "lethality index"
+
+
+In general, the biggest considerations for what the data would need would be data 
+that involves all interactions with the police that are not the formal definition of
+confrontations to supplement the current dataset that is exclusively confrontations.
+Specifically – in order to make the claim that police officers in Mexico are good or
+bad with regard to injuring versus killing, one would at least need the data of all 
+violent interactions (whether they be with an organized crime member or not) such 
+that one could discern if situations that necessitate some form of violence are more
+likely to result in wounding instead of killing those involved. 
+
+
+However, even if this particular dataset would be flawed insofar as it does not 
+necessarily address the source and the necessity of the violence. If the overall 
+claim is being made about the skills and training of the police force, such a 
+dataset would not necessarily be able to glean if the poor training results in 
+police officers engaging in violent confrontations more than is necessary, thereby 
+also inflating the statistic. This exposes an important consideration: in order to 
+make many of the important claims about the general training and lethality of 
+Mexico, there needs to be many more variables collected about the nature of each 
+incident. For example, knowing what exactly happened, knowing why the violence 
+occurred, knowing what type of threat and the gravity of the threat posed to the 
+officer are among some of the information about the interaction that would help 
+elucidate the claim being made by the piece. However, such an ideal dataset is 
+difficult, if not impossible, to gather. In general, one of the issues of data 
+science is the extent to which we are bound by the natural limitations of our data. 
+
+
+Therefore, it is not necessarily a question of what would be the ideal dataset to 
+answer the question, but rather what insights can be gathered from the specific 
+data, so long as we are explicit and clear about what assumptions are or are not a 
+part of the data. Even perhaps just something as broad as a statistic of the 
+percentage of police interactions in this time that were confrontations could help 
+scale the incidences and percentages such that it becomes more close to the reality 
+of the danger presented by police officers overall in dealing with organized crime. 
+For example, if the ratio of police officers killed to wounded is 2.6, but the 
+number killed and number wounded are both incredibly low in the overall population 
+(especially when compared with non-violent interactions), then the ratio may not be 
+statistically significant and may instead be just because both numbers comparatively
+are quite low and just by chance happen to have one 2.6 times larger than the other 
+(which is an even greater case for testing the statistical significance of all of 
+these ratios). Additionally, such a situation would also indicate that even if the 
+lethality index is high (when defined in those terms), overall it is quite safe to 
+be a police officer and therefore this relative relationship may not necessarily be 
+of importance. Again, this derives back to the question of what precisely 
+constitutes the lethality index as the researchers and reporters wish to both 
+understand and construe it to their readers at large; under the framework of wishing
+to define it simply as how much more likely a death is than a wounding, it is still 
+critical to include all of the situational factors of the particular confrontation 
+as well as the non-confrontation data in order to properly construct such an index. 
+
+
+This index is a very specific probability which certainly has merit to some extent, 
+but is not necessarily as expansive as it appears. If the researcher wants to 
+understand the index more broadly with regard to the profession, all information of 
+interactions would be necessary. If the researcher wants to understand the index 
+with regard to dealing with organized crime, then at least confrontation and 
+non-confrontation data would be necessary in order to derive the probability of 
+confrontation and then calculate the conditional probability accordingly. If the 
+researcher is interested in understand the relative risk of dying versus being 
+wounded under the very specific definition of a confrontation (with all of the 
+aforementioned stipulations as per the definition), then this statistic achieves 
+such an aim and therein a conclusion can tentatively be made. This suggests that 
+there is not necessarily an absolute “best” way to measure the lethality index, 
+rather it is critical to define the index in the context of the insight that the 
+analyst wishes to draw and then evaluate the data’s ability to do so. Rather, it is 
+not necessarily fully possible to construct a “better” measure of the lethality 
+index without widening the definition of said index with regard to the 
+aforementioned considerations and subsequently then evaluating what is the type of 
+data necessary to measure such an index. This elucidates a critical data science 
+theme: the insights one can draw are limited by the data, and the data collected 
+should theoretically be structured with the insights desired in mind. 
