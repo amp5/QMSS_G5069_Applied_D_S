@@ -8,6 +8,13 @@ output: html_document
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
+library(readr)          # easier reading of flat files
+library(readxl)         # easier reading of excel files
+library(dplyr)          # data manipulation functions
+library(tidyr)          # tools for tidy datasets
+library(magrittr)       # this is not a pipe
+library(lubridate)      # easier manipulation of time objects
+library(stringr)        # easier manipulation of strings
 library(tidyverse)
 
 path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges"
@@ -77,7 +84,6 @@ summary(NameTable)
 #    explore the data futher
 
 
-library(dplyr)
 fullData <- 
     Confrontations %>% 
         # adding State and Municipality names to dataframe
