@@ -7,61 +7,59 @@ output: html_document
 
 With this new dataset, please address the following:
 
-Can you replicate the 86.1% number? the overall lethality ratio? The ratios for the 
+#1 Can you replicate the 86.1% number? the overall lethality ratio? The ratios for the 
 Federal Police, Navy and Army?
 
 ```{r}
 
 ```
 
-Provide a visualization that presents this information neatly.
+#2 Provide a visualization that presents this information neatly.
 
 ```{r}
 
 ```
 
-Please show the exact computations you used to calculate them (most likely than not, 
+#3 Please show the exact computations you used to calculate them (most likely than not, 
 you'll need to do some additional munging in the data to get there).
 
 ```{r}
 
 ```
 
-If you could not replicate them, please show why and the difference relative to 
+#4 If you could not replicate them, please show why and the difference relative to 
 your own computations (also, include a neat graph that summarizes this).
 
 ```{r}
 
 ```
 
-Be very explicit: What are you assuming to generate these computations?
+#5 Be very explicit: What are you assuming to generate these computations?
  
   *
 
 Now you know the data more intimately. Think a little bit more about it, and 
 answer the following questions:
 
-Is this the right metric to look at? Why or why not?
+#6 Is this the right metric to look at? Why or why not?
   
   *
 
-What is the "lethality index" showing explicitly? What is it not showing? What 
+#7 What is the "lethality index" showing explicitly? What is it not showing? What 
 is the definition assuming?
 
   *
 
-With the same available data, can you think of an alternative way to capture the 
+#8 With the same available data, can you think of an alternative way to capture the 
 same construct? Is it "better"?
  
   *
 
-What additional information would you need to better understand the data?
+#9 What additional information would you need to better understand the data?
 
   *
 
-What additional information could help you better capture the construct behind 
+#10 What additional information could help you better capture the construct behind 
 the "lethality index"?
 
   *
-
-This is a team assignment. Please create a file on your team GitHub repo where you answer the challenge, including links to your code, graphs.
