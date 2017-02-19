@@ -172,21 +172,34 @@ fullData <-
 #Stephanie:
 
 #Figure 1 - 86.1% of dead civilians who presumably participated in confrontations
-#with federal armed forces were killed in events of "perfect lethality" where 
+#with federal armed forces (army and navy) were killed in events of "perfect lethality" where 
 #there were only dead and no wounded:
 
-#subset - only showinteractions with federal forces so exclude all other forces:
-attempt5 <- subset(fullData, 
-                   total.people.wounded == 0 & 
-                   state.police.dead == 0 &
-                   ministerial.police.dead == 0 &
-                   municipal.police.dead == 0 &
-                   public.prosecutor.dead == 0)
+#of all civilian deaths, how many deaths were at the hands of th army and navy with zero people wounded?
 
-fig1 <- (sum(attempt5$civilian.dead) / sum(attempt5$total.people.dead)) * 100
-                   
+sum(fullData$civilian.dead)
+attempt17 <- subset(fullData, 
+                   total.people.wounded == 0 &
+                   military.dead > 0 &
+                     navy.dead > 0 )
+sum(attempt17$civilian.dead)
+
 #Overall lethality ratio:
-#OLR <- 
+OLR <- 
+
+#Federal Police:
+FP <- (sum(fullData$federal.police.dead) / sum(fullData$federal.police.wounded))
+
+
+
+
+
+
+
+
+
+
+
 
 
 #Brandon:  
@@ -231,7 +244,8 @@ fig1 <- (sum(attempt5$civilian.dead) / sum(attempt5$total.people.dead)) * 100
 ###2) Now you know the data more intimately. Think a little bit more about it, 
 ###and answer the following questions:
 
-###2a) Is this the right metric to look at? Why or why not? 2b) What is the ###"lethality index" showing explicitly? What is it not showing? What is the
+###2a) Is this the right metric to look at? Why or why not? 2b) What is the "lethality 
+###index" showing explicitly? What is it not showing? What is the
 ###definition assuming?
 
 There are quite a few critical considerations with regard to the dataset at one.
@@ -336,22 +350,22 @@ meaning that the insight suggested by the article may not necessarily approximat
 the reality. 
 
 
-Additionally, there is limitations outside of the dataset about the nature of the 
+Additionally, there are limitations outside of the dataset about the nature of the 
 events such that the insights being gleaned are dubious. The amount of data 
 collected about the incident is largely demographic in nature and does not include 
 specificities of the confrontation that could impact the interpretation of the 
-numbers. For example, if in a particular confrontation – the army had to come in 
-because of the severity of a crime and use something much more widespread (like a 
-grenade for example) in order to quell the threat, it would make sense that the many
-civilians in the area in addition to the few dangerous criminals would be killed and
+numbers. For example, if in a particular confrontation the army had to come in 
+because of the severity of a crime and use something much more widespread (e.g., a 
+grenade) in order to quell the threat, it would make sense that the many
+civilians in the area, in addition to the few dangerous criminals, would be killed and
 therefore the overall statistic is being driven by the severity of the threat posed.
 Furthermore, instances in which the army or navy are required as opposed to police 
 force may be fundamentally different instances such that there is a tremendous need 
 for intervention and quelling of the threat immediately so much so that more 
 destructive (and by definition less precise) methods of quelling the threat are 
-necessary, thereby inflating the mortality rate. Therefore, there perhaps is a 
+necessary, thereby inflating the mortality rate. Therefore, perhaps there is a 
 fundamentally different nature to the confrontations in which the navy or army is 
-necessary that inflates the statistic, and not necessarily the lack of training in 
+required that inflates the statistic, and not necessarily the lack of training in 
 quelling targets without killing civilians (or wounding without killing) – which the
 article appears to suggest. Therefore, the lack of substantive information about the
 events is another form of censoring that reduces the tangible meaning of the 
