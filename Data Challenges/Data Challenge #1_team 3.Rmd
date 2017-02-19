@@ -172,25 +172,58 @@ fullData <-
 #Stephanie:
 
 #Figure 1 - 86.1% of dead civilians who presumably participated in confrontations
-#with federal armed forces (army and navy) were killed in events of "perfect lethality" where 
-#there were only dead and no wounded:
+#with federal armed forces (army and navy) were killed in events of "perfect 
+#lethality" where there were only dead and no wounded:
 
-#of all civilian deaths, how many deaths were at the hands of th army and navy with zero people wounded?
-
-sum(fullData$civilian.dead)
-attempt17 <- subset(fullData, 
-                   total.people.wounded == 0 &
-                   military.dead > 0 &
-                     navy.dead > 0 )
-sum(attempt17$civilian.dead)
+#of all civilian deaths, how many deaths were at the hands of the army and navy with zero people wounded?
 
 #Overall lethality ratio:
-OLR <- 
+sum(fullData$total.people.dead) / sum(fullData$total.people.wounded)
 
 #Federal Police:
-FP <- (sum(fullData$federal.police.dead) / sum(fullData$federal.police.wounded))
+sum(fullData$federal.police.dead) / sum(fullData$federal.police.wounded) #incorrect
+sum(fullData$federal.police.dead) / sum(fullData$total.people.wounded) * 100
+new_data <- subset(fullData,
+                   military.dead == 0 &
+                     navy.dead == 0 &
+                     federal.police.dead &
+                     afi.dead == 0 &
+                     state.police.dead == 0 &
+                     ministerial.police.dead == 0 &
+                     municipal.police.dead == 0 &
+                     public.prosecutor.dead == 0 &
+                     organized.crime.dead &
+                     civilian.dead > 0)
+sum(new_data$federal.police.dead) / sum(new_data$federal.police.wounded)
+sum(new_data$civilian.dead) / sum(new_data$civilian.wounded)
+sum(new_data$federal.police.dead, new_data$civilian.dead) / sum(new_data$federal.police.wounded, new_data$civilian.wounded)
 
+new_data2 <- subset(fullData,
+                   military.dead == 0 &
+                     navy.dead == 0 &
+                     federal.police.dead &
+                     afi.dead == 0 &
+                     state.police.dead == 0 &
+                     ministerial.police.dead == 0 &
+                     municipal.police.dead == 0 &
+                     public.prosecutor.dead == 0 &
+                     organized.crime.dead &
+                     civilian.dead &
+                   military.wounded == 0 &
+                     navy.wounded == 0 &
+                     federal.police.wounded &
+                     afi.wounded == 0 &
+                     state.police.wounded == 0 &
+                     ministerial.police.wounded == 0 &
+                     municipal.police.wounded == 0 &
+                     public.prosecutor.wounded == 0 &
+                     organized.crime.wounded &
+                     civilian.wounded)
 
+#Navy:
+sum(fullData$navy.dead) / sum(fullData$navy.wounded) #incorrect
+
+#
 
 
 
