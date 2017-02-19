@@ -1,6 +1,6 @@
 ---
 title: 'Data Challenge #1'
-author: "Team 3"
+author: "Brandon Wolff, Zachary Heinemann, and Stephanie Langeland	"
 date: "2/15/2017"
 output: html_document
 ---
