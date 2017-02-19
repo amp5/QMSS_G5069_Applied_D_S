@@ -1,15 +1,13 @@
 ---
-title: 'Data Challenge #1'
-author: "Brandon Wolff, Zachary Heinemann, and Stephanie Langeland	"
-date: "2/15/2017"
+Title: 'Data Challenge #1'
+Authors: "Brandon Wolff, Zachary Heinemann, and Stephanie Langeland	"
+Due Date: "02/22/2017"
 output: html_document
 ---
 
-Data Challenge 1 (due on 2/22 at 6PM)
-
 With this new dataset, please address the following:
 
-Can you replicate the 86.1% number? the overall lethality ratio? the ratios for the 
+Can you replicate the 86.1% number? the overall lethality ratio? The ratios for the 
 Federal Police, Navy and Army?
 
 ```{r}
