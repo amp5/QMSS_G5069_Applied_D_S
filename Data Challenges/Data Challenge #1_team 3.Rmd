@@ -168,7 +168,27 @@ fullData <-
 #Figure 1 - 86.1% of dead civilians who presumably participated in confrontations
 #with federal armed forces were killed in events of "perfect lethality" where 
 #there were only dead and no wounded:
-figure1 <-  ( sum(fullData$civilian.dead) / sum(fullData$total.people.dead) ) * 100
+
+#how many people participated in in confrontations with federal armed forces?
+federal_armed_forces <- sum(fullData$military.dead, fullData$navy.dead,
+                            fullData$federal.police.dead, fullData$afi.dead)
+
+#subset:  when federal_armed_forces =! 0 and civilian.wounded = 0, then sum up the number of civilians.dead:
+
+attempt1 <- group_by(fullData, civilian.dead, military.dead, 
+         navy.dead, federal.police.dead, afi.dead,
+         civilian.wounded) %>% 
+  summarize(tibble(ifelse(fullData$civilian.wounded != 0, sum(fullData$civilian.dead), "no")))
+  
+attempt2 <- as.numeric(fullData$civilian.wounded != 0)
+
+#thing <- tibble(fullData$military.dead != 0,
+       fullData$navy.dead != 0,
+       fullData$federal.police.dead != 0,
+       fullData$afi.dead != 0,
+       fullData$civilian.dead != 0)
+
+#figure1 <- (sum(fullData$civilian.dead) / sum(fullData$federal.police.dead)) * 100
   
 #Overall lethality ratio:
 OLR <- 
