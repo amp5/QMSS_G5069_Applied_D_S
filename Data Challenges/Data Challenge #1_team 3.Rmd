@@ -12,11 +12,12 @@ library(tidyverse)
 
 path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges"
 
-#Brandon - you can put in your path here so the code works for you
+#Brandon - you can put in your path here so the code works for you, 
+#just comment out line 13 so my path isn't deleted when I get back 
+#to this code please.
 
 # define additional paths for files you will use. In each case, determine
-# appropriate additions to the path
-
+# appropriate additions to the path:
 inFileName1  <- "A-E.xlsx"           # raw data on confrontations
 inFileName2  <- "ARCH535.csv"   # name equivalence tables
 outFileName1 <- "ConfrontationsData_170209.csv" # output file name
