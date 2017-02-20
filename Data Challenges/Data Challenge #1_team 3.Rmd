@@ -184,7 +184,7 @@ sum(fullData$total.people.dead) / sum(fullData$total.people.wounded)
 sum(fullData$federal.police.dead) / sum(fullData$federal.police.wounded) #incorrect
 sum(fullData$federal.police.dead) / sum(fullData$total.people.wounded) * 100
 new_data <- subset(fullData,
-                   military.dead == 0 &
+                     military.dead == 0 &
                      navy.dead == 0 &
                      federal.police.dead &
                      afi.dead == 0 &
