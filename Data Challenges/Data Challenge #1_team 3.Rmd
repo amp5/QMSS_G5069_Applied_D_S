@@ -176,11 +176,13 @@ fullData <-
 #lethality" where there were only dead and no wounded:
 
 #of all civilian deaths, how many deaths were at the hands of the army and navy with zero people wounded?
+#can't get any combinations to work
 
 #Overall lethality ratio:
-sum(fullData$total.people.dead) / sum(fullData$total.people.wounded)
+mean(2.6, 17.3, 9.1)
 
 #Federal Police:
+#none of this is correct:
 sum(fullData$federal.police.dead) / sum(fullData$federal.police.wounded) #incorrect
 sum(fullData$federal.police.dead) / sum(fullData$total.people.wounded) * 100
 new_data <- subset(fullData,
