@@ -1,9 +1,10 @@
----
-Title: 'Data Challenge #1'
-Authors: "Brandon Wolff, Zachary Heinemann, and Stephanie Langeland	"
-Due Date: "02/22/2017"
-output: html_document
----
+
+Title: Data Challenge #1
+
+Authors: Brandon Wolff, Zachary Heinemann, and Stephanie Langeland
+
+Due Date: 02/22/2017
+
 ###Cleaning the data:
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
@@ -19,7 +20,11 @@ library(tidyverse)
 
 #path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges"
 
+<<<<<<< HEAD
+#path <- "C:\\Users\\Brandon\\Documents\\GitHub\\QMSS_G5069_Applied_D_S\\Data Challenges"
+=======
 path <- "C:\\Users\\Brandon\\Documents\\GitHub\\QMSS_G5069_Applied_D_S\\Data Challenges"
+>>>>>>> master
 
 # define additional paths for files you will use. In each case, determine
 # appropriate additions to the path:
@@ -170,7 +175,7 @@ fullData <-
 
   * These figures cannot be reproduced because the dataset does not include 
   civilians who were involved in these events who were neither wounded nor killed.  
-  This #makes it impossible to reproduce the overall lethality figure. Additionally, 
+  This makes it impossible to reproduce the overall lethality figure. Additionally, 
   the dataset does not distinguish between civilians killed or wounded by federal 
   police, army, or navy personnel making it impossible to reproduce the 86.1% figure 
   and lethality ratios for the navy, army, and federal police. 
@@ -180,7 +185,7 @@ fullData <-
 ###1a) Provide a visualization that presents this information neatly.
 
 
-  * Not applicable - see response is #1 above.
+  * Not applicable - see response to #1 above.
 
 
 ###1b) Please show the exact computations you used to calculate them 
@@ -188,7 +193,11 @@ fullData <-
 ###in the data to get there).
 
 
+<<<<<<< HEAD
+  * Not applicable - see response to #1 above. 
+=======
   * Not applicable - see response is #1 above.  Please see the code below
+>>>>>>> master
 
 
 ###1c) If you could not replicate them, please show why and the difference 
@@ -299,7 +308,7 @@ oc
   wounded or killed.  Therefore, no civilians survived any interaction without being
   killed or wounded.  Additionally, in order to ascertain whether civilians were 
   wounded or killed as a result of armed forces or federal police, we must assume that 
-  each observation (civilian.dead > 0 and civilian.wounded > 0) is also associated 
+  each observation (civilian.dead > 0 and/or civilian.wounded > 0) is also associated 
   with a wounded or dead observation for the federal police, military, and navy (e.g.,
   navy.dead > 0 and/or navy.wounded > 0).
   
@@ -308,6 +317,7 @@ oc
 ###and answer the following questions:
 
 ###2a) Is this the right metric to look at? Why or why not? 2b) What is the "lethality 
+
 ###index" showing explicitly? What is it not showing? What is the
 ###definition assuming?
 
