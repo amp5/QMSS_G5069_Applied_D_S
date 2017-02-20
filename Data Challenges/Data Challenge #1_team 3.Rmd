@@ -223,16 +223,8 @@ new_data2 <- subset(fullData,
 #Navy:
 sum(fullData$navy.dead) / sum(fullData$navy.wounded) #incorrect
 
-#
-
-
-
-
-
-
-
-
-
+#Army:
+sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 
 
 #Brandon:  
