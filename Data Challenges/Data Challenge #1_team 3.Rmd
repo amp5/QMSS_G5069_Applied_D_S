@@ -175,8 +175,22 @@ fullData <-
 #with federal armed forces (army and navy) were killed in events of "perfect 
 #lethality" where there were only dead and no wounded:
 
-#of all civilian deaths, how many deaths were at the hands of the army and navy with zero people wounded?
-#can't get any combinations to work
+#none of this is correct because we don't have the number of total civilians who were niether killed nor wounded:
+
+#sum(fullData$civilian.dead) / sum(fullData$civilian.wounded)
+#((sum(fullData$civilian.dead) / sum(fullData$total.people.dead)) * 100)
+#((sum(fullData$civilian.wounded) / sum(fullData$total.people.wounded)) * 100)
+#sum(fullData$total.people.dead) / sum(fullData$total.people.wounded) * 100
+
+# number of dead civilians who presumably participated in confrontations
+#with federal armed forces (army and navy):
+new_data3 <- subset(fullData,
+                     civilian.dead > 0 &
+                       civilian.wounded == 0 &
+                      military.wounded == 0 &
+                      navy.wounded == 0) #total number of civilians
+
+sum(new_data3$civilian.dead) / sum(new_data3$total.people.wounded)
 
 #Overall lethality ratio:
 #none of this is correct:
@@ -229,6 +243,7 @@ sum(fullData$navy.dead) / sum(fullData$navy.wounded) #incorrect
 #Army:
 sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 
+#Conclusion:  These figures cannot be reproduced because the dataset does not include civilians who were involved in these events who were neither wounded nor killed. 
 
 #Brandon:  
 
@@ -238,6 +253,7 @@ sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 
 ```{r}
 #Stephanie:
+#Not applicable - see response is #1 above.
 
 #Brandon: 
 
@@ -249,6 +265,7 @@ sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 
 ```{r}
 #Stephanie:
+#Not applicable - see response is #1 above.
 
 #Brandon:  
 
@@ -260,6 +277,7 @@ sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 
 ```{r}
 #Stephanie:
+#what do we include is none of them are correct?
 
 #Brandon:  
 
