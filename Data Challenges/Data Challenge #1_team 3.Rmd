@@ -17,11 +17,9 @@ library(lubridate)      # easier manipulation of time objects
 library(stringr)        # easier manipulation of strings
 library(tidyverse)
 
-path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges"
+#path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges"
 
-#Brandon - you can put in your path here so the code works for you, 
-#just comment out line 13 so my path isn't deleted when I get back 
-#to this code please.
+path <- "C:\\Users\\Brandon\\Documents\\GitHub\\QMSS_G5069_Applied_D_S\\Data Challenges"
 
 # define additional paths for files you will use. In each case, determine
 # appropriate additions to the path:
@@ -94,7 +92,9 @@ fullData <-
         # renaming variables to intelligible English  
         rename(day.orig = DIA, 
                month.orig = MES, 
-               year.orig = AÑO, 
+               #year.orig = AÑO,#had to change this part
+               #to run the code on windows
+               year.orig = A�O, 
                state_code = ESTADO,
                mun_code = Municipio, 
                state = NOM_ENT, 
@@ -176,10 +176,22 @@ fullData <-
   and lethality ratios for the navy, army, and federal police. 
 
 
+
 ###1a) Provide a visualization that presents this information neatly.
 
 
   * Not applicable - see response is #1 above.
+```{r}
+#Brandon: 
+
+#Dont run until you run 1B
+b <- ggplot(fullData)
+b <- b + geom_bar(mapping = aes(Civilian.lethality), fill = "blue")
+b
+
+#in this graph 0 = wounded with no deaths and 1 = deaths with no wounded
+#put this graph here to show the exterme difference of the results we came to from the 86.1%
+```
 
 
 ###1b) Please show the exact computations you used to calculate them 
@@ -188,6 +200,54 @@ fullData <-
 
 
   * Not applicable - see response is #1 above.
+```{r}
+#Brandon:  
+#civilian lethality%
+fullData$Total.Civilian.Conf <- fullData$civilian.dead + fullData$civilian.wounded
+civilian_lethality <- (sum(fullData$civilian.dead))/sum((fullData$Total.Civilian.Conf))
+civilian_lethality
+
+fullData$Civilian.lethality <- (fullData$civilian.dead)/(fullData$Total.Civilian.Conf)
+valid.cases <- 3835-sum(is.na(fullData$Civilian.lethality))
+valid.cases
+civ_leth_by_case <- sum(fullData$Civilian.lethality, na.rm = TRUE)/495
+civ_leth_by_case
+
+#Total Lethality%
+fullData$Total.Conf <- fullData$total.people.dead + fullData$total.people.wounded
+Total_lethality <- (sum(fullData$total.people.dead))/sum((fullData$Total.Conf))
+Total_lethality
+
+#organized crime lethality%
+fullData$Total.organized.crime.Conf <- fullData$organized.crime.dead + fullData$organized.crime.wounded
+organized_crime_lethality <- (sum(fullData$organized.crime.dead))/sum((fullData$Total.organized.crime.Conf))
+organized_crime_lethality
+
+#Federal Police lethality%
+fullData$Total.Federal.Police.Conf <- fullData$federal.police.dead + fullData$federal.police.wounded
+Federal_Police_lethality <- (sum(fullData$federal.police.dead))/sum((fullData$Total.Federal.Police.Conf))
+Federal_Police_lethality
+#Federal Police deaths per 1 wounded
+Federal_Police_lethality2 <- (sum(fullData$federal.police.dead))/sum((fullData$federal.police.wounded))
+Federal_Police_lethality2
+
+
+#Navy Lethality%
+fullData$Total.Navy.Conf <- fullData$navy.dead + fullData$navy.wounded
+Navy_lethality <- (sum(fullData$navy.dead))/sum((fullData$Total.Navy.Conf))
+Navy_lethality
+#ARMY deaths per 1 wounded
+Navy_lethality2 <- (sum(fullData$navy.dead))/sum((fullData$navy.wounded))
+Navy_lethality2
+
+#Army Lethality%
+fullData$Total.military.Conf <- fullData$military.dead + fullData$military.wounded
+Military_lethality <- (sum(fullData$military.dead))/sum((fullData$Total.military.Conf))
+Military_lethality
+#ARMY deaths per 1 wounded
+Military_lethality2 <- (sum(fullData$military.dead))/sum((fullData$military.wounded))
+Military_lethality2
+```
 
 
 ###1c) If you could not replicate them, please show why and the difference 
@@ -271,6 +331,43 @@ sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 
 #Brandon:  
 
+#We could not replicate the results, this may be due to using different data 
+#or becuase we used a different method which made more logical sense to us.
+
+B <- ggplot(fullData, aes(x =civilian.dead, y = Total.Civilian.Conf))
+
+B + geom_point(aes(color = civilian.wounded)) +
+  ggtitle("Civilian Lethality")
+
+#Graph Navy.Lethality
+fullData$Navy.lethality <- (fullData$navy.dead)/(fullData$Total.Navy.Conf)
+n <- ggplot(fullData)
+n <- n + geom_bar(mapping = aes(Navy.lethality), fill = "blue")
+n
+  
+#Graph Fed.Police.Lethality
+fullData$Federal.Police.lethality <- (fullData$federal.police.dead)/(fullData$Total.Federal.Police.Conf)
+fp <- ggplot(fullData)
+fp <- fp + geom_bar(mapping = aes(Federal.Police.lethality), fill = "blue")
+fp
+
+#Graph ARMY.Lethality
+fullData$Military.lethality <- (fullData$military.dead)/(fullData$Total.military.Conf)
+a <- ggplot(fullData)
+a <- a + geom_bar(mapping = aes(Military.lethality), fill = "blue")
+a
+
+#overall Lethality
+fullData$overall.lethality <- (fullData$total.people.dead)/(fullData$Total.Conf)
+o <- ggplot(fullData)
+o <- o + geom_bar(mapping = aes(overall.lethality), fill = "blue")
+o
+
+#organized.crime lethality
+fullData$organized.crime.lethality <- (fullData$organized.crime.dead)/(fullData$Total.organized.crime.Conf)
+oc <- ggplot(fullData)
+oc <- oc + geom_bar(mapping = aes(organized.crime.lethality), fill = "blue")
+oc
 ```
 
 
@@ -284,6 +381,15 @@ sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
   each observation (civilian.dead > 0 and civilian.wounded > 0) is also associated 
   with a wounded or dead observation for the federal police, military, and navy (e.g.,
   navy.dead > 0 and/or navy.wounded > 0).
+  
+  We have no infomation on those who were not wounded or dead and these individuals may 
+  have been involved but were able to escape without a scratch. This means according to 
+  our calculations we are assuming these individuals are nonexistant, this may be problematic.
+
+  Also we do not have information on whether the civilians involved were wounded/dead 
+  because of the Government forces or from the organized criminals, this information not
+  being there means we are just assuming all civilians injured or dead was caused by the 
+  Goverment agencies.
 
 
 ###2) Now you know the data more intimately. Think a little bit more about it, 
