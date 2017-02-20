@@ -1,9 +1,10 @@
----
-Title: 'Data Challenge #1'
-Authors: "Brandon Wolff, Zachary Heinemann, and Stephanie Langeland	"
-Due Date: "02/22/2017"
-output: html_document
----
+
+Title: Data Challenge #1
+
+Authors: Brandon Wolff, Zachary Heinemann, and Stephanie Langeland
+
+Due Date: 02/22/2017
+
 ###Cleaning the data:
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
@@ -19,9 +20,7 @@ library(tidyverse)
 
 path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges"
 
-#Brandon - you can put in your path here so the code works for you, 
-#just comment out line 13 so my path isn't deleted when I get back 
-#to this code please.
+#path <- "C:\\Users\\Brandon\\Documents\\GitHub\\QMSS_G5069_Applied_D_S\\Data Challenges"
 
 # define additional paths for files you will use. In each case, determine
 # appropriate additions to the path:
@@ -94,6 +93,8 @@ fullData <-
         # renaming variables to intelligible English  
         rename(day.orig = DIA, 
                month.orig = MES, 
+               #year.orig = AÃ‘O,#had to change this part
+               #to run the code on windows
                year.orig = AÑO, 
                state_code = ESTADO,
                mun_code = Municipio, 
@@ -170,16 +171,17 @@ fullData <-
 
   * These figures cannot be reproduced because the dataset does not include 
   civilians who were involved in these events who were neither wounded nor killed.  
-  This #makes it impossible to reproduce the overall lethality figure. Additionally, 
+  This makes it impossible to reproduce the overall lethality figure. Additionally, 
   the dataset does not distinguish between civilians killed or wounded by federal 
   police, army, or navy personnel making it impossible to reproduce the 86.1% figure 
   and lethality ratios for the navy, army, and federal police. 
 
 
+
 ###1a) Provide a visualization that presents this information neatly.
 
 
-  * Not applicable - see response is #1 above.
+  * Not applicable - see response to #1 above.
 
 
 ###1b) Please show the exact computations you used to calculate them 
@@ -187,7 +189,7 @@ fullData <-
 ###in the data to get there).
 
 
-  * Not applicable - see response is #1 above.
+  * Not applicable - see response to #1 above. 
 
 
 ###1c) If you could not replicate them, please show why and the difference 
@@ -196,81 +198,98 @@ fullData <-
 
 
 ```{r}
-#Stephanie - Brandon - delete/keep whatever you want here:
-#Figure 1 - 86.1% of dead civilians who presumably participated in confrontations
-#with federal armed forces (army and navy) were killed in events of "perfect 
-#lethality" where there were only dead and no wounded:
+#Group Calculations:
+#civilian lethality%
+fullData$Total.Civilian.Conf <- fullData$civilian.dead + fullData$civilian.wounded
+civilian_lethality <- (sum(fullData$civilian.dead))/sum((fullData$Total.Civilian.Conf))
+civilian_lethality
 
-#none of this is correct because we don't have the number of total civilians who were niether killed nor wounded:
+fullData$Civilian.lethality <- (fullData$civilian.dead)/(fullData$Total.Civilian.Conf)
+valid.cases <- 3835-sum(is.na(fullData$Civilian.lethality))
+valid.cases
+civ_leth_by_case <- sum(fullData$Civilian.lethality, na.rm = TRUE)/495
+civ_leth_by_case
 
-sum(fullData$civilian.dead) / sum(fullData$civilian.wounded)
-((sum(fullData$civilian.dead) / sum(fullData$total.people.dead)) * 100)
-((sum(fullData$civilian.wounded) / sum(fullData$total.people.wounded)) * 100)
-sum(fullData$total.people.dead) / sum(fullData$total.people.wounded) * 100
+#Total Lethality%
+fullData$Total.Conf <- fullData$total.people.dead + fullData$total.people.wounded
+Total_lethality <- (sum(fullData$total.people.dead))/sum((fullData$Total.Conf))
+Total_lethality
 
-# number of dead civilians who presumably participated in confrontations
-#with federal armed forces (army and navy):
-new_data3 <- subset(fullData,
-                     civilian.dead > 0 &
-                       civilian.wounded == 0 &
-                      military.wounded == 0 &
-                      navy.wounded == 0) #total number of civilians
+#organized crime lethality%
+fullData$Total.organized.crime.Conf <- fullData$organized.crime.dead + fullData$organized.crime.wounded
+organized_crime_lethality <- (sum(fullData$organized.crime.dead))/sum((fullData$Total.organized.crime.Conf))
+organized_crime_lethality
 
-sum(new_data3$civilian.dead) / sum(new_data3$total.people.wounded)
+#Federal Police lethality%
+fullData$Total.Federal.Police.Conf <- fullData$federal.police.dead + fullData$federal.police.wounded
+Federal_Police_lethality <- (sum(fullData$federal.police.dead))/sum((fullData$Total.Federal.Police.Conf))
+Federal_Police_lethality
+#Federal Police deaths per 1 wounded
+Federal_Police_lethality2 <- (sum(fullData$federal.police.dead))/sum((fullData$federal.police.wounded))
+Federal_Police_lethality2
 
-#Overall lethality ratio:
-#none of this is correct:
-sum(fullData$total.people.dead) / sum(fullData$total.people.wounded)
+#Navy Lethality%
+fullData$Total.Navy.Conf <- fullData$navy.dead + fullData$navy.wounded
+Navy_lethality <- (sum(fullData$navy.dead))/sum((fullData$Total.Navy.Conf))
+Navy_lethality
+#ARMY deaths per 1 wounded
+Navy_lethality2 <- (sum(fullData$navy.dead))/sum((fullData$navy.wounded))
+Navy_lethality2
 
-#Federal Police:
-#none of this is correct:
-sum(fullData$federal.police.dead) / sum(fullData$federal.police.wounded) 
-sum(fullData$federal.police.dead) / sum(fullData$total.people.wounded) * 100
-new_data <- subset(fullData,
-                     military.dead == 0 &
-                     navy.dead == 0 &
-                     federal.police.dead &
-                     afi.dead == 0 &
-                     state.police.dead == 0 &
-                     ministerial.police.dead == 0 &
-                     municipal.police.dead == 0 &
-                     public.prosecutor.dead == 0 &
-                     organized.crime.dead &
-                     civilian.dead > 0)
-sum(new_data$federal.police.dead) / sum(new_data$federal.police.wounded)
-sum(new_data$civilian.dead) / sum(new_data$civilian.wounded)
-sum(new_data$federal.police.dead, new_data$civilian.dead) / sum(new_data$federal.police.wounded, new_data$civilian.wounded)
+#Army Lethality%
+fullData$Total.military.Conf <- fullData$military.dead + fullData$military.wounded
+Military_lethality <- (sum(fullData$military.dead))/sum((fullData$Total.military.Conf))
+Military_lethality
+#ARMY deaths per 1 wounded
+Military_lethality2 <- (sum(fullData$military.dead))/sum((fullData$military.wounded))
+Military_lethality2
 
-new_data2 <- subset(fullData,
-                   military.dead == 0 &
-                     navy.dead == 0 &
-                     federal.police.dead &
-                     afi.dead == 0 &
-                     state.police.dead == 0 &
-                     ministerial.police.dead == 0 &
-                     municipal.police.dead == 0 &
-                     public.prosecutor.dead == 0 &
-                     organized.crime.dead &
-                     civilian.dead &
-                   military.wounded == 0 &
-                     navy.wounded == 0 &
-                     federal.police.wounded &
-                     afi.wounded == 0 &
-                     state.police.wounded == 0 &
-                     ministerial.police.wounded == 0 &
-                     municipal.police.wounded == 0 &
-                     public.prosecutor.wounded == 0 &
-                     organized.crime.wounded &
-                     civilian.wounded) #doesn't result in anything useful. 
 
-#Navy:
-sum(fullData$navy.dead) / sum(fullData$navy.wounded) #incorrect
+#Visualizations:
+b <- ggplot(fullData)
+b <- b + geom_bar(mapping = aes(Civilian.lethality), fill = "blue")
+b
 
-#Army:
-sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
+#in this graph 0 = wounded with no deaths and 1 = deaths with no wounded
+#put this graph here to show the exterme difference of the results we came to from the 86.1%
 
-#Brandon:  
+#We could not replicate the results, this may be due to using different data 
+#or becuase we used a different method which made more logical sense to us.
 
+B <- ggplot(fullData, aes(x =civilian.dead, y = Total.Civilian.Conf))
+
+B + geom_point(aes(color = civilian.wounded)) +
+  ggtitle("Civilian Lethality")
+
+#Graph Navy.Lethality
+fullData$Navy.lethality <- (fullData$navy.dead)/(fullData$Total.Navy.Conf)
+n <- ggplot(fullData)
+n <- n + geom_bar(mapping = aes(Navy.lethality), fill = "blue")
+n
+  
+#Graph Fed.Police.Lethality
+fullData$Federal.Police.lethality <- (fullData$federal.police.dead)/(fullData$Total.Federal.Police.Conf)
+fp <- ggplot(fullData)
+fp <- fp + geom_bar(mapping = aes(Federal.Police.lethality), fill = "blue")
+fp
+
+#Graph ARMY.Lethality
+fullData$Military.lethality <- (fullData$military.dead)/(fullData$Total.military.Conf)
+a <- ggplot(fullData)
+a <- a + geom_bar(mapping = aes(Military.lethality), fill = "blue")
+a
+
+#overall Lethality
+fullData$overall.lethality <- (fullData$total.people.dead)/(fullData$Total.Conf)
+o <- ggplot(fullData)
+o <- o + geom_bar(mapping = aes(overall.lethality), fill = "blue")
+o
+
+#organized.crime lethality
+fullData$organized.crime.lethality <- (fullData$organized.crime.dead)/(fullData$Total.organized.crime.Conf)
+oc <- ggplot(fullData)
+oc <- oc + geom_bar(mapping = aes(organized.crime.lethality), fill = "blue")
+oc
 ```
 
 
@@ -281,7 +300,7 @@ sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
   wounded or killed.  Therefore, no civilians survived any interaction without being
   killed or wounded.  Additionally, in order to ascertain whether civilians were 
   wounded or killed as a result of armed forces or federal police, we must assume that 
-  each observation (civilian.dead > 0 and civilian.wounded > 0) is also associated 
+  each observation (civilian.dead > 0 and/or civilian.wounded > 0) is also associated 
   with a wounded or dead observation for the federal police, military, and navy (e.g.,
   navy.dead > 0 and/or navy.wounded > 0).
 
@@ -290,6 +309,7 @@ sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 ###and answer the following questions:
 
 ###2a) Is this the right metric to look at? Why or why not? 2b) What is the "lethality 
+
 ###index" showing explicitly? What is it not showing? What is the
 ###definition assuming?
 
