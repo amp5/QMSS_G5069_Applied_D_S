@@ -179,7 +179,7 @@ fullData <-
 ###1a) Provide a visualization that presents this information neatly.
 
 
-  *Not applicable - see response is #1 above.
+  * Not applicable - see response is #1 above.
 
 
 ###1b) Please show the exact computations you used to calculate them 
@@ -187,7 +187,7 @@ fullData <-
 ###in the data to get there).
 
 
-  *Not applicable - see response is #1 above.
+  * Not applicable - see response is #1 above.
 
 
 ###1c) If you could not replicate them, please show why and the difference 
