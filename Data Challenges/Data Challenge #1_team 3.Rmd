@@ -181,17 +181,6 @@ fullData <-
 
 
   * Not applicable - see response is #1 above.
-```{r}
-#Brandon: 
-
-#Dont run until you run 1B
-b <- ggplot(fullData)
-b <- b + geom_bar(mapping = aes(Civilian.lethality), fill = "blue")
-b
-
-#in this graph 0 = wounded with no deaths and 1 = deaths with no wounded
-#put this graph here to show the exterme difference of the results we came to from the 86.1%
-```
 
 
 ###1b) Please show the exact computations you used to calculate them 
@@ -199,9 +188,16 @@ b
 ###in the data to get there).
 
 
-  * Not applicable - see response is #1 above.
+  * Not applicable - see response is #1 above.  Please see the code below
+
+
+###1c) If you could not replicate them, please show why and the difference 
+###relative to your own computations (also, include a neat graph that summarizes
+###this).
+
+
 ```{r}
-#Brandon:  
+#Group Calculations:
 #civilian lethality%
 fullData$Total.Civilian.Conf <- fullData$civilian.dead + fullData$civilian.wounded
 civilian_lethality <- (sum(fullData$civilian.dead))/sum((fullData$Total.Civilian.Conf))
@@ -231,7 +227,6 @@ Federal_Police_lethality
 Federal_Police_lethality2 <- (sum(fullData$federal.police.dead))/sum((fullData$federal.police.wounded))
 Federal_Police_lethality2
 
-
 #Navy Lethality%
 fullData$Total.Navy.Conf <- fullData$navy.dead + fullData$navy.wounded
 Navy_lethality <- (sum(fullData$navy.dead))/sum((fullData$Total.Navy.Conf))
@@ -247,89 +242,15 @@ Military_lethality
 #ARMY deaths per 1 wounded
 Military_lethality2 <- (sum(fullData$military.dead))/sum((fullData$military.wounded))
 Military_lethality2
-```
 
 
-###1c) If you could not replicate them, please show why and the difference 
-###relative to your own computations (also, include a neat graph that summarizes
-###this).
+#Visualizations:
+b <- ggplot(fullData)
+b <- b + geom_bar(mapping = aes(Civilian.lethality), fill = "blue")
+b
 
-
-```{r}
-#Stephanie - Brandon - delete/keep whatever you want here:
-#Figure 1 - 86.1% of dead civilians who presumably participated in confrontations
-#with federal armed forces (army and navy) were killed in events of "perfect 
-#lethality" where there were only dead and no wounded:
-
-#none of this is correct because we don't have the number of total civilians who were niether killed nor wounded:
-
-sum(fullData$civilian.dead) / sum(fullData$civilian.wounded)
-((sum(fullData$civilian.dead) / sum(fullData$total.people.dead)) * 100)
-((sum(fullData$civilian.wounded) / sum(fullData$total.people.wounded)) * 100)
-sum(fullData$total.people.dead) / sum(fullData$total.people.wounded) * 100
-
-# number of dead civilians who presumably participated in confrontations
-#with federal armed forces (army and navy):
-new_data3 <- subset(fullData,
-                     civilian.dead > 0 &
-                       civilian.wounded == 0 &
-                      military.wounded == 0 &
-                      navy.wounded == 0) #total number of civilians
-
-sum(new_data3$civilian.dead) / sum(new_data3$total.people.wounded)
-
-#Overall lethality ratio:
-#none of this is correct:
-sum(fullData$total.people.dead) / sum(fullData$total.people.wounded)
-
-#Federal Police:
-#none of this is correct:
-sum(fullData$federal.police.dead) / sum(fullData$federal.police.wounded) 
-sum(fullData$federal.police.dead) / sum(fullData$total.people.wounded) * 100
-new_data <- subset(fullData,
-                     military.dead == 0 &
-                     navy.dead == 0 &
-                     federal.police.dead &
-                     afi.dead == 0 &
-                     state.police.dead == 0 &
-                     ministerial.police.dead == 0 &
-                     municipal.police.dead == 0 &
-                     public.prosecutor.dead == 0 &
-                     organized.crime.dead &
-                     civilian.dead > 0)
-sum(new_data$federal.police.dead) / sum(new_data$federal.police.wounded)
-sum(new_data$civilian.dead) / sum(new_data$civilian.wounded)
-sum(new_data$federal.police.dead, new_data$civilian.dead) / sum(new_data$federal.police.wounded, new_data$civilian.wounded)
-
-new_data2 <- subset(fullData,
-                   military.dead == 0 &
-                     navy.dead == 0 &
-                     federal.police.dead &
-                     afi.dead == 0 &
-                     state.police.dead == 0 &
-                     ministerial.police.dead == 0 &
-                     municipal.police.dead == 0 &
-                     public.prosecutor.dead == 0 &
-                     organized.crime.dead &
-                     civilian.dead &
-                   military.wounded == 0 &
-                     navy.wounded == 0 &
-                     federal.police.wounded &
-                     afi.wounded == 0 &
-                     state.police.wounded == 0 &
-                     ministerial.police.wounded == 0 &
-                     municipal.police.wounded == 0 &
-                     public.prosecutor.wounded == 0 &
-                     organized.crime.wounded &
-                     civilian.wounded) #doesn't result in anything useful. 
-
-#Navy:
-sum(fullData$navy.dead) / sum(fullData$navy.wounded) #incorrect
-
-#Army:
-sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
-
-#Brandon:  
+#in this graph 0 = wounded with no deaths and 1 = deaths with no wounded
+#put this graph here to show the exterme difference of the results we came to from the 86.1%
 
 #We could not replicate the results, this may be due to using different data 
 #or becuase we used a different method which made more logical sense to us.
@@ -382,15 +303,6 @@ oc
   with a wounded or dead observation for the federal police, military, and navy (e.g.,
   navy.dead > 0 and/or navy.wounded > 0).
   
-  We have no infomation on those who were not wounded or dead and these individuals may 
-  have been involved but were able to escape without a scratch. This means according to 
-  our calculations we are assuming these individuals are nonexistant, this may be problematic.
-
-  Also we do not have information on whether the civilians involved were wounded/dead 
-  because of the Government forces or from the organized criminals, this information not
-  being there means we are just assuming all civilians injured or dead was caused by the 
-  Goverment agencies.
-
 
 ###2) Now you know the data more intimately. Think a little bit more about it, 
 ###and answer the following questions:
@@ -414,13 +326,13 @@ calculation is much lower than it should be.
 It is worth noting that not only is the definition of confrontation constrained to 
 violent interactions, but actually the violent interactions that do occur must be 
 between the police and members of organized crime. Indeed, as per the formal 
-definition of confrontation, there must be at least three (3) organized crime 
-members, or less if using military-grade equipment and explosives, which indicates 
+definition of confrontation, there must â€œbe at least three (3) organized crime 
+members, or less if using military-grade equipment and explosives,â€ which indicates 
 that even instances where violence did occur but it was only between those who are 
 not believed to or known to be organized crime members would still not be included 
 in the dataset. Actually, via the definition of confrontation, there are a number of
-restraints, such as the instance must involve "violent resistance to armed forces 
-and other government authorities" which would preclude an instance from being 
+restraints, such as the instance must involve â€œviolent resistance to armed forces 
+and other government authoritiesâ€ which would preclude an instance from being 
 included in this dataset. The critical takeaway here is not even that some censoring
 on the dependent variable is occurring within this dataset (thereby artificially 
 inflating the conditional probabilities calculated), but actually the tremendous 
@@ -440,10 +352,10 @@ this metric to having no value; rather, it is critical just to report the statis
 exactly as it is. The interpretation presented in the piece does inflate the ratio 
 due to the aforementioned censoring problem, but the actual index is simply a 
 measure of the number killed compared to the number wounded given that a 
-confrontation has occurred. The article does use the word "confrontation"
+confrontation has occurred. The article does use the word â€œconfrontationâ€ 
 explicitly, but it does not give the formal (and rather narrow, quite frankly) 
 definition that actually precludes a number of cases that the reader may assume when
-reading "confrontation" as presented in the piece. Therefore, the presentation of 
+reading â€œconfrontationâ€ as presented in the piece. Therefore, the presentation of 
 the index and the data is not necessarily dishonest outright insofar as it does use 
 the proper word, but it fails to address the particular definition that was used to 
 construct the dataset, thereby biasing the interpretation presented to the readers.
@@ -471,7 +383,7 @@ relative training of particular groups, one would need the data of non-confronta
 encounters and compare those ratios to the ratios presented here; it is certainly 
 possible that perhaps police officers have a lower lethality index in confrontation 
 situations, but a higher one relative to their reference groups in non-confrontation
-situations -- therefore undermining the claim of differential training that the piece
+situations â€“ therefore undermining the claim of differential training that the piece
 suggests. 
 
 
@@ -496,7 +408,7 @@ an exogenous event that spiked the incidence of confrontations on the basis of
 organized crime in that area such that there were many killed. While the data does 
 not necessarily appear to suggest this; this hypothetical point elucidates the 
 possibility of significant trends being missed in the reduction of the data. 
-Therefore, this index is not only censoring, but also reductive by definition 
+Therefore, this index is not only censoring, but also reductive by definition â€“ 
 meaning that the insight suggested by the article may not necessarily approximate 
 the reality. 
 
@@ -517,7 +429,7 @@ destructive (and by definition less precise) methods of quelling the threat are
 necessary, thereby inflating the mortality rate. Therefore, perhaps there is a 
 fundamentally different nature to the confrontations in which the navy or army is 
 required that inflates the statistic, and not necessarily the lack of training in 
-quelling targets without killing civilians (or wounding without killing) -- which the
+quelling targets without killing civilians (or wounding without killing) â€“ which the
 article appears to suggest. Therefore, the lack of substantive information about the
 events is another form of censoring that reduces the tangible meaning of the 
 lethality index. 
@@ -583,7 +495,7 @@ not intentionally involved as well. However, this metric still does not capture 
 of the realities of the situation as the complexity of confrontations is difficult 
 to boil down to just a comparison of some numbers; rather, it is near impossible to 
 assess the constituents of a situation and the danger just by relative death counts 
--- especially if the civilian count is 0 in a given confrontation, which is 
+â€“ especially if the civilian count is 0 in a given confrontation, which is 
 frequently is and could just indicate that all of the civilians in the area were 
 kept safe by the armed forces even if many in the armed forces were harmed. 
 
@@ -595,7 +507,7 @@ kept safe by the armed forces even if many in the armed forces were harmed.
 In general, the biggest considerations for what the data would need would be data 
 that involves all interactions with the police that are not the formal definition of
 confrontations to supplement the current dataset that is exclusively confrontations.
-Specifically -- in order to make the claim that police officers in Mexico are good or
+Specifically â€“ in order to make the claim that police officers in Mexico are good or
 bad with regard to injuring versus killing, one would at least need the data of all 
 violent interactions (whether they be with an organized crime member or not) such 
 that one could discern if situations that necessitate some form of violence are more
@@ -653,10 +565,10 @@ researcher is interested in understand the relative risk of dying versus being
 wounded under the very specific definition of a confrontation (with all of the 
 aforementioned stipulations as per the definition), then this statistic achieves 
 such an aim and therein a conclusion can tentatively be made. This suggests that 
-there is not necessarily an absolute "best" way to measure the lethality index, 
+there is not necessarily an absolute â€œbestâ€ way to measure the lethality index, 
 rather it is critical to define the index in the context of the insight that the 
-analyst wishes to draw and then evaluate the data's ability to do so. Rather, it is 
-not necessarily fully possible to construct a "better" measure of the lethality 
+analyst wishes to draw and then evaluate the dataâ€™s ability to do so. Rather, it is 
+not necessarily fully possible to construct a â€œbetterâ€ measure of the lethality 
 index without widening the definition of said index with regard to the 
 aforementioned considerations and subsequently then evaluating what is the type of 
 data necessary to measure such an index. This elucidates a critical data science 
