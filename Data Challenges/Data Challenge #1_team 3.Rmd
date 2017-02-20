@@ -496,7 +496,7 @@ an exogenous event that spiked the incidence of confrontations on the basis of
 organized crime in that area such that there were many killed. While the data does 
 not necessarily appear to suggest this; this hypothetical point elucidates the 
 possibility of significant trends being missed in the reduction of the data. 
-Therefore, this index is not only censoring, but also reductive by definition â€“ 
+Therefore, this index is not only censoring, but also reductive by definition 
 meaning that the insight suggested by the article may not necessarily approximate 
 the reality. 
 
@@ -517,7 +517,7 @@ destructive (and by definition less precise) methods of quelling the threat are
 necessary, thereby inflating the mortality rate. Therefore, perhaps there is a 
 fundamentally different nature to the confrontations in which the navy or army is 
 required that inflates the statistic, and not necessarily the lack of training in 
-quelling targets without killing civilians (or wounding without killing) â€“ which the
+quelling targets without killing civilians (or wounding without killing) -- which the
 article appears to suggest. Therefore, the lack of substantive information about the
 events is another form of censoring that reduces the tangible meaning of the 
 lethality index. 
