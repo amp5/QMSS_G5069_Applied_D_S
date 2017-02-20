@@ -164,23 +164,49 @@ fullData <-
         )
 ```
 
-####1) Can you replicate the 86.1% number? 
-###The overall lethality ratio? 
+####1) Can you replicate the 86.1% number? The overall lethality ratio? 
 ####The ratios for the Federal Police, Navy and Army?
 
-```{r}
-#Stephanie:
 
+  * These figures cannot be reproduced because the dataset does not include 
+  civilians who were involved in these events who were neither wounded nor killed.  
+  This #makes it impossible to reproduce the overall lethality figure. Additionally, 
+  the dataset does not distinguish between civilians killed or wounded by federal 
+  police, army, or navy personnel making it impossible to reproduce the 86.1% figure 
+  and lethality ratios for the navy, army, and federal police. 
+
+
+###1a) Provide a visualization that presents this information neatly.
+
+
+  *Not applicable - see response is #1 above.
+
+
+###1b) Please show the exact computations you used to calculate them 
+###(most likely than not, you'll need to do some additional munging 
+###in the data to get there).
+
+
+  *Not applicable - see response is #1 above.
+
+
+###1c) If you could not replicate them, please show why and the difference 
+###relative to your own computations (also, include a neat graph that summarizes
+###this).
+
+
+```{r}
+#Stephanie - Brandon - delete/keep whatever you want here:
 #Figure 1 - 86.1% of dead civilians who presumably participated in confrontations
 #with federal armed forces (army and navy) were killed in events of "perfect 
 #lethality" where there were only dead and no wounded:
 
 #none of this is correct because we don't have the number of total civilians who were niether killed nor wounded:
 
-#sum(fullData$civilian.dead) / sum(fullData$civilian.wounded)
-#((sum(fullData$civilian.dead) / sum(fullData$total.people.dead)) * 100)
-#((sum(fullData$civilian.wounded) / sum(fullData$total.people.wounded)) * 100)
-#sum(fullData$total.people.dead) / sum(fullData$total.people.wounded) * 100
+sum(fullData$civilian.dead) / sum(fullData$civilian.wounded)
+((sum(fullData$civilian.dead) / sum(fullData$total.people.dead)) * 100)
+((sum(fullData$civilian.wounded) / sum(fullData$total.people.wounded)) * 100)
+sum(fullData$total.people.dead) / sum(fullData$total.people.wounded) * 100
 
 # number of dead civilians who presumably participated in confrontations
 #with federal armed forces (army and navy):
@@ -235,7 +261,7 @@ new_data2 <- subset(fullData,
                      municipal.police.wounded == 0 &
                      public.prosecutor.wounded == 0 &
                      organized.crime.wounded &
-                     civilian.wounded)
+                     civilian.wounded) #doesn't result in anything useful. 
 
 #Navy:
 sum(fullData$navy.dead) / sum(fullData$navy.wounded) #incorrect
@@ -243,49 +269,22 @@ sum(fullData$navy.dead) / sum(fullData$navy.wounded) #incorrect
 #Army:
 sum(fullData$military.dead) / sum(fullData$military.wounded) #incorrect
 
-#Conclusion:  These figures cannot be reproduced because the dataset does not include civilians who were involved in these events who were neither wounded nor killed. 
-
 #Brandon:  
 
 ```
 
-###1a) Provide a visualization that presents this information neatly.
-
-```{r}
-#Stephanie:
-#Not applicable - see response is #1 above.
-
-#Brandon: 
-
-```
-
-###1b) Please show the exact computations you used to calculate them 
-###(most likely than not, 
-###you'll need to do some additional munging in the data to get there).
-
-```{r}
-#Stephanie:
-#Not applicable - see response is #1 above.
-
-#Brandon:  
-
-```
-
-###1c) If you could not replicate them, please show why and the difference 
-###relative to your own computations (also, include a neat graph that summarizes
-###this).
-
-```{r}
-#Stephanie:
-#what do we include is none of them are correct?
-
-#Brandon:  
-
-```
 
 ###1d) Be very explicit: What are you assuming to generate these computations?
  
-  *
+ 
+  * The assumption is that all civilian interactions are either civilians who were
+  wounded or killed.  Therefore, no civilians survived any interaction without being
+  killed or wounded.  Additionally, in order to ascertain whether civilians were 
+  wounded or killed as a result of armed forces or federal police, we must assume that 
+  each observation (civilian.dead > 0 and civilian.wounded > 0) is also associated 
+  with a wounded or dead observation for the federal police, military, and navy (e.g.,
+  navy.dead > 0 and/or navy.wounded > 0).
+
 
 ###2) Now you know the data more intimately. Think a little bit more about it, 
 ###and answer the following questions:
