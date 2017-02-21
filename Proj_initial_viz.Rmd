@@ -1,0 +1,43 @@
+---
+title: "Proj_Viz"
+author: "Brandon Wolff"
+date: "February 20, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+SFdata <- read.csv("2015_stopandfrisk_CLEAN.csv")
+library(ggplot2)
+```
+```{r}
+b <- ggplot(SFdata)
+b <- b + geom_bar(mapping = aes(race), fill = "blue") +
+  theme(panel.background = element_blank())
+b
+```
+```{r}
+g <- ggplot(SFdata)
+g <- g + geom_bar(mapping = aes(sex), fill = "blue") +
+  theme(panel.background = element_blank())
+g
+```
+
+```{r}
+B <- ggplot(SFdata)
+
+B + geom_bar(mapping = aes(sex), fill = "blue") +
+  theme(panel.background = element_blank())+
+  facet_wrap(~race)
+  
+```
+
+```{r}
+ggplot(SFdata, aes(race, datestop)) +
+  geom_point(aes(color = pforce)) +
+  geom_jitter(width = 0.5, height = 0.5)
+```
+
