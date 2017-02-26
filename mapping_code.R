@@ -18,6 +18,11 @@
 library(tidyverse)
 
 df <- read.csv('data/2015_stopandfrisk_CLEAN.csv')
+# orig df had 22563 rows, after all rows w/ NA in xcoord removed, 
+# df has 21747
+nrow(df)
+
+df <- filter(df, !is.na(xcoord))
 
 df$county <- ifelse(df$city == 'Manhattan', 'New York', 
                     ifelse(df$city == "Bronx", 'Bronx', 
@@ -56,3 +61,22 @@ write.csv(map_sum, '2015_SAF_county.csv')
   
 bronx <- filter(df, county %in% c('Bronx'))
 write.csv(bronx, 'bronx.csv')
+
+
+# summing pforce for each unique location
+bronx_p <- bronx[,c('xcoord', 'ycoord', 'county', 'geoid', 'pforce')]
+# some reason lost 66 pforce in next var.... there are NA xcoord and ycoord in above var
+# aggregate doesn't count this
+# TODO: go back and remove any NA coords rows (~172ish)
+bronx_unq_p <- aggregate(pforce ~ xcoord + ycoord, data = bronx_p, FUN = sum)
+
+nrow(bronx_unq_p)
+# 2220 unique locations for SaF
+
+bronx_pf_unq <- filter(bronx_unq_p, pforce > 0)
+nrow(bronx_pf_unq)
+# 1199 unique locatiosn with some police force
+
+(sum(bronx_pf_unq$pforce))
+
+write.csv(bronx_pf_unq, 'bronx_pf_unq.csv')
