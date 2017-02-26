@@ -8,7 +8,9 @@
 First the most up-to-date full and cleaned data set is *'2015_stopandfrisk_CLEAN_w_counties.csv'*
 The data set *'2015_stopandfrisk_CLEAN.csv'* actually had rows where there were no x and y coordinates.
 
-The original csv had 22563 rows, after all rows w/ NA in xcoord removed, the new file has 21747 rows
+The original csv had 22563 rows, after all rows w/ NA in xcoord removed, the new file has 21747 rows.
+
+For a focus on the Bronx area please use *'bronx_pf_unq.csv'*
 
 4 maps have been created:
 
