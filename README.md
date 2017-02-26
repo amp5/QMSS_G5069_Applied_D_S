@@ -18,3 +18,5 @@ Applied Data Science Team 3
 ![](https://cloud.githubusercontent.com/assets/5368361/23278160/8c1cff8c-f9de-11e6-860c-62f927ef516d.png)
 
 ![](https://cloud.githubusercontent.com/assets/5368361/23278157/8a23bf36-f9de-11e6-9044-dc68883187a5.png)
+
+![](https://cloud.githubusercontent.com/assets/5368361/23336176/e3b5d602-fb95-11e6-97b0-82cd891adb26.png)
