@@ -44,7 +44,7 @@ I organized our files as such:
 
 **3) Data/Code Book** folder: The code book is here as well as 2 subfolders:
 
-  **3a) Cleaned**: All cleaned data
+  **3a) Cleaned**: All cleaned data: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Cleaned
   
-  **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets frome the **Cleaned** folder to this folder when appropriate.
+  **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets frome the **Cleaned** folder to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated
 
