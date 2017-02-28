@@ -18,6 +18,14 @@ I organized our files as such:
 
 **4) Reports folder**: All of our written assignments are saved here e.g., proposal (one pager).  Going forward, we'll save our final presentation and paper here as well: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Reports
 
+Moved from the README file: 
+
+**Additional Resources:** 
+
+http://jlegewie.com/files/Legewie-2016-Racial-Profiling-and-Use-of-Force-in-Police-Stops.pdf
+
+http://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page
+
 <p align="center">
   <b>2/25/17 - Mapped data - Alexandra </b>
 </p>
