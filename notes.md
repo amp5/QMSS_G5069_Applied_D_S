@@ -37,5 +37,9 @@ rows with NA xcoords and ycoords. Thus the sums are slightly off. It should make
 </p>
 
 I organized our files as such:
-Backgrounf folder: Zach's NYPD project and any other research we have and want to save can go into this folder.  Link:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
+
+**Backgrounf folder**: Zach's NYPD project and any other research we have and want to save can go into this folder.  Link:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
+
+**Code folder**:  All CURRENT code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** here: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
+
 
