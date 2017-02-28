@@ -42,4 +42,8 @@ I organized our files as such:
 
 **Code folder**:  All CURRENT code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** here: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
 
+**Data/Code Book** folder: The code book is here as well as 2 subfolders:
 
+  **Cleaned**: All cleaned data
+  
+  **Raw/Outdated**: All datasets that we aren't using anymore - please move outdated datasets frome the **Cleaned** folder to this folder when appropriate.
