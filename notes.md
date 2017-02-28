@@ -1,5 +1,21 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
+<p align="center">
+  <b>02/28/17 - File Structure - Stephanie </b>
+</p>
+
+I organized our files as such:
+
+**1) Background folder**: Zach's NYPD project and any other research we have and want to save goes into this folder:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
+
+**2) Code folder**:  All current/up-to-date/relevant code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** - please move outdated code files from the **Code** folder to this subfolder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
+
+**3) Data/Code Book** folder: The code book is here (https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book) as well as 2 subfolders:
+
+  **3a) Cleaned**: All cleaned datasets that we are currently using: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Cleaned
+  
+  **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets frome the **Cleaned** folder to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated
+
 
 <p align="center">
   <b>2/25/17 - Mapped data - Alexandra </b>
@@ -31,20 +47,3 @@ Until I can figure out how to do so I can't run any spatial regression tests.
 I think the next step should be to work on our models focusing on the Bronx as that has the highest amounts of police force.
 Also I think something I need to redo will be the first 3 maps because they were created with the original csv file which had
 rows with NA xcoords and ycoords. Thus the sums are slightly off. It should make too much of a difference. But just to be safe. 
-
-<p align="center">
-  <b>02/28/17 - File Structure - Stephanie </b>
-</p>
-
-I organized our files as such:
-
-**1) Backgrounf folder**: Zach's NYPD project and any other research we have and want to save can go into this folder.  Link:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
-
-**2) Code folder**:  All CURRENT code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** - please move outdated code files from the **Code** to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
-
-**3) Data/Code Book** folder: The code book is here as well as 2 subfolders:
-
-  **3a) Cleaned**: All cleaned data: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Cleaned
-  
-  **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets frome the **Cleaned** folder to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated
-
