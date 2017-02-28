@@ -16,7 +16,7 @@ I organized our files as such:
   
   **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets from the **Cleaned** folder to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated
 
-**4) Reports folder**: All of our written assignments are saved here e.g., one pager.  Going forward, we'll save our final presentation and paper here as well: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Reports
+**4) Reports folder**: All of our written assignments are saved here e.g., proposal (one pager).  Going forward, we'll save our final presentation and paper here as well: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Reports
 
 <p align="center">
   <b>2/25/17 - Mapped data - Alexandra </b>
