@@ -38,12 +38,13 @@ rows with NA xcoords and ycoords. Thus the sums are slightly off. It should make
 
 I organized our files as such:
 
-**Backgrounf folder**: Zach's NYPD project and any other research we have and want to save can go into this folder.  Link:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
+**1) Backgrounf folder**: Zach's NYPD project and any other research we have and want to save can go into this folder.  Link:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
 
-**Code folder**:  All CURRENT code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** here: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
+**2) Code folder**:  All CURRENT code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** - please move outdated code files from the **Code** to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
 
-**Data/Code Book** folder: The code book is here as well as 2 subfolders:
+**3) Data/Code Book** folder: The code book is here as well as 2 subfolders:
 
-  **Cleaned**: All cleaned data
+  **3a) Cleaned**: All cleaned data
   
-  **Raw/Outdated**: All datasets that we aren't using anymore - please move outdated datasets frome the **Cleaned** folder to this folder when appropriate.
+  **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets frome the **Cleaned** folder to this folder when appropriate.
+
