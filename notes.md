@@ -18,7 +18,9 @@ I organized our files as such:
 
 **4) Reports folder**: All of our written assignments are saved here e.g., proposal (one pager).  Going forward, we'll save our final presentation and paper here as well: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Reports
 
-Moved from the README file: 
+<p align="center">
+  <b> Moved from the README file </b>
+</p>
 
 **Additional Resources:** 
 
