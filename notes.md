@@ -31,3 +31,11 @@ Until I can figure out how to do so I can't run any spatial regression tests.
 I think the next step should be to work on our models focusing on the Bronx as that has the highest amounts of police force.
 Also I think something I need to redo will be the first 3 maps because they were created with the original csv file which had
 rows with NA xcoords and ycoords. Thus the sums are slightly off. It should make too much of a difference. But just to be safe. 
+
+<p align="center">
+  <b>02/28/17 - File Structure - Stephanie </b>
+</p>
+
+I organized our files as such:
+Backgrounf folder: Zach's NYPD project and any other research we have and want to save can go into this folder.  Link:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
+
