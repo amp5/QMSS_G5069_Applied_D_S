@@ -23,6 +23,7 @@ This one was not used because it is quantile distribution. It makes things look 
 - [ ] calculate the GWR and identify significant clusters 
 - [ ] work on time series analysis
 - [ ] identify whats are on blocks (top 10 pforce points)
+- [ ] look at who is stopped black vs white vs latinx compared to pforce. must make dummy vars
 
 <p align="center">
   <b>02/28/17 - File Structure - Stephanie </b>
