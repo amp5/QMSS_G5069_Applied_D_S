@@ -1,6 +1,29 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
 <p align="center">
+  <b>03/01/17 - Update on maps - Alexandra </b>
+</p>
+
+**Block Join Acheived!**
+
+![](https://cloud.githubusercontent.com/assets/5368361/23479203/b5356e7e-fe91-11e6-81af-eb83fce38b20.png)
+This is the aggregation of police force count by block in the Bronx. It uses Natural breaks (Jenks). I think this might be better because it shows the distribution of the pforce by block level.
+
+
+![](https://cloud.githubusercontent.com/assets/5368361/23479179/a3bc8c40-fe91-11e6-85de-baed11672064.png)
+This one is displaying the same information but it uses an equal distribution. However this one might be more PC by using equal distr. 
+
+![](https://cloud.githubusercontent.com/assets/5368361/23479393/4dcfbc02-fe92-11e6-8060-7a345e130e6b.png)
+This one was not used because it is quantile distribution. It makes things look worse than they are. 
+
+
+**To Do Next**
+-[ ] calculate the GWR and identify significant clusters 
+-[ ] identify other vars in data that would be useful to compare with pforce data on map and in time series analysis
+-[ ] work on time series analysis
+
+
+<p align="center">
   <b>02/28/17 - File Structure - Stephanie </b>
 </p>
 
