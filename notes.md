@@ -18,9 +18,10 @@ This one was not used because it is quantile distribution. It makes things look 
 
 
 **To Do Next**
--[ ] calculate the GWR and identify significant clusters 
--[ ] identify other vars in data that would be useful to compare with pforce data on map and in time series analysis
--[ ] work on time series analysis
+- [ ] redo first 3 maps below to exclude rows with NA xcoords and ycoords.
+- [ ] identify other vars in data that would be useful to compare with pforce data on map and in time series analysis
+- [ ] calculate the GWR and identify significant clusters 
+- [ ] work on time series analysis
 
 
 <p align="center">
