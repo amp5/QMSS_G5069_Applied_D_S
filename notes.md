@@ -22,7 +22,7 @@ This one was not used because it is quantile distribution. It makes things look 
 - [ ] identify other vars in data that would be useful to compare with pforce data on map and in time series analysis
 - [ ] calculate the GWR and identify significant clusters 
 - [ ] work on time series analysis
-
+- [ ] identify whats are on blocks (top 10 pforce points)
 
 <p align="center">
   <b>02/28/17 - File Structure - Stephanie </b>
