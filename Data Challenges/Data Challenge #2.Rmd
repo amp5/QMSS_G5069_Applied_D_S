@@ -24,7 +24,7 @@ Group notes (to be deleted):
 ###violence contained on our datas et. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
-  *
+  *Stephanie 
    
 ```{r}
 
@@ -93,7 +93,7 @@ Group notes (to be deleted):
 ###violence contained on our datas et. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
-  *
+  * Brandon
    
 ```{r}
 
@@ -161,15 +161,7 @@ Group notes (to be deleted):
 ###2.	Formulate two (2) conditional hypotheses that you seek to investigate with 
 ###the data. One of your hypotheses should condition on two variables (as the 
 ###example on the slides), and the other should condition on three variables. [50 pts]
-    * __conditional on 2 variables___:  Stephanie: here people = civilians. given that the army 
-    was involved, how many cartridges were seized, how many people were wounded, and how many 
-    people died? X1 = civilians wounded, X2 = civilians dead, and Y = cartidges seized.  We know 
-    the army was there how?  did he give us this info?  When the army is involved, the more 
-    cartriges to be sezied are wounded and dead increase?  its easier to take cartidges from 
-    dead and wounded people than those still actively fighting. Also, we are assuming that the 
-    army is bringing more serious weapons so more cartridges may have been seized and they are 
-    more effective than the other forces so fewer people will be wounded. Use a regression model
-    and look at the traditional stats like the ones on the slides from 03/01/17
+    * ZACH 
 
 ```{r}
 
@@ -220,7 +212,7 @@ Group notes (to be deleted):
 ###2.	Formulate two (2) conditional hypotheses that you seek to investigate with 
 ###the data. One of your hypotheses should condition on two variables (as the 
 ###example on the slides), and the other should condition on three variables. [50 pts]
-    * __conditional on 3 variables___:  
+    * ZACH:  
 
 ```{r}
 
