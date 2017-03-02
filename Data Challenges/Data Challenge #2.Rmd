@@ -10,6 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Group notes (to be deleted):
   * should we all do one model on our own each, then we all do the 4th model collectively to evenly spread out the work?
+  
+  * did he add more data/variables?
+  
+  *
 
 #1.	Ask two (2) questions that might help you understand better the dynamics of 
 #violence contained on our datas et. Apply one algorithm per question and share 
