@@ -75,9 +75,69 @@ write.csv(bronx, 'bronx.csv')
 bronx_p <- bronx[,c('xcoord', 'ycoord', 'county', 'geoid', 'pforce', 'race', 
                     'rf_furt', 'rf_bulg', 'rf_knowl', 'rf_verbl', 'rf_rfcmp',
                     'rf_vcact', 'rf_attir', 'rf_othsw', 'rf_vcrim')]
+
+bronx_p_r <- within(bronx_p, {
+  blck <-  ifelse(race == "Black", 1, 0)
+  wht <- ifelse(race == "White" , 1, 0)
+  wht_h <- ifelse(race == "White - Hispanic", 1, 0)
+  ntv <-  ifelse(race == "American Indian / Alaskan Native", 1, 0)
+  azn <- ifelse(race == "Asian / Pacific Islander", 1, 0)
+})
+  
+  
+  
+
+
 # some reason lost 66 pforce in next var.... there are NA xcoord and ycoord in above var
 # aggregate doesn't count this
 # TODO: go back and remove any NA coords rows (~172ish)
+
+
+bronx_pf_r <- bronx_p_r[complete.cases(bronx_p_r),]
+
+write.csv(bronx_pf_r, 'data/bronx_pf_r.csv')
+
+
+bronx_pf_r_smll <- bronx_pf_r[, c( "xcoord", "ycoord", "pforce", "race",
+                                      "azn",  "ntv",  "wht_h",  "wht",  "blck"  )]
+
+bronx_pf_blck <- filter(bronx_pf_r_smll, blck %in% 1)
+bronx_pf_blck <- aggregate(pforce ~ xcoord + ycoord, data = bronx_pf_blck, FUN = sum)
+bronx_pf_blck <- bronx_pf_blck[bronx_pf_blck$pforce > 0,]
+
+bronx_pf_azn <- filter(bronx_pf_r_smll, azn %in% 1)
+bronx_pf_azn <- aggregate(pforce ~ xcoord + ycoord, data = bronx_pf_azn, FUN = sum)
+bronx_pf_azn <- bronx_pf_azn[bronx_pf_azn$pforce > 0,]
+
+bronx_pf_wht <- filter(bronx_pf_r_smll, wht %in% 1)
+bronx_pf_wht <- aggregate(pforce ~ xcoord + ycoord, data = bronx_pf_wht, FUN = sum)
+bronx_pf_wht <- bronx_pf_wht[bronx_pf_wht$pforce > 0,]
+
+bronx_pf_wht_h <- filter(bronx_pf_r_smll, wht_h %in% 1)
+bronx_pf_wht_h <- aggregate(pforce ~ xcoord + ycoord, data = bronx_pf_wht_h, FUN = sum)
+bronx_pf_wht_h <- bronx_pf_wht_h[bronx_pf_wht_h$pforce > 0,]
+
+bronx_pf_ntv <- filter(bronx_pf_r_smll, ntv %in% 1)
+bronx_pf_ntv <- aggregate(pforce ~ xcoord + ycoord, data = bronx_pf_ntv, FUN = sum)
+bronx_pf_ntv <- bronx_pf_ntv[bronx_pf_ntv$pforce > 0,]
+  
+
+write.csv(bronx_pf_blck, 'data/bronx_pf_blck.csv')
+write.csv(bronx_pf_azn, 'data/bronx_pf_azn.csv')
+write.csv(bronx_pf_wht, 'data/bronx_pf_wht.csv')
+write.csv(bronx_pf_wht_h, 'data/bronx_pf_wht_h.csv')
+write.csv(bronx_pf_ntv, 'data/bronx_pf_ntv.csv')
+
+
+
+bronx <- filter(data_all, county %in% c('Bronx'))
+
+
+
+
+
+
+
 bronx_unq_p <- aggregate(pforce ~ xcoord + ycoord, data = bronx_p, FUN = sum)
 
 
@@ -99,9 +159,11 @@ bronx_agg_pf <-  bronx_agg[bronx_agg$pforce > 0,]
 write.csv(bronx_agg_pf, 'bronx_agg_pf.csv')
 
 
-### not able to find way to transform coords into block areas.
-# will attempt to do so using addresses....
+### will now count black and white races
 
+
+
+bronx_agg_pf <- read.csv('data/bronx_agg_pf.csv')
 
 
 
