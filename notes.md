@@ -1,6 +1,14 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
 <p align="center">
+  <b>03/02/17 - Maps by Race - Alexandra </b>
+</p>
+
+![](https://cloud.githubusercontent.com/assets/5368361/23539134/04fc55d8-ffa7-11e6-8da8-70a19652c4f7.png)
+
+Above looks at the amount of pforce used throughout the Bronx by race. Where race was NA the row was removed from this graph. Also the counts for each race is included next to the map. The legend and dot size might be a little confusing since different gradients of red represent different numbers for each race but hopefully the legend and count next to the maps will help alleviate confusion. Natural breaks were used again for this instead of equal or quantile.  
+
+<p align="center">
   <b>03/01/17 - Update on maps - Alexandra </b>
 </p>
 
@@ -18,12 +26,12 @@ This one was not used because it is quantile distribution. It makes things look 
 
 
 **To Do Next**
-- [ ] redo first 3 maps below to exclude rows with NA xcoords and ycoords.
-- [ ] identify other vars in data that would be useful to compare with pforce data on map and in time series analysis
-- [ ] calculate the GWR and identify significant clusters 
-- [ ] work on time series analysis
-- [ ] identify whats are on blocks (top 10 pforce points)
-- [ ] look at who is stopped black vs white vs latinx compared to pforce. must make dummy vars
+- [ ] redo first 3 maps below to exclude rows with NA xcoords and ycoords. @alexandra
+- [ ] identify other vars in data that would be useful to compare with pforce data on map and in time series analysis @team
+- [ ] calculate the GWR and identify significant clusters @alexandra
+- [ ] work on time series analysis @zach
+- [ ] identify whats are on blocks (top 10 pforce points) @stephanie / @brandon
+- [x] look at who is stopped black vs white vs latinx compared to pforce. must make dummy vars @alexandra
 
 <p align="center">
   <b>02/28/17 - File Structure - Stephanie </b>
