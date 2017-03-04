@@ -45,7 +45,38 @@ data source: https://factfinder.census.gov/faces/tableservices/jsf/pages/product
 ```{r}
 #the raw dataset was such a mess that I had to clean it in excel - the follwing is the cleaned version:
 
-pop <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/CLEAN_ACS_15_5YR_DP05.csv") 
+
+# this dataest is in a really strange format 
+pop <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/CLEAN_ACS_15_5YR_DP05.csv")
+
+pop <- pop[-22, ] # delete duplicate rows
+pop <- pop[-21, ] # delete duplicate rows
+
+pop2 <- pop
+rownames(pop2) <- pop2$Subject
+
+pop2 <- pop2[ , -1] #delete subject column
+
+# Using the "tp_Race alone or in combination with one or more other races" category:
+library(tibble)
+demographic <- pop[53:58, 1:2]
+
+demographic[ , 1]
+
+demographic$race <- c("White",
+              "Black or African American",
+              "American Indian and Alaska Native",
+              "Asian",
+              "Native Hawaiian and Other Pacific Islander",
+              "Some other race")
+
+demographic
+demographic$Estimate <- order((demographic$Estimate)) #need to be in order from greatest to least
+
+library(ggplot2)
+ggplot(demographic, aes(x = race, y = Estimate)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 #stop and frisk by race per capita sort of thing
 #figure out the proportion of each race being stopped and frisk for this week's presentation
@@ -55,8 +86,36 @@ Crime Stats for the Bronx:
 #stop and frisk by crime per capita sort of thing
 ```{r}
 
+
 ```
 
+
+Compare stop and frisk events to demographic data:
+
+```{r}
+ggplot(demographic, aes(x = race, y = Estimate)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Race") +
+  ylab("Population Estimate") +
+  ggtitle("2015 Bronx Population by Race") +
+  geom_text(aes(label = Estimate), vjust = 1.5, colour = "white")
+
+stops_by_race <- sfd[ , "race"]
+
+stops_by_race2 <- summary(stops_by_race)
+stops_by_race2 <- as.data.frame(stops_by_race2)
+stops_by_race2
+stops_by_race2$race <- rownames(stops_by_race2)
+stops_by_race2$count <- stops_by_race2$stops_by_race2
+
+ggplot(stops_by_race2, aes(x = race, y = count)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylab("Number of Stop & Frisk Events") +
+  xlab("Race") +
+  ggtitle("Stop & Frisk Events by Race")
+```
 
 
 
