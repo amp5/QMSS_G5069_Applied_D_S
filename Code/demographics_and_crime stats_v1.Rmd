@@ -49,32 +49,29 @@ data source: https://factfinder.census.gov/faces/tableservices/jsf/pages/product
 # this dataest is in a really strange format 
 pop <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/CLEAN_ACS_15_5YR_DP05.csv")
 
-pop <- pop[-22, ] # delete duplicate rows
-pop <- pop[-21, ] # delete duplicate rows
-
-pop2 <- pop
-rownames(pop2) <- pop2$Subject
-
-pop2 <- pop2[ , -1] #delete subject column
+#pop <- pop[-22, ] # delete duplicate rows
+#pop <- pop[-21, ] # delete duplicate rows
 
 # Using the "tp_Race alone or in combination with one or more other races" category:
 library(tibble)
-demographic <- pop[53:58, 1:2]
+
+demographic <- data.frame(subset(pop[53:58, 1:2]))
+
+typeof(demographic$Estimate)
+str(demographic)
+demographic$Estimate <- as.numeric(gsub(",", "", as.character(demographic$Estimate)))
+demographic
 
 demographic[ , 1]
-
-demographic$race <- c("White",
+demographic$Subject <- c("White",
               "Black or African American",
               "American Indian and Alaska Native",
               "Asian",
               "Native Hawaiian and Other Pacific Islander",
               "Some other race")
 
-demographic
-demographic$Estimate <- order((demographic$Estimate)) #need to be in order from greatest to least
-
 library(ggplot2)
-ggplot(demographic, aes(x = race, y = Estimate)) +
+ggplot(demographic, aes(x = Subject, y = Estimate)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
@@ -93,13 +90,13 @@ Crime Stats for the Bronx:
 Compare stop and frisk events to demographic data:
 
 ```{r}
-ggplot(demographic, aes(x = race, y = Estimate)) +
+ggplot(demographic, aes(x = Subject, y = Estimate)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   xlab("Race") +
   ylab("Population Estimate") +
   ggtitle("2015 Bronx Population by Race") +
-  geom_text(aes(label = Estimate), vjust = 1.5, colour = "white")
+  geom_text(aes(label = Estimate), vjust = 0, colour = "black")
 
 stops_by_race <- sfd[ , "race"]
 
@@ -114,7 +111,80 @@ ggplot(stops_by_race2, aes(x = race, y = count)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylab("Number of Stop & Frisk Events") +
   xlab("Race") +
-  ggtitle("Stop & Frisk Events by Race")
+  ggtitle("Stop & Frisk Events by Race") +
+  geom_text(aes(label = count), vjust = 0, colour = "black")
+```
+
+
+```{r}
+#FINAL GRAPHS:
+#stop and frisk events by race:
+ggplot(stops_by_race2, aes(x = race, y = count)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylab("Number of Stop & Frisk Events") +
+  xlab("Race") +
+  ggtitle("Stop & Frisk Events by Race") +
+  geom_text(aes(label = count), vjust = 0, colour = "black")
+
+stops_by_race2
+
+# new race categories in pop file:
+# group pop races as such to match the stop and frisk race categories:
+## "tp_One race_American Indian and Alaska Native" - row 31
+## "tp_One race_Asian" (row 36) + "tp_One race_Native Hawaiian and Other Pacific Islander" (row 44) = one category
+## "tp_One race_Black or African American" row 30
+## "tp_One race_White" row 29
+## "tp_HISPANIC OR LATINO AND RACE_Not Hispanic or Latino_White alone" (row 67) footnote: (b) Hispanics may be of any race, so also are included in applicable race categories
+
+
+demographic2 <- data.frame(subset(pop[c(31, 36, 44, 30, 29, 67), 1:2]))
+
+typeof(demographic2$Estimate)
+str(demographic2)
+demographic2$Estimate <- as.numeric(gsub(",", "", as.character(demographic2$Estimate)))
+demographic2
+
+demographic2[ , 1]
+demographic2$Subject <- c("American Indian and Alaska Native",
+              "Asian",
+              "Native Hawaiian and Other Pacific Islander",
+              "Black or African American",
+              "White",
+              "White - Hispanic")
+
+#combine "Asian" and "Native Hawaiian and Other Pacific Islander" to match races in sfd file:
+52457 + 666
+demographic3 <- data.frame(Subject = c("Asian/Native Hawaiian and Other Pacific Islander"),
+                           Estimate = 53123)
+demographic4 <- demographic2[-c(2:3) , 1:2]
+demographic4
+demographic4[5, 1:2] <- demographic3
+demographic4
+demographic4[5, 2] <- demographic3[c("Asian/Native Hawaiian and Other Pacific Islander"), c("53123")]
+demographic4[5, 1] <- "Asian/Native Hawaiian and Other Pacific Islander"
+demographic4
+
+ggplot(demographic4, aes(x = Subject, y = Estimate)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Race") +
+  ylab("Population Estimate") +
+  ggtitle("2015 Bronx Population by Race") +
+  geom_text(aes(label = Estimate), vjust = 0.3, colour = "black")
+
+#percentage comparison stop and frisk events / pop race cat:
+stops_by_race2
+demographic4
+
+"American Indian / Alaskan Native"	= (76 / 7980) * 100
+"Asian / Pacific Islander" =	(1043 /	53123) * 100
+"Black" =	(12919	/ 475378) * 100
+"White" =	(2389 / 299869) * 100
+"White - Hispanic"	= (4907 / 146928) * 100
+
+#MAKE THIS INTO A MATRIX AND WRITE UPA WUICK SUMMARY FOR WEDNESDAY 
+comparison <- matrix(
 ```
 
 
