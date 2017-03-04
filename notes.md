@@ -8,6 +8,7 @@
 
 Above looks at the amount of pforce used throughout the Bronx by race. Where race was NA the row was removed from this graph. Also the counts for each race is included next to the map. The legend and dot size might be a little confusing since different gradients of red represent different numbers for each race but hopefully the legend and count next to the maps will help alleviate confusion. Natural breaks were used again for this instead of equal or quantile.  
 
+- [ ] Show distribution of pforce for all bronx as justification for natural breaks....
 - [ ]Next map to make - GWR with pf vs black or not - look for spatial clusters @Alexandra
 
 <p align="center">
