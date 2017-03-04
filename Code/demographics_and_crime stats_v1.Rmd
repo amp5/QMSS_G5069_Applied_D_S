@@ -1,0 +1,45 @@
+# #######################################################################
+# File-Name:  demographics and crime stats_v1
+# Version:  1
+# Date: 03/04/17 
+# Author: Stephanie Langeland 
+# Purpose: Find demographic and crime stats data
+# Input Files: 2015_stopandfrisk_CLEAN_w_counties.csv 
+# Output Files: None yet
+# Data Output: None
+# Dependencies: ?
+# Required by: ?
+# Status: In progress 
+# Machine: Stephanie's 2011 MacBook Pro
+# R version: 3.3.1
+# #######################################################################
+
+General:
+```{r}
+rm(list = ls(all = TRUE))   # cleans everything in the workspace
+
+path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S"
+# SPACE FOR SOMEONE ELSE TO COMMENT OUT MY PATH ABOVE AND PUT THEIR PATH IN HERE
+
+sfd <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv") # cleaned stop and frisk data (sfd)    
+```
+
+Time period of the data:
+```{r}
+# convert to date format:
+library(lubridate)
+
+summary(sfd$datestop)
+summary(is.na(sfd$datestop))
+typeof(sfd$datestop)
+sfd$datestop <- mdy(sfd[ , 5]) # column 5 is the DATE OF STOP (M-D-YYYY) <- the code book is wrong, it says that the format is (MM-DD-YYY)
+summary(is.na(sfd$datestop))
+
+min(sfd$datestop) #confirmed that the data are complete for 2015
+max(sfd$datestop)
+
+summary((sfd$dob)) # SUSPECT'S DATE OF BIRTH (CCYY-MM-DD) is all missing -> use `age` variable instead
+```
+
+
+
