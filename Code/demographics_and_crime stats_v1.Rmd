@@ -46,8 +46,6 @@ data source: https://factfinder.census.gov/faces/tableservices/jsf/pages/product
 #the raw dataset was such a mess that I had to clean it in excel - the follwing is the cleaned version:
 
 pop <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/CLEAN_ACS_15_5YR_DP05.csv") 
-
-
 ```
 #stop and frisk by race per capita sort of thing
 #figure out the proportion of each race being stopped and frisk for this week's presentation
