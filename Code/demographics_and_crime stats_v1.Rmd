@@ -14,17 +14,16 @@
 # R version: 3.3.1
 # #######################################################################
 
-General:
+Stop and Frisk Data: General:
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
-path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S"
-# SPACE FOR SOMEONE ELSE TO COMMENT OUT MY PATH ABOVE AND PUT THEIR PATH IN HERE
+sfd <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv") # cleaned stop and frisk data 
 
-sfd <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv") # cleaned stop and frisk data (sfd)    
+# SPACE FOR SOMEONE ELSE TO COMMENT OUT MY PATH ABOVE AND PUT THEIR PATH IN HERE
 ```
 
-Time period of the data:
+Stop and Frisk Data: Time period of the data:
 ```{r}
 # convert to date format:
 library(lubridate)
@@ -40,6 +39,26 @@ max(sfd$datestop)
 
 summary((sfd$dob)) # SUSPECT'S DATE OF BIRTH (CCYY-MM-DD) is all missing -> use `age` variable instead
 ```
+
+Demographic data for the Bronx: General 
+data source: https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?src=CF 
+```{r}
+#the raw dataset was such a mess that I had to clean it in excel - the follwing is the cleaned version:
+
+pop <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/CLEAN_ACS_15_5YR_DP05.csv") 
+
+
+```
+#stop and frisk by race per capita sort of thing
+#figure out the proportion of each race being stopped and frisk for this week's presentation
+
+Crime Stats for the Bronx:
+#does probable cause match the popular crimes in the area?
+#stop and frisk by crime per capita sort of thing
+```{r}
+
+```
+
 
 
 
