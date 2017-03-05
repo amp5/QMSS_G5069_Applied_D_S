@@ -82,10 +82,10 @@ Crime Stats for the Bronx:
 #does probable cause match the popular crimes in the area?
 #stop and frisk by crime per capita sort of thing
 ```{r}
+# need help on what code to use to clean the data because of the strange format and multiple files
 
-
+#path:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015
 ```
-
 
 Compare stop and frisk events to demographic data:
 
@@ -115,11 +115,10 @@ ggplot(stops_by_race2, aes(x = race, y = count)) +
   geom_text(aes(label = count), vjust = 0, colour = "black")
 ```
 
-
+#FINAL GRAPHS for 03/08/17 class:
 ```{r}
-#FINAL GRAPHS:
 #stop and frisk events by race:
-ggplot(stops_by_race2, aes(x = race, y = count)) +
+stops_by_race_graph <- ggplot(stops_by_race2, aes(x = race, y = count)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylab("Number of Stop & Frisk Events") +
@@ -161,31 +160,72 @@ demographic4 <- demographic2[-c(2:3) , 1:2]
 demographic4
 demographic4[5, 1:2] <- demographic3
 demographic4
-demographic4[5, 2] <- demographic3[c("Asian/Native Hawaiian and Other Pacific Islander"), c("53123")]
+# demographic4[5, 2] <- demographic3[c("Asian/Native Hawaiian and Other Pacific Islander"), c("53123")]
 demographic4[5, 1] <- "Asian/Native Hawaiian and Other Pacific Islander"
 demographic4
 
-ggplot(demographic4, aes(x = Subject, y = Estimate)) +
+population_race_graph <- ggplot(demographic4, aes(x = Subject, y = Estimate)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   xlab("Race") +
   ylab("Population Estimate") +
   ggtitle("2015 Bronx Population by Race") +
-  geom_text(aes(label = Estimate), vjust = 0.3, colour = "black")
+  geom_text(aes(label = Estimate), vjust = 0.05, colour = "black")
 
 #percentage comparison stop and frisk events / pop race cat:
 stops_by_race2
 demographic4
 
-"American Indian / Alaskan Native"	= (76 / 7980) * 100
-"Asian / Pacific Islander" =	(1043 /	53123) * 100
-"Black" =	(12919	/ 475378) * 100
-"White" =	(2389 / 299869) * 100
-"White - Hispanic"	= (4907 / 146928) * 100
+AIAN <- round(((76 / 7980) * 100), digits = 2) # "American Indian / Alaskan Native"
+API <- round(((1043 /	53123) * 100), digits = 2) # "Asian / Pacific Islander" 
+BLK <- round(((12919	/ 475378) * 100), digits = 2) # "Black" 
+WHT <- round(((2389 / 299869) * 100), digits = 2) # "White" 
+WH <- round(((4907 / 146928) * 100), digits = 2) # "White - Hispanic"
 
 #MAKE THIS INTO A MATRIX AND WRITE UPA WUICK SUMMARY FOR WEDNESDAY 
-comparison <- matrix(
+comparison <- matrix(c("Race", "% of each race who were stopped and frisked",
+         "American Indian / Alaskan Native", AIAN,
+         "Asian / Pacific Islander", API,
+         "Black", BLK,
+         "White", WHT,
+         "White - Hispanic", WH), 
+       nrow = , 
+       ncol = 2, 
+       byrow = TRUE)
+
+comparison2 <- as.data.frame(comparison)
+
+comparison2
+
+comparison2 <- comparison2[-1, 1:2]
+
+comparison2
+
+comparison_graph <- ggplot(comparison2, aes(x = V1, y = V2)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Race") +
+  ylab("Percentage") +
+  ggtitle("Percentage of Each Race of the Bronx Population Being Stopped & Frisked") +
+  geom_text(aes(label = V2), vjust = 0, colour = "black")
 ```
 
+__03/08/17 Class Update for Team 3:__
 
+  1) Gathered demographic data for the Bronx and compared it to stop and frisk
+  events by race.  NYPD crime data were also gathered and will be cleaned within the coming
+  weeks to understand the relationship between the reasons police officers  
+  stop and frisk versus population crimes in the Bronx by precinct (to pinpoint location).
+  Next, we will start to build our forecasting models for probability of being stopped
+  and frisked in the Bronx by race, use of force, gender, and other potential variables. 
+  
+  2) The output (graphs) for the week show the breakdown of 5 races by population
+  in the Bronx, stop and frisk events by race, and stop and frisk events by race as a percentage
+  of each race within the Bronx population, respectively.  All data are for the Bronx in 2015.
+
+```{r}
+population_race_graph
+stops_by_race_graph
+comparison_graph
+```
 
