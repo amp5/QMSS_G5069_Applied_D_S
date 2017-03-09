@@ -7,14 +7,14 @@
 # Input Files: 2015_stopandfrisk_CLEAN_w_counties.csv 
 # Output Files: None yet
 # Data Output: None
-# Dependencies: ?
-# Required by: ?
+# Dependencies: None
+# Required by: Final Prject
 # Status: In progress 
 # Machine: Stephanie's 2011 MacBook Pro
 # R version: 3.3.1
 # #######################################################################
 
-Stop and Frisk Data: General:
+# Stop and Frisk Data: General:
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
@@ -23,7 +23,7 @@ sfd <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science
 # SPACE FOR SOMEONE ELSE TO COMMENT OUT MY PATH ABOVE AND PUT THEIR PATH IN HERE
 ```
 
-Stop and Frisk Data: Time period of the data:
+# Stop and Frisk Data: Time period of the data:
 ```{r}
 # convert to date format:
 library(lubridate)
@@ -40,7 +40,8 @@ max(sfd$datestop)
 summary((sfd$dob)) # SUSPECT'S DATE OF BIRTH (CCYY-MM-DD) is all missing -> use `age` variable instead
 ```
 
-Demographic data for the Bronx: General 
+# Demographic data for the Bronx: General 
+
 data source: https://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?src=CF 
 ```{r}
 #the raw dataset was such a mess that I had to clean it in excel - the follwing is the cleaned version:
@@ -75,19 +76,7 @@ ggplot(demographic, aes(x = Subject, y = Estimate)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-#stop and frisk by race per capita sort of thing
-#figure out the proportion of each race being stopped and frisk for this week's presentation
-
-Crime Stats for the Bronx:
-#does probable cause match the popular crimes in the area?
-#stop and frisk by crime per capita sort of thing
-```{r}
-# need help on what code to use to clean the data because of the strange format and multiple files
-
-#path:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015
-```
-
-Compare stop and frisk events to demographic data:
+# Compare stop and frisk events to demographic data:
 
 ```{r}
 ggplot(demographic, aes(x = Subject, y = Estimate)) +
@@ -227,5 +216,49 @@ __03/08/17 Class Update for Team 3:__
 population_race_graph
 stops_by_race_graph
 comparison_graph
+```
+
+# Crime Stats for the Bronx: general:
+
+# Clean the data:
+
+https://stackoverflow.com/questions/37509886/how-to-read-merged-excel-cells-with-r 
+
+```{r}
+rm(list = ls(all = TRUE))   # cleans everything in the workspace
+
+library(xlsx)
+
+misdemeanors_raw <- read.xlsx(
+  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/misdemeanor_offenses_by_precinct_2000_2015.xls",
+  sheetIndex = 1 # sheet 1
+                              )
+
+non_seven_major_felony_raw <- read.xlsx(
+  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/non_seven_major_felony-offenses_by_precinct_2000_2015.xls",
+  sheetIndex = 1
+  )
+
+seven_major_felony_raw <- read.xlsx(
+  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/seven_major_felony_offenses_by_precinct_2000_2015.xls",
+  sheetIndex = 1
+  )
+
+violation_offenses_raw <- read.xlsx(
+  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/violation_offenses_by_precinct_2000_2015.xls", 
+  sheetIndex = 1
+  )
+
+# dealing with data that has merged cells:
+# https://stackoverflow.com/questions/37509886/how-to-read-merged-excel-cells-with-r
+
+# merge cleaned files
+# write csv
+```
+
+# Crime Stats for the Bronx: analysis:
+```{r}
+#does probable cause match the popular crimes in the area?
+#stop and frisk by crime per capita sort of thing
 ```
 
