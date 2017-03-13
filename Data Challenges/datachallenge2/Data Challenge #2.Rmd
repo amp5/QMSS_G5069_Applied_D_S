@@ -8,20 +8,67 @@ due date: "3/22/2017"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Review the data:
+```{r}
+rm(list = ls(all = TRUE))   # cleans everything in the workspace
+
+library(readr)          # easier reading of flat files
+library(caret)          # classification and regresssion training package
+library(randomForest)   # Random Forests package
+
+# ::::::: SOME USEFUL DEFINITIONS :::::::::::::::::::::::::::::::::::::::::::::  
+
+# set the general path for the project at its root, specific files will define 
+# their own branches individually
+# NOTE that specifying your path will be different in Windows
+
+path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges/datachallenge2"
+
+## ENTER YOUR PATH AND COMMENT OUT THE PATH ABOVE
+
+# define additional paths for files you will use. In each case, determine
+# appropriate additions to the path
+
+inFileName1   <- "data/processed/AllViolenceData_170216.csv"     # cleaned data on violence
+outFileName1  <- "graphs/RF_VarImportance.pdf"       
+outFileName2  <- "graphs/RF_MSE.pdf"  
+
+# ::::::: APPLY INITIAL DEFINITIONS ::::::::::::::::::::::::::::::::::::::::::: 
+
+# set your path to that defined above, and confirm it
+setwd(path)   
+getwd()
+
+# ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 
+# :::::::::::::::::::::: LOADS DATA :::::::::::::::::::::::::::::::::::::::::::  
+
+
+# ::::::: LOADING RAW DATA
+# note that read_csv() guesses column types, so that date is read as a date 
+# very useful for plotting time series
+
+AllData <- read_csv(inFileName1) 
+
+# rough validations that data was correctly loaded
+names(AllData)
+nrow(AllData)
+summary(AllData)
+
+## The authories involved in each event are noted in their own columns in the 
+## dataset.  For example when `AllData$army == 1` the army was involved.
+## Guide to authority lookup:
+auth_lookup <- "data/external/LookupAuthorityNames.csv"
+auth_lookup_data <- read.csv(auth_lookup)
+```
+
+
 This is a team assignment. Please create a file on your team GitHub repo where 
 you answer the challenge, including links to your code, and graphs.
 
-Group notes (to be deleted):
-  * should we all do one model on our own each, then we all do the 4th model collectively to evenly spread out the work?
-  
-  * did he add more data/variables?
-  
-  *use the chucks is needed, delete the chuck under each question if its not needed.
-  
 #__Model #1 for question #1:__
 
 ###1.	Ask two (2) questions that might help you understand better the dynamics of 
-###violence contained on our datas et. Apply one algorithm per question and share 
+###violence contained on our dataset. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
   *Stephanie 
