@@ -1,0 +1,31 @@
+# #######################################################################
+# File-Name:  demographics and crime stats_v2
+# Version:  2
+# Previous Version:  demographics and crime stats_v1
+# Date: 03/13/17 
+# Author: Stephanie Langeland 
+# Purpose: 
+# Input Files: cleaned_2015_crime_data.csv
+# Output Files: None
+# Data Output: None
+# Dependencies: None
+# Required by: Final Prject
+# Status: In progress 
+# Machine: Stephanie's 2011 MacBook Pro
+# R version: 3.3.3
+# #######################################################################
+
+# Crime Stats for the Bronx: analysis:
+```{r}
+rm(list = ls(all = TRUE))   # cleans everything in the workspace
+
+path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/cleaned_2015_crime_data.csv"
+
+crime_data <- read.csv(path)
+
+unique(crime_data$crime) ## get unique row names because raw_crime1$CRIME contains repeated rows for each PCT 
+
+## does probable cause match the popular crimes in the area?
+## stop and frisk by crime per capita sort of thing
+```
+

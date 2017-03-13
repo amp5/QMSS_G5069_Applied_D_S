@@ -3,9 +3,9 @@
 # Version:  1
 # Date: 03/04/17 
 # Author: Stephanie Langeland 
-# Purpose: Find demographic and crime stats data
-# Input Files: 2015_stopandfrisk_CLEAN_w_counties.csv 
-# Output Files: None yet
+# Purpose: Find demographic and crime stats data/clean the data
+# Input Files: 2015_stopandfrisk_CLEAN_w_counties.csv, crime data_combined_raw2.csv
+# Output Files: cleaned_2015_crime_data.csv
 # Data Output: None
 # Dependencies: None
 # Required by: Final Prject
@@ -171,7 +171,7 @@ BLK <- round(((12919	/ 475378) * 100), digits = 2) # "Black"
 WHT <- round(((2389 / 299869) * 100), digits = 2) # "White" 
 WH <- round(((4907 / 146928) * 100), digits = 2) # "White - Hispanic"
 
-#MAKE THIS INTO A MATRIX AND WRITE UPA WUICK SUMMARY FOR WEDNESDAY 
+#MAKE THIS INTO A MATRIX AND WRITE UP A QUICK SUMMARY FOR WEDNESDAY 
 comparison <- matrix(c("Race", "% of each race who were stopped and frisked",
          "American Indian / Alaskan Native", AIAN,
          "Asian / Pacific Islander", API,
@@ -227,38 +227,24 @@ https://stackoverflow.com/questions/37509886/how-to-read-merged-excel-cells-with
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
-library(xlsx)
+path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/crime data_combined_raw2.csv"
 
-misdemeanors_raw <- read.xlsx(
-  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/misdemeanor_offenses_by_precinct_2000_2015.xls",
-  sheetIndex = 1 # sheet 1
-                              )
+raw_crime <- read.csv(path)
+raw_crime1 <- raw_crime ## create raw_crime1 to alter the data so that raw_crime stays in its original form
 
-non_seven_major_felony_raw <- read.xlsx(
-  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/non_seven_major_felony-offenses_by_precinct_2000_2015.xls",
-  sheetIndex = 1
-  )
+raw_crime1 <- raw_crime1[!grepl("TOTAL", raw_crime1$CRIME),] ## remove the rows with totals
 
-seven_major_felony_raw <- read.xlsx(
-  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/seven_major_felony_offenses_by_precinct_2000_2015.xls",
-  sheetIndex = 1
-  )
+raw_crime_2015 <- raw_crime1 ## create a dataset to store only 2015 data
 
-violation_offenses_raw <- read.xlsx(
-  file = "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/historical_citywide_crime_complaint_data_by_precinct_2000_2015/violation_offenses_by_precinct_2000_2015.xls", 
-  sheetIndex = 1
-  )
+raw_crime_2015 <- raw_crime_2015[ , -c(4:18)] ## remove all years that are not 2015
 
-# dealing with data that has merged cells:
-# https://stackoverflow.com/questions/37509886/how-to-read-merged-excel-cells-with-r
+colnames(raw_crime_2015)[4] <- "crimes_count" ## since all data are form 2015, rename raw_crime_2015$X2015
 
-# merge cleaned files
-# write csv
+colnames(raw_crime_2015)[3] <- "crime" ## rename raw_crime_2015$CRIME with lowercase column heading for consistency
+
+colnames(raw_crime_2015)[2] <- "pct" ## rename raw_crime_2015$PCT with lowercase column heading for consistency
+
+cleaned_2015_crime_data <- write.csv(raw_crime_2015, file = "cleaned_2015_crime_data.csv")
 ```
 
-# Crime Stats for the Bronx: analysis:
-```{r}
-#does probable cause match the popular crimes in the area?
-#stop and frisk by crime per capita sort of thing
-```
 
