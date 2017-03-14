@@ -100,36 +100,37 @@ AllData <- as.data.frame(AllData)
   * 
 
 ```{r}
-lm_new_linear <- lm(detained ~ weapons_seized + organized.crime.wounded,
-                 data = AllData)
+set.seed(1234)
+train <- sample(nrow(AllData), 2698)
+training <- AllData[train, ]
+testing <- AllData[-train, ]
 
-summary(lm_new_linear)
+train <- as.data.frame(train)
+training <- as.data.frame(training)
+testing <- as.data.frame(testing)
 
-plot(lm_new_linear) 
+linear <- lm(detained ~ weapons_seized + organized.crime.wounded, 
+             data = AllData, 
+             subset = training)
+
+quadratic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
+                data = AllData,
+                subset = training)
+ 
+cubic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+            data = AllData,
+            subset = training)
+
+quartic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+              data = AllData,
+              subset = training)
+
+p_linear <- predict(linear, newdata = testing)
+p_quadratic <- predict(quadratic, newdata = testing)
+p_cubic <- predict(cubic, newdata = testing)
+p_quartic <- predict(quartic, newdata = testing)
 
 
-lm_new_quadratic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
-                 data = AllData)
-
-summary(lm_new_quadratic)
-
-plot(lm_new_quadratic) 
-
-
-lm_new_cubic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
-                 data = AllData)
-
-summary(lm_new_cubic)
-
-plot(lm_new_cubic) 
-
-
-lm_new_quartic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
-                 data = AllData)
-
-summary(lm_new_quartic)
-
-plot(lm_new_quartic) 
 ```
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
