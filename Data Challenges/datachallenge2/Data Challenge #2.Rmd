@@ -111,64 +111,7 @@ AllData_excluded <- AllData[!to_exclude, ] ## create a new dataset with events d
 AllData_excluded$military <- ifelse(AllData_excluded$military > 0, 1, 0)
 AllData_excluded$all_others <- ifelse(AllData_excluded$all_others > 0, 1, 0)
 
-# creates a random sample to split data into training and testing sets
-set.seed(12345) ## for reproducibility 
-train <- sample(nrow(AllData_excluded), 2646) ## split approximately in half
-training <- AllData_excluded[train, ] 
-testing <- AllData_excluded[-train, ]
-
-#:::::::::::::::OLS - doesn't work = DELETE:
-lm1_ols <- lm(military ~ clips.seized + cartridge.sezied + small.arms.seized + long.guns.seized, 
-          data = AllData_excluded)
-
-summary(lm1_ols)
-
-plot(lm1_ols) # non-liner - can't use it
-
-lm2_ols <- lm(all_others ~ clips.seized + cartridge.sezied + small.arms.seized + long.guns.seized, 
-          data = AllData_excluded)
-
-summary(lm2_ols)
-
-plot(lm2_ols) # non-liner - can't use it
-
-#::::::::::::::: Random Forest:
-#fits model on training set
-RandomForestFit_1 <- train(military ~ 
-                             clips.seized + 
-                             cartridge.sezied + 
-                             small.arms.seized + 
-                             long.guns.seized, 
-                           data = training,
-                           method = "rf",       # defines Random Forests
-                           importance = TRUE,   # keeps variable importance
-                           prox = TRUE,
-                           preProc = c("center", "scale") # standardizes variables
-                           )
-
-# gets initial output from model
-print(RandomForestFit_1)
-
-# gets a description of the model
-print(RandomForestFit$finalModel)
-
-# gets predictions on the test set
-RandomForestPredict <- predict(RandomForestFit, testing)
-
-
-# :: A quick look to evaluate the model
-
-# gets variable importance
-VIMP <- varImp(RandomForestFit)
-pdf(outFileName1) 
-plot(VIMP)
-dev.off()
-
-# plots MSE of the model 
-pdf(outFileName2) 
-plot(RandomForestFit$finalModel, main = "")
-dev.off()
-#:::::::::::::::
+# Sum the x variables into one column - maybe the regression will work then:
 
 ```
 
@@ -176,6 +119,31 @@ dev.off()
   * 
 
 ```{r}
+# OLS:
+## military model:
+ols_military <- lm(military ~ 
+                     clips.seized + 
+                     cartridge.sezied + 
+                     small.arms.seized + 
+                     long.guns.seized, 
+                   data = AllData_excluded)
+
+summary(ols_military)
+
+plot(ols_military) 
+
+## all_others model:
+ols_all_others <- lm(all_others ~ 
+                       clips.seized + 
+                       cartridge.sezied + 
+                       small.arms.seized + 
+                       long.guns.seized, 
+                     data = AllData_excluded)
+
+summary(ols_all_others)
+
+plot(ols_all_others)
+
 
 ```
 
@@ -208,7 +176,7 @@ dev.off()
   * 
   
 ```{r}
-
+library(ggplot2)
 ```
 
 ###1g	phrase your finding for each question in two ways:
