@@ -8,7 +8,7 @@ due date: "3/22/2017"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Review the data:
+Review the data: 
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
