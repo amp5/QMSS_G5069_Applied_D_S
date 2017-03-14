@@ -142,7 +142,7 @@ p_liner_table # linear regression confusion matrix
 p_quartic_table # quartic regression confusion matrix
 p_cubic_table # cubic regression confusion matrix 
 ```
-  * Analysis of the output:  the cubic regression model had the highest 
+  * __Analysis of the output:__  The cubic regression model had the highest 
   prediction accuracy of 0.7135 or 71.35% in using wounded organized crime members
   and all weapons seized to predict whether people would be detained or not.  The
   cubic confusion matrix shows that the model correctly predicted that no one
@@ -159,17 +159,24 @@ p_cubic_table # cubic regression confusion matrix
 
 ###1c)	be explicit about the limitations of your anaylisis, due to estimation 
 ###or to the data itself
-  * The limitations of the cubic regression model is shown through various diagnostic 
-  plots using the entire dataset:
+  * The limitations of the cubic regression model are shown through various diagnostic 
+  plots using the entire dataset.  Refer to the analysis below the plots. 
 
 ```{r}
 plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
         data = AllData)) # cubic regression
 ```  
 
-  1.) __Residuals vs Fitted plot:__ 
+  1.) __Residuals vs Fitted plot:__ This plot shows if residuals have non-linear 
+  patterns.  Although the cubic model had the highest prediction accuracy of all
+  the regression models,the residuals do not show cubic relationship on this plot,
+  but rather two linear lines that have a clear turning point.  Therefore, the cubic
+  nature of the model may not actually be the most appropriate fit for the data. This
+  may help explain why there was unbalanced prediction accuracy in that more "not detained"
+  cases were predicted than "detained" cases. 
   
-  2.) __Normal Q-Q plot:__
+  2.) __Normal Q-Q plot:__ This plot shows if residuals are normally distributed.  Since
+  the points on the graph are not 
   
   3.) __Scale-Location plot:__ 
   

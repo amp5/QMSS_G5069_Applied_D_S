@@ -376,7 +376,7 @@ p_quartic_table &lt;- confusionMatrix(testing$detained_resp, as.integer(p_quarti
 ##        'Positive' Class : 0              
 ## </code></pre>
 <ul>
-<li>Analysis of the output: the cubic regression model had the highest prediction accuracy of 0.7135 or 71.35% in using wounded organized crime members and all weapons seized to predict whether people would be detained or not. The cubic confusion matrix shows that the model correctly predicted that no one would be detained 1,875 times and people would be detained 50 times. Although the model has the highest prediction accuracy, it is mainly driven by correct predictions of no one being detained. Overall, it does not successfully predict when people will be detained. Therefore, this model will not help Mexican authorities understand drivers of detention rates, since it does not consistently predict how the number of organized crime members wounded and weapons seized relate to whether people are detained or not. Furhermore, the model incorrectly predicted that people would be detained in 737 events when no one was detained. It also incorrectly predicted that people would not be detained when people were detained in 36 events.</li>
+<li><strong>Analysis of the output:</strong> The cubic regression model had the highest prediction accuracy of 0.7135 or 71.35% in using wounded organized crime members and all weapons seized to predict whether people would be detained or not. The cubic confusion matrix shows that the model correctly predicted that no one would be detained 1,875 times and people would be detained 50 times. Although the model has the highest prediction accuracy, it is mainly driven by correct predictions of no one being detained. Overall, it does not successfully predict when people will be detained. Therefore, this model will not help Mexican authorities understand drivers of detention rates, since it does not consistently predict how the number of organized crime members wounded and weapons seized relate to whether people are detained or not. Furhermore, the model incorrectly predicted that people would be detained in 737 events when no one was detained. It also incorrectly predicted that people would not be detained when people were detained in 36 events.</li>
 </ul>
 </div>
 <div id="c-be-explicit-about-the-limitations-of-your-anaylisis-due-to-estimation" class="section level3">
@@ -385,7 +385,7 @@ p_quartic_table &lt;- confusionMatrix(testing$detained_resp, as.integer(p_quarti
 <div id="or-to-the-data-itself" class="section level3">
 <h3>or to the data itself</h3>
 <ul>
-<li>The limitations of the cubic regression model is shown through various diagnostic plots using the entire dataset:</li>
+<li>The limitations of the cubic regression model are shown through various diagnostic plots using the entire dataset. Refer to the analysis below the plots.</li>
 </ul>
 <pre class="r"><code>plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
         data = AllData)) # cubic regression</code></pre>
