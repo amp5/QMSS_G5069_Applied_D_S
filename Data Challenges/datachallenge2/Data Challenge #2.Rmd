@@ -159,29 +159,62 @@ p_quartic_table # quartic regression confusion matrix
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
 ###or to the data itself
-  * The limitations of the regression models are shown through various visualizations 
-  of model using the entire dataset:
+  * The limitations of the regression model is shown through various diagnostic 
+  plots for each model using the entire dataset ( models are in order from worst 
+  to best prediction accuracy):
+
+```{r}
+plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+        data = AllData)) # cubic regression
+```  
+
+  1.) Residuals vs Fitted plot (cubic regression): 
+  
+  2.) Normal Q-Q plot (cubic regression):
+  
+  3.) Scale-Location plot (cubic regression): 
+  
+  4.) Residuals vs Leverage plot (cubic regression): 
+  
+```{r}
+plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
+        data = AllData)) # quadratic regression
+```
+  
+  1.) Residuals vs Fitted plot (quadratic regression): 
+  
+  2.) Normal Q-Q plot (quadratic regression):
+  
+  3.) Scale-Location plot (quadratic regression): 
+  
+  4.) Residuals vs Leverage plot (quadratic regression): 
   
 ```{r}
 plot(lm(detained_resp ~ weapons_seized + organized.crime.wounded, 
         data = AllData))# linear regression 
 ```
 
+  1.) Residuals vs Fitted plot (linear regression): 
+  
+  2.) Normal Q-Q plot (linear regression):
+  
+  3.) Scale-Location plot (linear regression): 
+  
+  4.) Residuals vs Leverage plot (linear regression): 
+  
 ```{r}
-plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
-        data = AllData)) # quadratic regression
+plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 4),
+        data = AllData)) # quartic regression
 ```
-
-```{r}
-plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
-        data = AllData)) # cubic regression
-```
-
-```{r}
-quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 4),
-              data = AllData) # quartic regression
-```
-
+ 
+  1.) Residuals vs Fitted plot (quartic regression): 
+  
+  2.) Normal Q-Q plot (quartic regression):
+  
+  3.) Scale-Location plot (quartic regression): 
+  
+  4.) Residuals vs Leverage plot (quartic regression): 
+  
 ###1d	did you find something interesting? what is that? does your finding 
 ###suggest this question is worth pursuing further? why or why not?
     * 
