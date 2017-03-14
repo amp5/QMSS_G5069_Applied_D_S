@@ -99,22 +99,21 @@ AllData$all_others <- transform(AllData$other +
                             AllData$afi) ## if > 1, more than one group participated in the event
 
 AllData$both_groups <- ifelse(AllData$military > 0 & AllData$all_others > 0,
-                              "yes",
-                              "no") ## both AllData$military and AllData$all_others participated in the event
+                              "yes", ## both AllData$military and AllData$all_others participated in the event
+                              "no") 
 
-# Exclude rows where both AllData$military and AllData$all_others participated 
-# because there should be no overlap for a true comparison in the model:
-to_exclude <- which(AllData$both_groups == "yes")
-to_exclude
-AllData_excluded <- AllData[!c(to_exclude), ]
+to_exclude <- AllData$both_groups == "yes" ## rows for which both AllData$military and AllData$all_others participated in the event
 
-# -----
+AllData_excluded <- AllData[!to_exclude, ] ## create a new dataset with events during which EITHER the `military` OR `all_other` groups participated in each event - no overlap
+
 # creates a random sample to split data into training and testing sets
-set.seed(12345)
-train <- sample(nrow(AllData), 2698)
-training <- AllData[train, ] 
-testing <- AllData[-train, ]
+set.seed(12345) ## for reproducibility 
+train <- sample(nrow(AllData_excluded), 2646) ## split approximately in half
+training <- AllData_excluded[train, ] 
+testing <- AllData_excluded[-train, ]
 
+
+## ::::::::THIS IS THE PROFESSOR'S CODE - LOOK AT DATA MINING NOTES TO DETERMINE WHICH TYPE OF MODEL TO USE:
 #fits model on training set
 RandomForestFit <- train(organized.crime.dead ~ organized.crime.wounded +
                              afi + army + navy + federal.police +
