@@ -189,17 +189,23 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   uncorrelated and uniform. 
   
   4.) __Residuals vs Leverage plot:__ This plot illumiates outliers that may 
-  be influential to regresson results.  The extreme outliers that may be heavily
-  influential to the regression results are outliers # 135 and 1429.  These outliers
-  deviate the most from the 
+  be influential to regresson results.  The extreme outliers # 135 and 1429 
+  are outside of the Cook’s distance (represented by the dotted line).  These
+  cases are influential to the regression results, which will be altered if
+  these cases are excluded from the model.
 
-  __Conclusion:__
+  __Conclusion:__ Given the analysis of the diagnostic plots above, the cubic 
+  model has serious limitations that violate the basic regression assumptions.
+  These limitations may invalidate the regression results.  The severity  of
+  these limitations may become less influential as more data are collected.
+  As more data are collected, theoretically, the distribution should normalize
+  and become homoscedastic.
   
 ###1d)	did you find something interesting? what is that? does your finding 
 ###suggest this question is worth pursuing further? why or why not?
     *  predicting not detained is much better than predicting detained. might not be worth
     persuing my question bc these models would help the Mexican authorities 
-    detain more people.
+    detain more people. not worth pursuing bc of the limtiations discovered in #1c
 
 ###1e)	if you did not find something interesting, explain why, and whether 
 ###there is some additional information that would help in answering your question
