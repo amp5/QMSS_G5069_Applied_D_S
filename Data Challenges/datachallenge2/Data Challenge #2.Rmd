@@ -236,19 +236,35 @@ ggplot(data = AllData) +
 
 ###1f)	provide your code, and a single visualization per question that summarizes 
 ###your finding
-  * refer to the plot functions?  or 
-  make histogram of x = weapons, x = organized crime wounded, y = WHETHER people were detained?
+  * need help graphing fitted (p_cubic) vs. actual (cubic) values 
   
 ```{r}
-plot(p_cubic)
+
+
+ggplot(AllData) + 
+  geom_jitter(aes(weapons_seized, detained_resp), color = "blue") + 
+  geom_smooth(aes(weapons_seized, detained_resp), method = lm, se = TRUE) +
+  geom_jitter(aes(organized.crime.wounded, detained_resp), color = "green") + 
+  geom_smooth(aes(organized.crime.wounded, detained_resp), method = lm, se = TRUE) +
+  labs(x = "Predicted", 
+       y = "Number of Detained")
 ```
 
 ###1g)	phrase your finding for each question in two ways:
 ###1g-1)	one sentence that summarizes your insight
-  * 
+  * A cubic model used the number of organized crime members wounded and weapons 
+  seized per event to successfully predict when people will not be detained but 
+  not when people will be detained with the same level of accuracy. 
 
 ###1g-2)	one paragraph that reflects all nuance in your insight
-  * 
+  * A cubic model used the number of organized crime members wounded and weapons 
+  seized per event to successfully predict when people will not be detained but 
+  not when people will be detained with the same level of accuracy. The distribution
+  of the data is not normal and skewed with more cases when people were not detained.
+  Additionally, the data suffers from heteroscedasticity and extreme outliers that
+  influence the regression results.  Overall, the cubic model violates multiple
+  regression assumptions and the ouput is not useful in predicting when people will
+  be detained.
         
 ###1h)	make sure to also include your code
   
