@@ -112,7 +112,13 @@ AllData_excluded$military <- ifelse(AllData_excluded$military > 0, 1, 0)
 AllData_excluded$all_others <- ifelse(AllData_excluded$all_others > 0, 1, 0)
 
 # Sum the x variables into one column - maybe the regression will work then:
+AllData_excluded$weapons_seized <- transform(AllData_excluded$clips.seized + 
+                                               AllData_excluded$cartridge.sezied +
+                                               AllData_excluded$small.arms.seized +
+                                               AllData_excluded$long.guns.seized)
 
+typeof(AllData_excluded$weapons_seized)
+AllData_excluded$weapons_seized <- as.double(AllData_excluded$weapons_seized)
 ```
 
 ###1b	show the output from your analysis in a consumable form
@@ -120,7 +126,7 @@ AllData_excluded$all_others <- ifelse(AllData_excluded$all_others > 0, 1, 0)
 
 ```{r}
 # OLS:
-## military model:
+## military model with individual x variables:
 ols_military <- lm(military ~ 
                      clips.seized + 
                      cartridge.sezied + 
@@ -144,7 +150,13 @@ summary(ols_all_others)
 
 plot(ols_all_others)
 
+## military model using AllData_excluded$weapons_seized:
+ols_military2 <- lm(military ~ weapons_seized, 
+                   data = AllData_excluded)
 
+summary(ols_military2)
+
+plot(ols_military2) 
 ```
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
