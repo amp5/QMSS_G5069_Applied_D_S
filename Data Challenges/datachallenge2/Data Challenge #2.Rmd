@@ -184,14 +184,87 @@ lm_new_linear <- lm(detained ~ weapons_seized + organized.crime.wounded,
 
 summary(lm_new_linear)
 
-plot(lm_new_linear) # looks quadratic?
+plot(lm_new_linear) 
 
-lm_new_linear <- lm(detained ~ weapons_seized + organized.crime.wounded,
+
+lm_new_quadratic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
                  data = AllData)
 
-summary(lm_new_linear)
+summary(lm_new_quadratic)
 
-plot(lm_new_linear) # looks quadratic?
+plot(lm_new_quadratic) 
+
+
+lm_new_cubic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+                 data = AllData)
+
+summary(lm_new_cubic)
+
+plot(lm_new_cubic) 
+
+
+lm_new_quartic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+                 data = AllData)
+
+summary(lm_new_quartic)
+
+plot(lm_new_quartic) 
+
+#Random Forest:
+stopifnot(require(randomForest))
+AllData <- as.data.frame(AllData)
+set.seed(12345) ## for reproducibility 
+train <- sample(nrow(AllData), 2698) ## split in half
+training <- AllData[train, ] 
+testing <- AllData[-train, ]
+
+#Random Forest:
+#bagged <- randomForest(detained ~ 
+#                             weapons_seized +
+#                             organized.crime.wounded, 
+#                       data = training, 
+#                       mtry = 2, 
+#                       importance = TRUE) 
+
+#bagged
+#pb <- plot(bagged) 
+#varImpPlot(bagged) 
+
+
+#::::::
+#fits model on training set
+RandomForestFit_1 <- train(detained ~ 
+                             weapons_seized +
+                             organized.crime.wounded,
+                           data = training,
+                           method = "rf",       # defines Random Forests
+                           importance = TRUE,   # keeps variable importance
+                           prox = TRUE,
+                           preProc = c("center", "scale") # standardizes variables
+                           )
+
+# gets initial output from model
+print(RandomForestFit_1)
+
+# gets a description of the model
+print(RandomForestFit$finalModel)
+
+# gets predictions on the test set
+RandomForestPredict <- predict(RandomForestFit, testing)
+
+
+# :: A quick look to evaluate the model
+
+# gets variable importance
+VIMP <- varImp(RandomForestFit)
+pdf(outFileName1) 
+plot(VIMP)
+dev.off()
+
+# plots MSE of the model 
+pdf(outFileName2) 
+plot(RandomForestFit$finalModel, main = "")
+dev.off()
 ```
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
