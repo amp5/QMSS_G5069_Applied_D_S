@@ -239,7 +239,21 @@ ggplot(data = AllData) +
   * need help graphing fitted (p_cubic) vs. actual (cubic) values 
   
 ```{r}
+ggplot(data = AllData) +
+  geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = "red") +
+  geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = "red") +
+  geom_point(mapping = aes(x = organized.crime.wounded, y = detained_resp), color = "blue") #+
+#  geom_smooth()
 
+ggplot(data = training, testing) +
+  geom_point(aes(cubic, p_cubic)) #+
+  #geom_point(aes(p_cubic))
+
+plot(AllData$organized.crime.wounded, AllData$detained_resp, 
+     xlim = range(AllData$organized.crime.wounded, AllData$weapons_seized), 
+     ylim = range(AllData$detained_resp, AllData$detained_resp)) 
+
+points(AllData$weapons_seized, AllData$detained_resp, col='red') 
 
 ggplot(AllData) + 
   geom_jitter(aes(weapons_seized, detained_resp), color = "blue") + 
