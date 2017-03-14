@@ -83,6 +83,8 @@ you answer the challenge, including links to your code, and graphs.
   * The variables `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
   `long.guns.seized` will be summed into one variable name `weapons_seized`.
   
+  * Make a new variable named `detained_resp` for to record whether people 
+  where detained (1) or not (0) in order to do a response prediction.
   
 ```{r}
 AllData$weapons_seized <- transform(AllData$clips.seized + 
@@ -92,6 +94,8 @@ AllData$weapons_seized <- transform(AllData$clips.seized +
 
 typeof(AllData$weapons_seized)
 AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized)))
+
+AllData$detained_resp <- ifelse(AllData$detained > 1, 1, 0)
 
 AllData <- as.data.frame(AllData)
 ```
@@ -105,27 +109,21 @@ train <- sample(nrow(AllData), 2698)
 training <- AllData[train, ]
 testing <- AllData[-train, ]
 
-train <- as.data.frame(train)
-training <- as.data.frame(training)
-testing <- as.data.frame(testing)
+linear <- lm(detained_resp ~ weapons_seized + organized.crime.wounded, 
+             data = training)
 
-linear <- lm(detained ~ weapons_seized + organized.crime.wounded, 
-             data = AllData, 
-             subset = training)
-
-quadratic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
-                data = AllData,
-                subset = training)
+quadratic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
+                data = training)
  
-cubic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
-            data = AllData,
-            subset = training)
+cubic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+            data = training)
 
-quartic <- lm(detained ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
-              data = AllData,
-              subset = training)
+quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+              data = training)
 
-p_linear <- predict(linear, newdata = testing)
+p_linear <- predict(linear, newdata = testing, type = "response")
+table(testing$detained_resp, as.integer(p_linear > 0))
+ 
 p_quadratic <- predict(quadratic, newdata = testing)
 p_cubic <- predict(cubic, newdata = testing)
 p_quartic <- predict(quartic, newdata = testing)
