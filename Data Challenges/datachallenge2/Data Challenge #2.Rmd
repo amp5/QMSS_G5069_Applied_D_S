@@ -100,7 +100,8 @@ AllData$all_others <- cbind(AllData$other,
 
 # Exclude rows where both AllData$military == 1 & AllData$all_others == 1 because
 # we need no overlap for a true comparison:
-summary(AllData$military == 1 & AllData$all_others == 1)
+summary(AllData$military == 1 & AllData$all_others == 1) # if true, then both groups participated in one event
+summary(AllData$military == 0 & AllData$all_others == 0) # if true, then neither group participated in one event - so who participated?  this should not have any hits
 
 # -----
 # creates a random sample to split data into training and testing sets
