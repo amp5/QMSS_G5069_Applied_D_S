@@ -52,9 +52,9 @@ getwd()
 AllData <- read_csv(inFileName1) 
 
 # rough validations that data was correctly loaded
-names(AllData)
-nrow(AllData)
-summary(AllData)
+## names(AllData)
+## nrow(AllData)
+## summary(AllData)
 
 ## The authories involved in each event are noted in their own columns in the 
 ## dataset.  For example when `AllData$army == 1` the army was involved.
@@ -68,7 +68,7 @@ you answer the challenge, including links to your code, and graphs.
 
 #__Model #1 for question #1:__
 
-###1.	Ask two (2) questions that might help you understand better the dynamics of 
+###1.)	Ask two (2) questions that might help you understand better the dynamics of 
 ###violence contained on our dataset. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
@@ -77,13 +77,13 @@ you answer the challenge, including links to your code, and graphs.
   all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
   `long.guns.seized`) seized and wounded organized crime members as predictors?
 
-###1a	perform the necessary transformations in your data - if any are needed, 
+###1a)	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
 
   * The variables `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
-  `long.guns.seized` will be summed into one variable name `weapons_seized`.
+  `long.guns.seized` will be summed into one variable named `weapons_seized`.
   
-  * A new variable wil be created named `detained_resp` to record whether people 
+  * A new variable will be created named `detained_resp` to record whether people 
   where detained (`1`) or not (`0`) in order to predict the response of whether
   people will be detained or not.
   
@@ -96,12 +96,12 @@ AllData$weapons_seized <- transform(AllData$clips.seized +
 typeof(AllData$weapons_seized)
 AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized))) # convert from list to numeric for regression models
 
-AllData$detained_resp <- ifelse(AllData$detained > 1, 1, 0)
+AllData$detained_resp <- ifelse(AllData$detained > 0, 1, 0) 
 
 AllData <- as.data.frame(AllData)
 ```
 
-###1b	show the output from your analysis in a consumable form
+###1b)	show the output from your analysis in a consumable form
   * Regression Models:
 ```{r}
 set.seed(1234)  # for reproducibility 
@@ -137,123 +137,88 @@ p_quartic_table <- confusionMatrix(testing$detained_resp, as.integer(p_quartic >
   A confusion matrix was constructed for each of the models and ranked in 
   order from worst to best prediction accuracy:
 ```{r}
-p_cubic_table # cubic regression confusion matrix 
 p_quadratic_table # quadratic regression confusion matrix 
 p_liner_table # linear regression confusion matrix 
 p_quartic_table # quartic regression confusion matrix
+p_cubic_table # cubic regression confusion matrix 
 ```
-  * Analysis of the output:  the quartic regression model had the highest 
-  prediction accuracy of 0.785 or 78.5% in using wounded organized crime members
+  * Analysis of the output:  the cubic regression model had the highest 
+  prediction accuracy of 0.7135 or 71.35% in using wounded organized crime members
   and all weapons seized to predict whether people would be detained or not.  The
-  quartic confusion matrix shows that the model correctly predicted that no one
-  would be detained 2,086 times and people would be detained 32 times. Although 
+  cubic confusion matrix shows that the model correctly predicted that no one
+  would be detained 1,875 times and people would be detained 50 times. Although 
   the model has the highest prediction accuracy, it is mainly driven by correct 
-  predictions of no one being detained.  It does not do a successful job of 
-  predicting when people will be detained.  Therefore, this model will not help
-  Mexican authorities understand driven of detention rates, since it does not
-  predict how the number of organized crime members wounded and weapons seized
+  predictions of no one being detained.  Overall, it does not successfully 
+  predict when people will be detained.  Therefore, this model will not help
+  Mexican authorities understand drivers of detention rates, since it does not
+  consistently predict how the number of organized crime members wounded and weapons seized
   relate to whether people are detained or not. Furhermore, the model incorrectly
-  predicted that people would be detained in 547 events when no one was detained.
-  It also incorrectly predicted that people would not be detained when they were
-  detained in 33 events.
+  predicted that people would be detained in 737 events when no one was detained.
+  It also incorrectly predicted that people would not be detained when people were
+  detained in 36 events.
 
-###1c	be explicit about the limitations of your anaylisis, due to estimation 
+###1c)	be explicit about the limitations of your anaylisis, due to estimation 
 ###or to the data itself
-  * The limitations of the regression model is shown through various diagnostic 
-  plots for each model using the entire dataset ( models are in order from worst 
-  to best prediction accuracy):
+  * The limitations of the cubic regression model is shown through various diagnostic 
+  plots using the entire dataset:
 
 ```{r}
 plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
         data = AllData)) # cubic regression
 ```  
 
-  1.) Residuals vs Fitted plot (cubic regression): 
+  1.) __Residuals vs Fitted plot:__ 
   
-  2.) Normal Q-Q plot (cubic regression):
+  2.) __Normal Q-Q plot:__
   
-  3.) Scale-Location plot (cubic regression): 
+  3.) __Scale-Location plot:__ 
   
-  4.) Residuals vs Leverage plot (cubic regression): 
+  4.) __Residuals vs Leverage plot:__
   
-```{r}
-plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
-        data = AllData)) # quadratic regression
-```
+  __Conclusion:__
   
-  1.) Residuals vs Fitted plot (quadratic regression): 
-  
-  2.) Normal Q-Q plot (quadratic regression):
-  
-  3.) Scale-Location plot (quadratic regression): 
-  
-  4.) Residuals vs Leverage plot (quadratic regression): 
-  
-```{r}
-plot(lm(detained_resp ~ weapons_seized + organized.crime.wounded, 
-        data = AllData))# linear regression 
-```
-
-  1.) Residuals vs Fitted plot (linear regression): 
-  
-  2.) Normal Q-Q plot (linear regression):
-  
-  3.) Scale-Location plot (linear regression): 
-  
-  4.) Residuals vs Leverage plot (linear regression): 
-  
-```{r}
-plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 4),
-        data = AllData)) # quartic regression
-```
- 
-  1.) Residuals vs Fitted plot (quartic regression): 
-  
-  2.) Normal Q-Q plot (quartic regression):
-  
-  3.) Scale-Location plot (quartic regression): 
-  
-  4.) Residuals vs Leverage plot (quartic regression): 
-  
-###1d	did you find something interesting? what is that? does your finding 
+###1d)	did you find something interesting? what is that? does your finding 
 ###suggest this question is worth pursuing further? why or why not?
-    * 
-  
-```{r}
+    *  predicting not detained is much better than predicting detained. might not be worth
+    persuing my question bc these models would help the Mexican authorities 
+    detain more people.
 
-```
-
-###1e	if you did not find something interesting, explain why, and whether 
+###1e)	if you did not find something interesting, explain why, and whether 
 ###there is some additional information that would help in answering your question
-  * 
+  * this won't help the authorities detain people but they couldn't use these models
+  to understand that they should not be focused on seixing weapons and woudning organized crime
+  members if the goal is to detain people.  additional info that would help - are here less 
+  people detained overall in the dataset - is that why the models 
+  aren't very good at predicting when people will be detained? 
   
 ```{r}
-
+# quick tibble with count of 0's for detained_response and 1's in each column 
 ```
 
-###1f	provide your code, and a single visualization per question that summarizes 
+
+###1f)	provide your code, and a single visualization per question that summarizes 
 ###your finding
   * refer to the plot functions?  or 
-  make hstogram of x = weapons, x = organized crime wounded, y = WHETHER people were detained?
+  make histogram of x = weapons, x = organized crime wounded, y = WHETHER people were detained?
   
 ```{r}
 
 ```
 
-###1g	phrase your finding for each question in two ways:
-###1g-1	one sentence that summarizes your insight
+###1g)	phrase your finding for each question in two ways:
+###1g-1)	one sentence that summarizes your insight
   * 
 
-###1g-2	one paragraph that reflects all nuance in your insight
+###1g-2)	one paragraph that reflects all nuance in your insight
   * 
         
-###1h	make sure to also include your code
+###1h)	make sure to also include your code
   
   * The code is included under each quetsion above.
   
 #__Model #2 for question #1:__
 
-###1.	Ask two (2) questions that might help you understand better the dynamics of 
+###1.)	Ask two (2) questions that might help you understand better the dynamics of 
 ###violence contained on our datas et. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
@@ -264,7 +229,7 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###1a	perform the necessary transformations in your data - if any are needed, 
+###1a)	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
   * 
   
@@ -272,14 +237,14 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###1b	show the output from your analysis in a consumable form
+###1b)	show the output from your analysis in a consumable form
   * 
 
 ```{r}
 
 ```
 
-###1c	be explicit about the limitations of your anaylisis, due to estimation 
+###1c)	be explicit about the limitations of your anaylisis, due to estimation 
 ###or to the data itself
   * 
   
@@ -287,7 +252,7 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###1d	did you find something interesting? what is that? does your finding 
+###1d)	did you find something interesting? what is that? does your finding 
 ###suggest this question is worth pursuing further? why or why not?
     * 
   
@@ -295,7 +260,7 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###1e	if you did not find something interesting, explain why, and whether 
+###1e)	if you did not find something interesting, explain why, and whether 
 ###there is some additional information that would help in answering your question
   * 
   
@@ -303,7 +268,7 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###1f	provide your code, and a single visualization per question that summarizes 
+###1f)	provide your code, and a single visualization per question that summarizes 
 ###your finding
   * 
   
@@ -311,20 +276,20 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###1g	phrase your finding for each question in two ways:
-###1g-1	one sentence that summarizes your insight
+###1g)	phrase your finding for each question in two ways:
+###1g-1)	one sentence that summarizes your insight
   * 
 
-###1g-2	one paragraph that reflects all nuance in your insight
+###1g-2)	one paragraph that reflects all nuance in your insight
   * 
         
-###1h	make sure to also include your code
+###1h)	make sure to also include your code
   
   * The code is included under each quetsion above.
   
 #__Model #1 for question #2:__
   
-###2.	Formulate two (2) conditional hypotheses that you seek to investigate with 
+###2.)	Formulate two (2) conditional hypotheses that you seek to investigate with 
 ###the data. One of your hypotheses should condition on two variables (as the 
 ###example on the slides), and the other should condition on three variables. [50 pts]
     
@@ -335,22 +300,22 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 ```
 
   
-###2a	formulate each one of your hypotheses explicitly in substantive terms (as 
+###2a)	formulate each one of your hypotheses explicitly in substantive terms (as 
 ###opposed to statistical terms) using 2-3 lines at most
   * 
   
-###2b	show exactly how each one of your hypotheses translates into the marginal 
+###2b)	show exactly how each one of your hypotheses translates into the marginal 
 ###effect that you will seek to estimate from the data
   * 
   
-###2c	show the output from your analysis in a consumable form
+###2c)	show the output from your analysis in a consumable form
   * 
 
 ```{r}
 
 ```
 
-###2d	show all your computations to estimate the corresponding marginal effect 
+###2dv	show all your computations to estimate the corresponding marginal effect 
 ###and its standard error
   * 
 
@@ -358,26 +323,26 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###2e	be explicit in your assumptions
+###2e)	be explicit in your assumptions
   * 
   
 ###2f	be explicit in the limitations of your inferences
   * 
   
-###2g	phrase your finding for each question in two ways:
-###2g-1	one sentence that summarizes your insight
+###2g)	phrase your finding for each question in two ways:
+###2g-1)	one sentence that summarizes your insight
   * 
   
-###2g-2	one paragraph that reflects all nuance in your insight
+###2g-2)	one paragraph that reflects all nuance in your insight
   * 
   
-###2h	make sure to also include your code
+###2h)	make sure to also include your code
   
   * The code is included under each quetsion above.
 
 #__Model #1 for question #2:__
 
-###2.	Formulate two (2) conditional hypotheses that you seek to investigate with 
+###2.)	Formulate two (2) conditional hypotheses that you seek to investigate with 
 ###the data. One of your hypotheses should condition on two variables (as the 
 ###example on the slides), and the other should condition on three variables. [50 pts]
     
@@ -387,22 +352,22 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
   
-###2a	formulate each one of your hypotheses explicitly in substantive terms (as 
+###2a)	formulate each one of your hypotheses explicitly in substantive terms (as 
 ###opposed to statistical terms) using 2-3 lines at most
   * 
   
-###2b	show exactly how each one of your hypotheses translates into the marginal 
+###2b)	show exactly how each one of your hypotheses translates into the marginal 
 ###effect that you will seek to estimate from the data
   * 
   
-###2c	show the output from your analysis in a consumable form
+###2c)	show the output from your analysis in a consumable form
   * 
 
 ```{r}
 
 ```
 
-###2d	show all your computations to estimate the corresponding marginal effect 
+###2d)	show all your computations to estimate the corresponding marginal effect 
 ###and its standard error
   * 
 
@@ -410,20 +375,20 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ```
 
-###2e	be explicit in your assumptions
+###2e)	be explicit in your assumptions
   * 
   
-###2f	be explicit in the limitations of your inferences
+###2f)	be explicit in the limitations of your inferences
   * 
   
-###2g	phrase your finding for each question in two ways:
-###2g-1	one sentence that summarizes your insight
+###2g)	phrase your finding for each question in two ways:
+###2g-1)	one sentence that summarizes your insight
   * 
   
-###2g-2	one paragraph that reflects all nuance in your insight
+###2g-2)	one paragraph that reflects all nuance in your insight
   * 
   
-###2h	make sure to also include your code
+###2h)	make sure to also include your code
   
   * The code is included under each quetsion above.
   
