@@ -215,33 +215,22 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 
 ###1e)	if you did not find something interesting, explain why, and whether 
 ###there is some additional information that would help in answering your question
-  * 
-  this won't help the authorities detain people but they couldn't use these models
-  to understand that they should not be focused on seixing weapons and woudning organized crime
-  members if the goal is to detain people.  additional info that would help - are here less 
-  people detained overall in the dataset - is that why the models 
-  aren't very good at predicting when people will be detained? 
+  * The poor prediction accuracy of the cubic model in predicting when people will 
+  be detained may be attributed to the skewness of the data.  Below, we see that 
+  there were 3,787 events when no one was detained and 1,609 when people were 
+  detained.  Therefore, the model may not have enough data to better predict when
+  people will be detained.  The model may be more effective once more data are 
+  collected and the data become normally distributed. 
   
 ```{r}
-# quick tibble with count of 0's for detained_response and 1's in each column
-which(AllData$detained_resp == 0)
-
-nrow(AllData[AllData$detained_resp == 0,])
-length(AllData$detained_resp[AllData$detained_resp == 0])
-sum(which(AllData$detained_resp == 0))
-
-nrow(filter(AllData, AllData$detained_resp == "0"))
-
-library(tibble)
-no_detained <- tibble(x = AllData$detained_resp == 0, y = AllData$weapons_seized)
+nrow(AllData[AllData$detained_resp == "0",]) # Number of events when no one was detained
+nrow(AllData[AllData$detained_resp == "1",]) # Number of events when people were detained
 
 library(ggplot2)
 
 ggplot(data = AllData) +
-  geom_histogram(mapping = aes(x = weapons_seized, y = detained_resp == 1))
-
-ggplot(data = AllData) +
-  geom_histogram(mapping = aes(x = weapons_seized, y = detained_resp, z = organized.crime.wounded))
+  geom_histogram(mapping = aes(detained_resp)) +
+  xlab("No One Detained (x = 0) vs. Detained (x = 1")
 ```
 
 
@@ -251,7 +240,7 @@ ggplot(data = AllData) +
   make histogram of x = weapons, x = organized crime wounded, y = WHETHER people were detained?
   
 ```{r}
-
+plot(p_cubic)
 ```
 
 ###1g)	phrase your finding for each question in two ways:
