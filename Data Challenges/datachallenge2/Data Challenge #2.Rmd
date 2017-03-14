@@ -75,7 +75,7 @@ you answer the challenge, including links to your code, and graphs.
   
   * Does the military (army and navy) or all other forces combined (other, federal.police,
   state.police, municipal.police, ministerial.police, and afi) seize more of the following:
-  clips, cartridges, small arms, and long guns?
+  clips, cartridges, small arms, and long guns per event?
 
 ###1a	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
@@ -89,7 +89,7 @@ you answer the challenge, including links to your code, and graphs.
   
   
 ```{r}
-AllData$military <- transform(AllData$army + AllData$navy) ## if > 1, both groups participated in the event
+AllData$military <- transform(AllData$army + AllData$navy) ## if > 1, both the army and navy participated in the event
 
 AllData$all_others <- transform(AllData$other + 
                             AllData$federal.police +
@@ -104,13 +104,26 @@ AllData$both_groups <- ifelse(AllData$military > 0 & AllData$all_others > 0,
 
 to_exclude <- AllData$both_groups == "yes" ## rows for which both AllData$military and AllData$all_others participated in the event
 
-AllData_excluded <- AllData[!to_exclude, ] ## create a new dataset with events during which EITHER the `military` OR `all_other` groups participated in each event - no overlap
+AllData_excluded <- AllData[!to_exclude, ] ## create a new dataset with events during which EITHER the `military` OR `all_other` groups participated in each event - no overlap where both the military and all_others participated
+
+# In the AllData_exlcuded dataset, convert the AllData_exlcuded$military and 
+# AllData_exlcuded$all_others to a Bernoulli Distribution for OLS regression:
+AllData_excluded$military <- ifelse(AllData_excluded$military > 0, 1, 0)
+AllData_excluded$all_others <- ifelse(AllData_excluded$all_others > 0, 1, 0)
 
 # creates a random sample to split data into training and testing sets
 set.seed(12345) ## for reproducibility 
 train <- sample(nrow(AllData_excluded), 2646) ## split approximately in half
 training <- AllData_excluded[train, ] 
 testing <- AllData_excluded[-train, ]
+
+#OLS:
+lm1 <- lm(military ~ clips.seized + cartridge.sezied + small.arms.seized + long.guns.seized, 
+          data = AllData_excluded)
+
+summary(lm1)
+
+
 
 
 ## ::::::::THIS IS THE PROFESSOR'S CODE - LOOK AT DATA MINING NOTES TO DETERMINE WHICH TYPE OF MODEL TO USE:
@@ -122,7 +135,7 @@ RandomForestFit <- train(organized.crime.dead ~ organized.crime.wounded +
                          data = training,
                          method = "rf",       # defines Random Forests
                          importance = TRUE,   # keeps variable importance
-                         prox=TRUE,
+                         prox = TRUE,
                          preProc = c("center", "scale") # standardizes variables
                          )
 
