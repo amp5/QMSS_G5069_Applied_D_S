@@ -225,6 +225,7 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 ```{r}
 # quick tibble with count of 0's for detained_response and 1's in each column 
 library(ggplot2)
+
 ggplot(data = AllData) +
   geom_histogram(mapping = aes(x = weapons_seized, y = detained_resp, z = organized.crime.wounded))
 ```
