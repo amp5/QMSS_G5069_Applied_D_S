@@ -89,23 +89,24 @@ you answer the challenge, including links to your code, and graphs.
   
   
 ```{r}
-AllData$military <- transform(AllData$army + AllData$navy) ## if == 2, both the `army` and `navy` participated in the event, of == 1 only one partiicpated in the event
+AllData$military <- transform(AllData$army + AllData$navy) ## if > 1, both groups participated in the event
 
 AllData$all_others <- transform(AllData$other + 
                             AllData$federal.police +
                             AllData$state.police +
                             AllData$municipal.police +
                             AllData$ministerial.police +
-                            AllData$afi) ## if > 1 more than one group partiicpated in the event
+                            AllData$afi) ## if > 1, more than one group participated in the event
 
-# Exclude rows where both AllData$military == 1 & AllData$all_others == 1 because
-# we need no overlap for a true comparison:
-summary((AllData$military == 1) & (AllData$all_others == 1)) # if true, then both groups participated in one event
-which(AllData$military == 1, AllData$all_others == 1) # rows when both groups participated in one event
+AllData$both_groups <- ifelse(AllData$military > 0 & AllData$all_others > 0,
+                              "yes",
+                              "no") ## both AllData$military and AllData$all_others participated in the event
 
-summary(AllData$military == 0, AllData$all_others == 0) # if true, then neither group participated in one event - so who participated?  this should not have any hits
-which(AllData$military == 0, AllData$all_others == 0)
-
+# Exclude rows where both AllData$military and AllData$all_others participated 
+# because there should be no overlap for a true comparison in the model:
+to_exclude <- which(AllData$both_groups == "yes")
+to_exclude
+AllData_excluded <- AllData[!c(to_exclude), ]
 
 # -----
 # creates a random sample to split data into training and testing sets
