@@ -184,9 +184,11 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   3.) __Scale-Location plot:__ This plot shows whether the residuals are spread 
   equally along the ranges of predictors.  Since the predictors are not equally 
   spread throughout the graph, this suggests that the data suffer from heterscedasticity, 
-  meaning that variance among the residuals is not equal.
+  meaning that variance among the residuals is not equal.  This seriously 
+  undermines the validity of the model because the modeling errors my not be 
+  uncorrelated and uniform. 
   
-  4.) __Residuals vs Leverage plot:__
+  4.) __Residuals vs Leverage plot:__ This plot illumiates 
   
   __Conclusion:__
   
