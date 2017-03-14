@@ -442,8 +442,65 @@ ggplot(data = AllData) +
 <div id="your-finding" class="section level3">
 <h3>your finding</h3>
 <ul>
-<li>refer to the plot functions? or make histogram of x = weapons, x = organized crime wounded, y = WHETHER people were detained?</li>
+<li>need help graphing fitted (p_cubic) vs. actual (cubic) values</li>
 </ul>
+<pre class="{r"><code>ggplot()
+
+ggplot(training, aes(cubic)) + 
+   geom_line() +
+   geom_line(data = testing, color = &quot;red&quot;)
+
+ggplot(data = AllData) +
+  geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = &quot;red&quot;) +
+  geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = &quot;red&quot;) +
+  geom_point(mapping = aes(x = organized.crime.wounded, y = detained_resp), color = &quot;blue&quot;) #+
+#  geom_smooth()
+
+ggplot(data = training, testing) +
+  geom_point(aes(cubic, p_cubic)) #+
+  #geom_point(aes(p_cubic))
+
+plot(AllData$organized.crime.wounded, AllData$detained_resp, 
+     xlim = range(AllData$organized.crime.wounded, AllData$weapons_seized), 
+     ylim = range(AllData$detained_resp, AllData$detained_resp)) 
+
+points(AllData$weapons_seized, AllData$detained_resp, col='red') 
+
+ggplot(AllData) + 
+  geom_jitter(aes(weapons_seized, detained_resp), color = &quot;blue&quot;) + 
+  geom_smooth(aes(weapons_seized, detained_resp), method = lm, se = TRUE) +
+  geom_jitter(aes(organized.crime.wounded, detained_resp), color = &quot;green&quot;) + 
+  geom_smooth(aes(organized.crime.wounded, detained_resp), method = lm, se = TRUE) +
+  labs(x = &quot;Predicted&quot;, 
+       y = &quot;Number of Detained&quot;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</code></pre>
 </div>
 <div id="g-phrase-your-finding-for-each-question-in-two-ways" class="section level3">
 <h3>1g) phrase your finding for each question in two ways:</h3>
@@ -451,13 +508,13 @@ ggplot(data = AllData) +
 <div id="g-1-one-sentence-that-summarizes-your-insight" class="section level3">
 <h3>1g-1) one sentence that summarizes your insight</h3>
 <ul>
-<li></li>
+<li>A cubic model used the number of organized crime members wounded and weapons seized per event to successfully predict when people will not be detained but not when people will be detained with the same level of accuracy.</li>
 </ul>
 </div>
 <div id="g-2-one-paragraph-that-reflects-all-nuance-in-your-insight" class="section level3">
 <h3>1g-2) one paragraph that reflects all nuance in your insight</h3>
 <ul>
-<li></li>
+<li>A cubic model used the number of organized crime members wounded and weapons seized per event to successfully predict when people will not be detained but not when people will be detained with the same level of accuracy. The distribution of the data is not normal and skewed with more cases when people were not detained. Additionally, the data suffers from heteroscedasticity and extreme outliers that influence the regression results. Overall, the cubic model violates multiple regression assumptions and the ouput is not useful in predicting when people will be detained.</li>
 </ul>
 </div>
 <div id="h-make-sure-to-also-include-your-code" class="section level3">
