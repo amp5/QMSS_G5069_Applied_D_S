@@ -188,8 +188,11 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   undermines the validity of the model because the modeling errors my not be 
   uncorrelated and uniform. 
   
-  4.) __Residuals vs Leverage plot:__ This plot illumiates 
-  
+  4.) __Residuals vs Leverage plot:__ This plot illumiates outliers that may 
+  be influential to regresson results.  The extreme outliers that may be heavily
+  influential to the regression results are outliers # 135 and 1429.  These outliers
+  deviate the most from the 
+
   __Conclusion:__
   
 ###1d)	did you find something interesting? what is that? does your finding 
