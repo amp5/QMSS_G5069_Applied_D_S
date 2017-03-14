@@ -203,7 +203,14 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   
 ###1d)	did you find something interesting? what is that? does your finding 
 ###suggest this question is worth pursuing further? why or why not?
-    *  predicting not detained is much better than predicting detained. might not be worth
+    * It is interesting that the cubic model predicts the best out of all the models
+    but the predicitons are skewed towards predicting when no one will be detained.
+    This skewness in the prediction may be attributed to the findings noted in #1c 
+    above related to the viilations of regression assumptions, especially that the 
+    data are notmally distributed. Predicting whether or not people will be detained 
+    using all weapons seized and wounded organized crime members as predictors
+    
+    predicting not detained is much better than predicting detained. might not be worth
     persuing my question bc these models would help the Mexican authorities 
     detain more people. not worth pursuing bc of the limtiations discovered in #1c
 
