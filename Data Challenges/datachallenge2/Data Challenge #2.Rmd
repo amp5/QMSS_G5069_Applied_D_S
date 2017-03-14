@@ -74,8 +74,8 @@ you answer the challenge, including links to your code, and graphs.
 ###finding! It tells you whether a question is worth pursuing further or not.
   
   * Are all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
-  `long.guns.seized`) seized and organized crime wounded good predictors for the number 
-  of people detained?
+  `long.guns.seized`) seized and organized crime wounded good predictors for whether 
+  people will be detained?
 
 ###1a	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
@@ -84,7 +84,8 @@ you answer the challenge, including links to your code, and graphs.
   `long.guns.seized` will be summed into one variable name `weapons_seized`.
   
   * Make a new variable named `detained_resp` for to record whether people 
-  where detained (1) or not (0) in order to do a response prediction.
+  where detained (1) or not (0) in order to do a response prediction of whether
+  people will be detained or not.
   
 ```{r}
 AllData$weapons_seized <- transform(AllData$clips.seized + 
@@ -122,13 +123,16 @@ quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, deg
               data = training)
 
 p_linear <- predict(linear, newdata = testing, type = "response")
-table(testing$detained_resp, as.integer(p_linear > 0))
+table(testing$detained_resp, as.integer(p_linear > 0.5))
  
-p_quadratic <- predict(quadratic, newdata = testing)
-p_cubic <- predict(cubic, newdata = testing)
-p_quartic <- predict(quartic, newdata = testing)
+p_quadratic <- predict(quadratic, newdata = testing, type = "response")
+table(testing$detained_resp, as.integer(p_quadratic > 0.5))
 
+p_cubic <- predict(cubic, newdata = testing, type = "response")
+table(testing$detained_resp, as.integer(p_cubic > 0.5))
 
+p_quartic <- predict(quartic, newdata = testing, type = "response")
+table(testing$detained_resp, as.integer(p_quartic > 0.5))
 ```
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
