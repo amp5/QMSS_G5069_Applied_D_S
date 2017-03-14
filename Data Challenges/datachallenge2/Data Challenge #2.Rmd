@@ -73,9 +73,9 @@ you answer the challenge, including links to your code, and graphs.
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
   
-  * Are all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
-  `long.guns.seized`) seized and organized crime wounded good predictors for whether 
-  people will be detained?
+  * Which linear model best predicts whether or not people will be detained using 
+  all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
+  `long.guns.seized`) seized and organized crime as predictors?
 
 ###1a	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
@@ -83,7 +83,7 @@ you answer the challenge, including links to your code, and graphs.
   * The variables `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
   `long.guns.seized` will be summed into one variable name `weapons_seized`.
   
-  * Make a new variable named `detained_resp` for to record whether people 
+  * Create a new variable named `detained_resp` for to record whether people 
   where detained (1) or not (0) in order to do a response prediction of whether
   people will be detained or not.
   
@@ -105,7 +105,7 @@ AllData <- as.data.frame(AllData)
   * 
 
 ```{r}
-set.seed(1234)
+set.seed(1234) 
 train <- sample(nrow(AllData), 2698)
 training <- AllData[train, ]
 testing <- AllData[-train, ]
@@ -123,21 +123,21 @@ quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, deg
               data = training)
 
 p_linear <- predict(linear, newdata = testing, type = "response")
-table(testing$detained_resp, as.integer(p_linear > 0.5))
+p_liner_table <- table(testing$detained_resp, as.integer(p_linear > 0.5))
  
 p_quadratic <- predict(quadratic, newdata = testing, type = "response")
-table(testing$detained_resp, as.integer(p_quadratic > 0.5))
+p_quadratic_table <- table(testing$detained_resp, as.integer(p_quadratic > 0.5))
 
 p_cubic <- predict(cubic, newdata = testing, type = "response")
-table(testing$detained_resp, as.integer(p_cubic > 0.5))
+p_cubic_table <- table(testing$detained_resp, as.integer(p_cubic > 0.5))
 
 p_quartic <- predict(quartic, newdata = testing, type = "response")
-table(testing$detained_resp, as.integer(p_quartic > 0.5))
+p_quartic_table <- table(testing$detained_resp, as.integer(p_quartic > 0.5))
 ```
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
 ###or to the data itself
-  * 
+  * talk through the plot functions and the limitations associated with each one
   
 ```{r}
 
@@ -161,10 +161,11 @@ table(testing$detained_resp, as.integer(p_quartic > 0.5))
 
 ###1f	provide your code, and a single visualization per question that summarizes 
 ###your finding
-  * 
+  * refer to the plot functions?  or 
+  make hstogram of x = weapons, x = organized crime wounded, y = WHETHER people were detained?
   
 ```{r}
-library(ggplot2)
+
 ```
 
 ###1g	phrase your finding for each question in two ways:
