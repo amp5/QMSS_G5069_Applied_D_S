@@ -167,7 +167,7 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
         data = AllData)) # cubic regression
 ```  
 
-  1.) __Residuals vs Fitted plot:__ This plot shows if residuals have non-linear 
+  1.) __Residuals vs Fitted plot:__ This plot shows whether the residuals have non-linear 
   patterns.  Although the cubic model had the highest prediction accuracy of all
   the regression models,the residuals do not show cubic relationship on this plot,
   but rather two linear lines that have a clear turning point.  Therefore, the cubic
@@ -175,10 +175,16 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   may help explain why there was unbalanced prediction accuracy in that more "not detained"
   cases were predicted than "detained" cases. 
   
-  2.) __Normal Q-Q plot:__ This plot shows if residuals are normally distributed.  Since
-  the points on the graph are not 
+  2.) __Normal Q-Q plot:__ This plot shows whether the residuals are normally distributed.  
+  Since the residuals on the graph do not follow the straight dashed line, the data are not 
+  normally distributed.  This may represent bias or skewness in the data, which may be 
+  attributed to unbalanced cases of detained versus not detained.  If this is the case, 
+  this may support the claim that there are more cases of people not being detained.
   
-  3.) __Scale-Location plot:__ 
+  3.) __Scale-Location plot:__ This plot shows whether the residuals are spread 
+  equally along the ranges of predictors.  Since the predictors are not equally 
+  spread throughout the graph, this suggests that the data suffer from heterscedasticity, 
+  meaning that variance among the residuals is not equal.
   
   4.) __Residuals vs Leverage plot:__
   
