@@ -24,7 +24,9 @@ library(randomForest)   # Random Forests package
 
 path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges/datachallenge2"
 
-## ENTER YOUR PATH AND COMMENT OUT THE PATH ABOVE
+## Brandon:  ENTER YOUR PATH AND COMMENT OUT THE PATH ABOVE
+
+## Zach:  ENTER YOUR PATH AND COMMENT OUT THE PATH ABOVE
 
 # define additional paths for files you will use. In each case, determine
 # appropriate additions to the path
