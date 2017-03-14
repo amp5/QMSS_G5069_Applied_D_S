@@ -117,30 +117,37 @@ train <- sample(nrow(AllData_excluded), 2646) ## split approximately in half
 training <- AllData_excluded[train, ] 
 testing <- AllData_excluded[-train, ]
 
-#OLS:
-lm1 <- lm(military ~ clips.seized + cartridge.sezied + small.arms.seized + long.guns.seized, 
+#:::::::::::::::OLS - doesn't work = DELETE:
+lm1_ols <- lm(military ~ clips.seized + cartridge.sezied + small.arms.seized + long.guns.seized, 
           data = AllData_excluded)
 
-summary(lm1)
+summary(lm1_ols)
 
+plot(lm1_ols) # non-liner - can't use it
 
+lm2_ols <- lm(all_others ~ clips.seized + cartridge.sezied + small.arms.seized + long.guns.seized, 
+          data = AllData_excluded)
 
+summary(lm2_ols)
 
-## ::::::::THIS IS THE PROFESSOR'S CODE - LOOK AT DATA MINING NOTES TO DETERMINE WHICH TYPE OF MODEL TO USE:
+plot(lm2_ols) # non-liner - can't use it
+
+#::::::::::::::: Random Forest:
 #fits model on training set
-RandomForestFit <- train(organized.crime.dead ~ organized.crime.wounded +
-                             afi + army + navy + federal.police +
-                             long.guns.seized+ small.arms.seized + 
-                             clips.seized + cartridge.sezied, 
-                         data = training,
-                         method = "rf",       # defines Random Forests
-                         importance = TRUE,   # keeps variable importance
-                         prox = TRUE,
-                         preProc = c("center", "scale") # standardizes variables
-                         )
+RandomForestFit_1 <- train(military ~ 
+                             clips.seized + 
+                             cartridge.sezied + 
+                             small.arms.seized + 
+                             long.guns.seized, 
+                           data = training,
+                           method = "rf",       # defines Random Forests
+                           importance = TRUE,   # keeps variable importance
+                           prox = TRUE,
+                           preProc = c("center", "scale") # standardizes variables
+                           )
 
 # gets initial output from model
-print(RandomForestFit)
+print(RandomForestFit_1)
 
 # gets a description of the model
 print(RandomForestFit$finalModel)
@@ -161,6 +168,8 @@ dev.off()
 pdf(outFileName2) 
 plot(RandomForestFit$finalModel, main = "")
 dev.off()
+#:::::::::::::::
+
 ```
 
 ###1b	show the output from your analysis in a consumable form
