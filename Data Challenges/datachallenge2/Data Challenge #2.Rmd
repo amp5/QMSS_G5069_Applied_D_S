@@ -22,11 +22,11 @@ library(randomForest)   # Random Forests package
 # their own branches individually
 # NOTE that specifying your path will be different in Windows
 
-path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges/datachallenge2"
+path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges/datachallenge2" ## Stephanie's path
 
-## Brandon:  ENTER YOUR PATH AND COMMENT OUT THE PATH ABOVE
+# path <- "" ## Brandon's path
 
-## Zach:  ENTER YOUR PATH AND COMMENT OUT THE PATH ABOVE
+# path <- "" ## Zach's path
 
 # define additional paths for files you will use. In each case, determine
 # appropriate additions to the path
@@ -63,7 +63,6 @@ auth_lookup <- "data/external/LookupAuthorityNames.csv"
 auth_lookup_data <- read.csv(auth_lookup)
 ```
 
-
 This is a team assignment. Please create a file on your team GitHub repo where 
 you answer the challenge, including links to your code, and graphs.
 
@@ -73,18 +72,77 @@ you answer the challenge, including links to your code, and graphs.
 ###violence contained on our dataset. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
-  *Stephanie 
-   
-```{r}
-
-```
+  
+  * Does the military (army and navy) or all other forces combined (other, federal.police,
+  state.police, municipal.police, ministerial.police, and afi) seize more of the following:
+  clips, cartridges, small arms, and long guns?
 
 ###1a	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
-  * 
+
+  * Since we want to which understand group, the military or all other forces 
+  combined, is more successful in seizing clips, cartridges, small arms, and 
+  long guns, two new columns will be created.  The `military` column will combine
+  the existing `army` and `navy` columns.  The `all_others` column will combine 
+  existing `other`, `federal.police`, `state.police`, `municipal.police`, 
+  `ministerial.police`, and `afi` columns.
+  
   
 ```{r}
+AllData$military <- cbind(AllData$army, AllData$navy)
 
+AllData$all_others <- cbind(AllData$other, 
+                            AllData$federal.police, 
+                            AllData$state.police,
+                            AllData$municipal.police,
+                            AllData$ministerial.police,
+                            AllData$afi)
+
+# Exclude rows where both AllData$military == 1 & AllData$all_others == 1 because
+# we need no overlap for a true comparison:
+summary(AllData$military == 1 & AllData$all_others == 1)
+
+# -----
+# creates a random sample to split data into training and testing sets
+set.seed(12345)
+train <- sample(nrow(AllData), 2698)
+training <- AllData[train, ] 
+testing <- AllData[-train, ]
+
+#fits model on training set
+RandomForestFit <- train(organized.crime.dead ~ organized.crime.wounded +
+                             afi + army + navy + federal.police +
+                             long.guns.seized+ small.arms.seized + 
+                             clips.seized + cartridge.sezied, 
+                         data = training,
+                         method = "rf",       # defines Random Forests
+                         importance = TRUE,   # keeps variable importance
+                         prox=TRUE,
+                         preProc = c("center", "scale") # standardizes variables
+                         )
+
+# gets initial output from model
+print(RandomForestFit)
+
+# gets a description of the model
+print(RandomForestFit$finalModel)
+
+# gets predictions on the test set
+RandomForestPredict <- predict(RandomForestFit, testing)
+
+
+# :: A quick look to evaluate the model
+
+# gets variable importance
+VIMP <- varImp(RandomForestFit)
+pdf(outFileName1) 
+plot(VIMP)
+dev.off()
+
+# plots MSE of the model 
+pdf(outFileName2) 
+plot(RandomForestFit$finalModel, main = "")
+dev.off()
 ```
 
 ###1b	show the output from your analysis in a consumable form
@@ -134,6 +192,7 @@ you answer the challenge, including links to your code, and graphs.
   * 
         
 ###1h	make sure to also include your code
+  
   * The code is included under each quetsion above.
   
 #__Model #2 for question #1:__
@@ -142,6 +201,7 @@ you answer the challenge, including links to your code, and graphs.
 ###violence contained on our datas et. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
+  
   * Brandon
    
 ```{r}
@@ -203,6 +263,7 @@ you answer the challenge, including links to your code, and graphs.
   * 
         
 ###1h	make sure to also include your code
+  
   * The code is included under each quetsion above.
   
 #__Model #1 for question #2:__
@@ -210,6 +271,7 @@ you answer the challenge, including links to your code, and graphs.
 ###2.	Formulate two (2) conditional hypotheses that you seek to investigate with 
 ###the data. One of your hypotheses should condition on two variables (as the 
 ###example on the slides), and the other should condition on three variables. [50 pts]
+    
     * ZACH 
 
 ```{r}
@@ -254,6 +316,7 @@ you answer the challenge, including links to your code, and graphs.
   * 
   
 ###2h	make sure to also include your code
+  
   * The code is included under each quetsion above.
 
 #__Model #1 for question #2:__
@@ -261,6 +324,7 @@ you answer the challenge, including links to your code, and graphs.
 ###2.	Formulate two (2) conditional hypotheses that you seek to investigate with 
 ###the data. One of your hypotheses should condition on two variables (as the 
 ###example on the slides), and the other should condition on three variables. [50 pts]
+    
     * ZACH:  
 
 ```{r}
@@ -304,4 +368,7 @@ you answer the challenge, including links to your code, and graphs.
   * 
   
 ###2h	make sure to also include your code
+  
   * The code is included under each quetsion above.
+  
+  
