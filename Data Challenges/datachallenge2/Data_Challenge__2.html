@@ -387,7 +387,9 @@ auth_lookup_data &lt;- read.csv(auth_lookup)</code></pre>
 </div>
 <div id="finding-it-tells-you-whether-a-question-is-worth-pursuing-further-or-not." class="section level3">
 <h3>finding! It tells you whether a question is worth pursuing further or not.</h3>
-<p>*Stephanie</p>
+<ul>
+<li>Which regression model best predicts whether or not people will be detained using all weapons (defined as <code>clips.seized</code>, <code>cartridge.sezied</code>, <code>small.arms.seized</code>, <code>long.guns.seized</code>) seized and wounded organized crime members as predictors?</li>
+</ul>
 </div>
 <div id="a-perform-the-necessary-transformations-in-your-data---if-any-are-needed" class="section level3">
 <h3>1a perform the necessary transformations in your data - if any are needed,</h3>
@@ -395,14 +397,166 @@ auth_lookup_data &lt;- read.csv(auth_lookup)</code></pre>
 <div id="and-explain-why-you-did-that" class="section level3">
 <h3>and explain why you did that</h3>
 <ul>
-<li></li>
+<li><p>The variables <code>clips.seized</code>, <code>cartridge.sezied</code>, <code>small.arms.seized</code>, <code>long.guns.seized</code> will be summed into one variable name <code>weapons_seized</code>.</p></li>
+<li><p>A new variable wil be created named <code>detained_resp</code> to record whether people where detained (<code>1</code>) or not (<code>0</code>) in order to predict the response of whether people will be detained or not.</p></li>
 </ul>
+<pre class="r"><code>AllData$weapons_seized &lt;- transform(AllData$clips.seized + 
+                                      AllData$cartridge.sezied +
+                                      AllData$small.arms.seized +
+                                      AllData$long.guns.seized)
+
+typeof(AllData$weapons_seized)</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<pre class="r"><code>AllData$weapons_seized &lt;- as.numeric(unlist((AllData$weapons_seized))) # convert from list to numeric for regression models
+
+AllData$detained_resp &lt;- ifelse(AllData$detained &gt; 1, 1, 0)
+
+AllData &lt;- as.data.frame(AllData)</code></pre>
 </div>
 <div id="b-show-the-output-from-your-analysis-in-a-consumable-form" class="section level3">
 <h3>1b show the output from your analysis in a consumable form</h3>
 <ul>
-<li></li>
+<li>Regression Models:</li>
 </ul>
+<pre class="r"><code>set.seed(1234)  # for reproducibility 
+train &lt;- sample(nrow(AllData), 2698) # randomly sample half of the data
+training &lt;- AllData[train, ] # create training set
+testing &lt;- AllData[-train, ] # create testing set
+
+linear &lt;- lm(detained_resp ~ weapons_seized + organized.crime.wounded, 
+             data = training) # linear regression 
+
+quadratic &lt;- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
+                data = training) # quadratic regression
+ 
+cubic &lt;- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+            data = training) # cubic regression
+
+quartic &lt;- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 4),
+              data = training) # quartic regression
+
+p_linear &lt;- predict(linear, newdata = testing, type = &quot;response&quot;) # predict the repsonse 
+p_liner_table &lt;- confusionMatrix(testing$detained_resp, as.integer(p_linear &gt; 0.5)) # confusion matrix
+ 
+p_quadratic &lt;- predict(quadratic, newdata = testing, type = &quot;response&quot;)
+p_quadratic_table &lt;- confusionMatrix(testing$detained_resp, as.integer(p_quadratic &gt; 0.5)) 
+
+p_cubic &lt;- predict(cubic, newdata = testing, type = &quot;response&quot;)
+p_cubic_table &lt;- confusionMatrix(testing$detained_resp, as.integer(p_cubic &gt; 0.5))
+
+p_quartic &lt;- predict(quartic, newdata = testing, type = &quot;response&quot;)
+p_quartic_table &lt;- confusionMatrix(testing$detained_resp, as.integer(p_quartic &gt; 0.5))</code></pre>
+<ul>
+<li>Regression Results: A confusion matrix was constructed for each of the models and are ranked in order from worst to best prediction accuracy:</li>
+</ul>
+<pre class="r"><code>p_cubic_table # cubic regression confusion matrix </code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    0    1
+##          0 2097   22
+##          1  561   18
+##                                           
+##                Accuracy : 0.7839          
+##                  95% CI : (0.7679, 0.7993)
+##     No Information Rate : 0.9852          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : 0.0313          
+##  Mcnemar's Test P-Value : &lt;2e-16          
+##                                           
+##             Sensitivity : 0.78894         
+##             Specificity : 0.45000         
+##          Pos Pred Value : 0.98962         
+##          Neg Pred Value : 0.03109         
+##              Prevalence : 0.98517         
+##          Detection Rate : 0.77724         
+##    Detection Prevalence : 0.78540         
+##       Balanced Accuracy : 0.61947         
+##                                           
+##        'Positive' Class : 0               
+## </code></pre>
+<pre class="r"><code>p_quadratic_table # quadratic regression confusion matrix </code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    0    1
+##          0 2106   13
+##          1  569   10
+##                                           
+##                Accuracy : 0.7843          
+##                  95% CI : (0.7683, 0.7997)
+##     No Information Rate : 0.9915          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : 0.0171          
+##  Mcnemar's Test P-Value : &lt;2e-16          
+##                                           
+##             Sensitivity : 0.78729         
+##             Specificity : 0.43478         
+##          Pos Pred Value : 0.99387         
+##          Neg Pred Value : 0.01727         
+##              Prevalence : 0.99148         
+##          Detection Rate : 0.78058         
+##    Detection Prevalence : 0.78540         
+##       Balanced Accuracy : 0.61104         
+##                                           
+##        'Positive' Class : 0               
+## </code></pre>
+<pre class="r"><code>p_liner_table # linear regression confusion matrix </code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    0    1
+##          0 2106   13
+##          1  568   11
+##                                        
+##                Accuracy : 0.7847       
+##                  95% CI : (0.7687, 0.8)
+##     No Information Rate : 0.9911       
+##     P-Value [Acc &gt; NIR] : 1            
+##                                        
+##                   Kappa : 0.0197       
+##  Mcnemar's Test P-Value : &lt;2e-16       
+##                                        
+##             Sensitivity : 0.7876       
+##             Specificity : 0.4583       
+##          Pos Pred Value : 0.9939       
+##          Neg Pred Value : 0.0190       
+##              Prevalence : 0.9911       
+##          Detection Rate : 0.7806       
+##    Detection Prevalence : 0.7854       
+##       Balanced Accuracy : 0.6230       
+##                                        
+##        'Positive' Class : 0            
+## </code></pre>
+<pre class="r"><code>p_quartic_table # quartic regression confusion matrix</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    0    1
+##          0 2086   33
+##          1  547   32
+##                                          
+##                Accuracy : 0.785          
+##                  95% CI : (0.769, 0.8004)
+##     No Information Rate : 0.9759         
+##     P-Value [Acc &gt; NIR] : 1              
+##                                          
+##                   Kappa : 0.0586         
+##  Mcnemar's Test P-Value : &lt;2e-16         
+##                                          
+##             Sensitivity : 0.79225        
+##             Specificity : 0.49231        
+##          Pos Pred Value : 0.98443        
+##          Neg Pred Value : 0.05527        
+##              Prevalence : 0.97591        
+##          Detection Rate : 0.77317        
+##    Detection Prevalence : 0.78540        
+##       Balanced Accuracy : 0.64228        
+##                                          
+##        'Positive' Class : 0              
+## </code></pre>
 </div>
 <div id="c-be-explicit-about-the-limitations-of-your-anaylisis-due-to-estimation" class="section level3">
 <h3>1c be explicit about the limitations of your anaylisis, due to estimation</h3>
@@ -410,7 +564,7 @@ auth_lookup_data &lt;- read.csv(auth_lookup)</code></pre>
 <div id="or-to-the-data-itself" class="section level3">
 <h3>or to the data itself</h3>
 <ul>
-<li></li>
+<li>talk through the plot functions and the limitations associated with each one</li>
 </ul>
 </div>
 <div id="d-did-you-find-something-interesting-what-is-that-does-your-finding" class="section level3">
@@ -435,7 +589,7 @@ auth_lookup_data &lt;- read.csv(auth_lookup)</code></pre>
 <div id="your-finding" class="section level3">
 <h3>your finding</h3>
 <ul>
-<li></li>
+<li>refer to the plot functions? or make hstogram of x = weapons, x = organized crime wounded, y = WHETHER people were detained?</li>
 </ul>
 </div>
 <div id="g-phrase-your-finding-for-each-question-in-two-ways" class="section level3">

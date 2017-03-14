@@ -73,9 +73,9 @@ you answer the challenge, including links to your code, and graphs.
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
   
-  * Which linear model best predicts whether or not people will be detained using 
+  * Which regression model best predicts whether or not people will be detained using 
   all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
-  `long.guns.seized`) seized and organized crime as predictors?
+  `long.guns.seized`) seized and wounded organized crime members as predictors?
 
 ###1a	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
@@ -83,8 +83,8 @@ you answer the challenge, including links to your code, and graphs.
   * The variables `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
   `long.guns.seized` will be summed into one variable name `weapons_seized`.
   
-  * Create a new variable named `detained_resp` for to record whether people 
-  where detained (1) or not (0) in order to do a response prediction of whether
+  * A new variable wil be created named `detained_resp` to record whether people 
+  where detained (`1`) or not (`0`) in order to predict the response of whether
   people will be detained or not.
   
 ```{r}
@@ -94,7 +94,7 @@ AllData$weapons_seized <- transform(AllData$clips.seized +
                                       AllData$long.guns.seized)
 
 typeof(AllData$weapons_seized)
-AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized)))
+AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized))) # convert from list to numeric for regression models
 
 AllData$detained_resp <- ifelse(AllData$detained > 1, 1, 0)
 
@@ -102,45 +102,84 @@ AllData <- as.data.frame(AllData)
 ```
 
 ###1b	show the output from your analysis in a consumable form
-  * 
-
+  * Regression Models:
 ```{r}
-set.seed(1234) 
-train <- sample(nrow(AllData), 2698)
-training <- AllData[train, ]
-testing <- AllData[-train, ]
+set.seed(1234)  # for reproducibility 
+train <- sample(nrow(AllData), 2698) # randomly sample half of the data
+training <- AllData[train, ] # create training set
+testing <- AllData[-train, ] # create testing set
 
 linear <- lm(detained_resp ~ weapons_seized + organized.crime.wounded, 
-             data = training)
+             data = training) # linear regression 
 
 quadratic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
-                data = training)
+                data = training) # quadratic regression
  
 cubic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
-            data = training)
+            data = training) # cubic regression
 
-quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
-              data = training)
+quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 4),
+              data = training) # quartic regression
 
-p_linear <- predict(linear, newdata = testing, type = "response")
-p_liner_table <- table(testing$detained_resp, as.integer(p_linear > 0.5))
+p_linear <- predict(linear, newdata = testing, type = "response") # predict the repsonse 
+p_liner_table <- confusionMatrix(testing$detained_resp, as.integer(p_linear > 0.5)) # confusion matrix
  
 p_quadratic <- predict(quadratic, newdata = testing, type = "response")
-p_quadratic_table <- table(testing$detained_resp, as.integer(p_quadratic > 0.5))
+p_quadratic_table <- confusionMatrix(testing$detained_resp, as.integer(p_quadratic > 0.5)) 
 
 p_cubic <- predict(cubic, newdata = testing, type = "response")
-p_cubic_table <- table(testing$detained_resp, as.integer(p_cubic > 0.5))
+p_cubic_table <- confusionMatrix(testing$detained_resp, as.integer(p_cubic > 0.5))
 
 p_quartic <- predict(quartic, newdata = testing, type = "response")
-p_quartic_table <- table(testing$detained_resp, as.integer(p_quartic > 0.5))
+p_quartic_table <- confusionMatrix(testing$detained_resp, as.integer(p_quartic > 0.5))
 ```
+  * Regression Results:
+  A confusion matrix was constructed for each of the models and ranked in 
+  order from worst to best prediction accuracy:
+```{r}
+p_cubic_table # cubic regression confusion matrix 
+p_quadratic_table # quadratic regression confusion matrix 
+p_liner_table # linear regression confusion matrix 
+p_quartic_table # quartic regression confusion matrix
+```
+  * Analysis of the output:  the quartic regression model had the highest 
+  prediction accuracy of 0.785 or 78.5% in using wounded organized crime members
+  and all weapons seized to predict whether people would be detained or not.  The
+  quartic confusion matrix shows that the model correctly predicted that no one
+  would be detained 2,086 times and people would be detained 32 times. Although 
+  the model has the highest prediction accuracy, it is mainly driven by correct 
+  predictions of no one being detained.  It does not do a successful job of 
+  predicting when people will be detained.  Therefore, this model will not help
+  Mexican authorities understand driven of detention rates, since it does not
+  predict how the number of organized crime members wounded and weapons seized
+  relate to whether people are detained or not. Furhermore, the model incorrectly
+  predicted that people would be detained in 547 events when no one was detained.
+  It also incorrectly predicted that people would not be detained when they were
+  detained in 33 events.
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
 ###or to the data itself
-  * talk through the plot functions and the limitations associated with each one
+  * The limitations of the regression models are shown through various visualizations 
+  of model using the entire dataset:
   
 ```{r}
+plot(lm(detained_resp ~ weapons_seized + organized.crime.wounded, 
+        data = AllData))# linear regression 
+```
 
+```{r}
+plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 2),
+        data = AllData)) # quadratic regression
+```
+
+```{r}
+plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+        data = AllData)) # cubic regression
+```
+
+```{r}
+quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 4),
+              data = AllData) # quartic regression
 ```
 
 ###1d	did you find something interesting? what is that? does your finding 
