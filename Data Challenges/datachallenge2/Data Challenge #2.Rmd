@@ -89,6 +89,16 @@ you answer the challenge, including links to your code, and graphs.
   
   
 ```{r}
+AllData$army <- as.integer(AllData$army)
+AllData$navy <- as.integer(AllData$navy)
+AllData$other <- as.integer(AllData$other)
+AllData$federal.police <- as.integer(AllData$federal.police)
+AllData$state.police <- as.integer(AllData$state.police)
+AllData$municipal.police <- as.integer(AllData$municipal.police)
+AllData$ministerial.police <- as.integer(AllData$ministerial.police)
+AllData$afi <- as.integer(AllData$afi)
+
+
 AllData$military <- cbind(AllData$army, AllData$navy)
 
 AllData$all_others <- cbind(AllData$other, 
