@@ -226,6 +226,12 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
 # quick tibble with count of 0's for detained_response and 1's in each column
 which(AllData$detained_resp == 0)
 
+nrow(AllData[AllData$detained_resp == 0,])
+length(AllData$detained_resp[AllData$detained_resp == 0])
+sum(which(AllData$detained_resp == 0))
+
+nrow(filter(AllData, AllData$detained_resp == "0"))
+
 library(tibble)
 no_detained <- tibble(x = AllData$detained_resp == 0, y = AllData$weapons_seized)
 
