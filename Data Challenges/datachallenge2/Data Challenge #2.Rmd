@@ -206,17 +206,17 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
     * It is interesting that the cubic model predicts the best out of all the models
     but the predicitons are skewed towards predicting when no one will be detained.
     This skewness in the prediction may be attributed to the findings noted in #1c 
-    above related to the viilations of regression assumptions, especially that the 
+    above related to the violations of regression assumptions, especially that the 
     data are notmally distributed. Predicting whether or not people will be detained 
-    using all weapons seized and wounded organized crime members as predictors
-    
-    predicting not detained is much better than predicting detained. might not be worth
-    persuing my question bc these models would help the Mexican authorities 
-    detain more people. not worth pursuing bc of the limtiations discovered in #1c
+    using all weapons seized and wounded organized crime members as predictors is not
+    worth pursuing because the model poorly predicts cases when people will be detained.
+    Moreover, since the model is not in compliance with the regression assumptions, the
+    results may not be true findings. 
 
 ###1e)	if you did not find something interesting, explain why, and whether 
 ###there is some additional information that would help in answering your question
-  * this won't help the authorities detain people but they couldn't use these models
+  * 
+  this won't help the authorities detain people but they couldn't use these models
   to understand that they should not be focused on seixing weapons and woudning organized crime
   members if the goal is to detain people.  additional info that would help - are here less 
   people detained overall in the dataset - is that why the models 
@@ -224,6 +224,9 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   
 ```{r}
 # quick tibble with count of 0's for detained_response and 1's in each column 
+library(ggplot2)
+ggplot(data = AllData) +
+  geom_histogram(mapping = aes(x = weapons_seized, y = detained_resp, z = organized.crime.wounded))
 ```
 
 
