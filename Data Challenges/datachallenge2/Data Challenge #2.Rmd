@@ -239,6 +239,12 @@ ggplot(data = AllData) +
   * need help graphing fitted (p_cubic) vs. actual (cubic) values 
   
 ```{r}
+ggplot()
+
+ggplot(training, aes(cubic)) + 
+   geom_line() +
+   geom_line(data = testing, color = "red")
+
 ggplot(data = AllData) +
   geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = "red") +
   geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = "red") +
@@ -262,6 +268,34 @@ ggplot(AllData) +
   geom_smooth(aes(organized.crime.wounded, detained_resp), method = lm, se = TRUE) +
   labs(x = "Predicted", 
        y = "Number of Detained")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 ###1g)	phrase your finding for each question in two ways:
