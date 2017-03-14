@@ -76,6 +76,8 @@ you answer the challenge, including links to your code, and graphs.
   * Does the military (army and navy) or all other forces combined (other, federal.police,
   state.police, municipal.police, ministerial.police, and afi) seize more of the following:
   clips, cartridges, small arms, and long guns per event?
+  
+  * Are number of people all weapons seized and organized crime wounded good predictors for the number of people detained?
 
 ###1a	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
@@ -118,7 +120,16 @@ AllData_excluded$weapons_seized <- transform(AllData_excluded$clips.seized +
                                                AllData_excluded$long.guns.seized)
 
 typeof(AllData_excluded$weapons_seized)
-AllData_excluded$weapons_seized <- as.double(AllData_excluded$weapons_seized)
+AllData_excluded$weapons_seized <- as.numeric(unlist((AllData_excluded$weapons_seized)))
+
+#:::::::::::::::Are number of people all weapons seized and organized crime wounded good predictors for the number of people detained?
+AllData$weapons_seized <- transform(AllData$clips.seized + 
+                                      AllData$cartridge.sezied +
+                                      AllData$small.arms.seized +
+                                      AllData$long.guns.seized)
+
+typeof(AllData$weapons_seized)
+AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized)))
 ```
 
 ###1b	show the output from your analysis in a consumable form
@@ -156,7 +167,31 @@ ols_military2 <- lm(military ~ weapons_seized,
 
 summary(ols_military2)
 
-plot(ols_military2) 
+plot(ols_military2)  # doesn't help
+
+## all_other model using AllData_excluded$weapons_seized:
+ols_all_others2 <- lm(all_others ~ weapons_seized, 
+                   data = AllData_excluded)
+
+summary(ols_all_others2)
+
+plot(ols_all_others2)  # doesn't help
+
+#:::::::::::::::Are number of people all weapons seized and organized crime wounded good predictors for the number of people detained?
+
+lm_new_linear <- lm(detained ~ weapons_seized + organized.crime.wounded,
+                 data = AllData)
+
+summary(lm_new_linear)
+
+plot(lm_new_linear) # looks quadratic?
+
+lm_new_linear <- lm(detained ~ weapons_seized + organized.crime.wounded,
+                 data = AllData)
+
+summary(lm_new_linear)
+
+plot(lm_new_linear) # looks quadratic?
 ```
 
 ###1c	be explicit about the limitations of your anaylisis, due to estimation 
