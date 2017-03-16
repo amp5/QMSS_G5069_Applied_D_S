@@ -304,20 +304,45 @@ total_figures$`Organized Crime Members Wounded (No One Detained)` <- prettyNum(
   scientific = FALSE)
 
 total_figures_new <- t(total_figures) # transpose total_figures for graphing purposes
-total_figures_new <- as.data.frame(total_figures_new)
+total_figures_new <- as.data.frame(total_figures_new) # convert to data.frame
+total_figures_new$subject <- row.names(total_figures_new) 
+total_figures_new <- rename(total_figures_new,
+                            c("V1" = "Totals"))
 
-ggplot(data = total_figures_new, aes(x = V1)) +
-  geom_bar(stat = "identity")
-
-ggplot(data = total_figures, 
-       aes(`Weapons Seized (People Detained)`,
-           `Weapons Seized (No One Detained)`,
-           `Organized Crime Members Wounded (People Detained)`,
-           `Organized Crime Members Wounded (No One Detained)`)
-       ) +
+ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
   geom_bar(stat = "identity") +
-  coord_flip()
+  coord_flip() +
+  ggtitle("Total Weapons Seized and Organized Crime\nMembers Wounded Based on Detention") + # title line break
+  geom_text(aes(label = Totals), vjust = 0, colour = "black") +
+  theme(axis.line = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position = "none",
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_blank())
 
+ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("red", "green", "red", "green")) +
+  coord_flip() +
+  ggtitle("Total Weapons Seized and Organized Crime\nMembers Wounded Based on Detention") + # title line break
+  geom_text(aes(label = Totals), vjust = 0, colour = "black") +
+  theme(axis.line = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position = "none",
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_blank())
 ```
 
 ###1g)	phrase your finding for each question in two ways:
