@@ -238,11 +238,13 @@ ggplot(data = AllData) +
 
 ###1f)	provide your code, and a single visualization per question that summarizes 
 ###your finding
-  * To contextualize the prediction model, the following visualizations show the 
-  total number of weapons seized when people are detained versus not detained,
-  and the total number of organized crime members wounded when people are 
-  detained versus not detained.  These graphs should help the Mexican government
-  decide whether it is worth pursuing a strategy 
+  * To contextualize the usefulness of the prediction model, the following 
+  visualizations show the total number of weapons seized when people are detained 
+  versus not detained and the total number of organized crime members wounded when 
+  people are detained versus not detained.  These graphs should help the Mexican 
+  government decide whether it is worth pursuing a strategy centered around detaining 
+  more people if the goal is to maximize the number of weapons seized and organized crime
+  members wounded.
   
 ```{r}
 detained_subset <- subset(AllData,
@@ -265,11 +267,39 @@ det_ocw_total <- sum(detained_subset$organized.crime.wounded) # total number of
 n_det_ocw_total <- sum(not_detained_subset$organized.crime.wounded) # total number of
 # organized crime members wounded when people were NOT detained
 
-library(tibble)
-tibble(det_weap_total,
-        n_det_weap_total,
-        det_ocw_total,
-        n_det_ocw_total)
+total_figures <- data.frame(det_weap_total,
+                            n_det_weap_total,
+                            det_ocw_total,
+                            n_det_ocw_total)
+
+library(plyr)
+total_figures <- rename(total_figures, 
+                        c("det_weap_total" = "Weapons Seized (People Detained)", 
+                          "n_det_weap_total" = "Weapons Seized (No One Detained)",
+                          "det_ocw_total" = 
+                            "Organized Crime Members Wounded (People Detained)",
+                          "n_det_ocw_total" = 
+                            "Organized Crime Members Wounded (No One Detained)"))
+
+total_figures$`Weapons Seized (People Detained)` <- prettyNum(
+  total_figures$`Weapons Seized (People Detained)`, 
+  big.mark = ",",
+  scientific = FALSE)
+
+total_figures$`Weapons Seized (No One Detained)` <- prettyNum(
+  total_figures$`Weapons Seized (No One Detained)`, 
+  big.mark = ",",
+  scientific = FALSE)
+
+total_figures$`Organized Crime Members Wounded (People Detained)` <- prettyNum(
+  total_figures$`Organized Crime Members Wounded (People Detained)`, 
+  big.mark = ",",
+  scientific = FALSE)
+
+total_figures$`Organized Crime Members Wounded (No One Detained)` <- prettyNum(
+  total_figures$`Organized Crime Members Wounded (No One Detained)`, 
+  big.mark = ",",
+  scientific = FALSE)
 ```
 
 ###1g)	phrase your finding for each question in two ways:
