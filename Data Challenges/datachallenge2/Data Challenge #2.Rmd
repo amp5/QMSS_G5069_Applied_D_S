@@ -311,23 +311,6 @@ total_figures_new <- rename(total_figures_new,
 
 ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
   geom_bar(stat = "identity") +
-  coord_flip() +
-  ggtitle("Total Weapons Seized and Organized Crime\nMembers Wounded Based on Detention") + # title line break
-  geom_text(aes(label = Totals), vjust = 0, colour = "black") +
-  theme(axis.line = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks = element_blank(),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        legend.position = "none",
-        panel.background = element_blank(),
-        panel.border = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        plot.background = element_blank())
-
-ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
-  geom_bar(stat = "identity") +
   scale_fill_manual(values = c("red", "green", "red", "green")) +
   coord_flip() +
   ggtitle("Total Weapons Seized and Organized Crime\nMembers Wounded Based on Detention") + # title line break
@@ -345,6 +328,17 @@ ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
         plot.background = element_blank())
 ```
 
+  * The graph of all the data shows that when people are detained, more weapons
+  are seized and organized crime members wounded.  If the Mexican government's 
+  goal is to maximize the number of weapons seized and organized crime members 
+  wounded, they should pursue a strategy that focuses on detaining people in 
+  each event.  Although the cubic model does not predict when people will 
+  be detained based on thee varaibles as well as it predicts when people will 
+  not be detained, this issue may be solved once more data are collected. 
+  The current dataset is heavily skewed towards cases when no one was detained, 
+  as seen above in quest 1e.  Once more data are colelcted, the distribution should
+  normlaize and the cubc model may have a more balanced success rate. 
+  
 ###1g)	phrase your finding for each question in two ways:
 ###1g-1)	one sentence that summarizes your insight
   * A cubic model used the number of organized crime members wounded and weapons 
