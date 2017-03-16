@@ -24,7 +24,7 @@ library(randomForest)   # Random Forests package
 
 path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges/datachallenge2" ## Stephanie's path
 
-# path <- "" ## Brandon's path
+# path <- "C:\\Users\\Brandon\\Documents\\GitHub\\QMSS_G5069_Applied_D_S\\Data Challenges\\datachallenge2" ## Brandon's path
 
 # path <- "" ## Zach's path
 
@@ -94,7 +94,8 @@ AllData$weapons_seized <- transform(AllData$clips.seized +
                                       AllData$long.guns.seized)
 
 typeof(AllData$weapons_seized)
-AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized))) # convert from list to numeric for regression models
+AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized))) 
+# ^convert from list to numeric for regression models
 
 AllData$detained_resp <- ifelse(AllData$detained > 0, 1, 0) 
 
@@ -122,7 +123,8 @@ quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, deg
               data = training) # quartic regression
 
 p_linear <- predict(linear, newdata = testing, type = "response") # predict the repsonse 
-p_liner_table <- confusionMatrix(testing$detained_resp, as.integer(p_linear > 0.5)) # confusion matrix
+p_liner_table <- confusionMatrix(testing$detained_resp, as.integer(p_linear > 0.5)) 
+# ^confusion matrix
  
 p_quadratic <- predict(quadratic, newdata = testing, type = "response")
 p_quadratic_table <- confusionMatrix(testing$detained_resp, as.integer(p_quadratic > 0.5)) 
@@ -142,7 +144,8 @@ p_liner_table # linear regression confusion matrix
 p_quartic_table # quartic regression confusion matrix
 p_cubic_table # cubic regression confusion matrix 
 ```
-  * __Analysis of the output:__  The cubic regression model had the highest 
+  *__Analysis of the output:__
+  The cubic regression model had the highest 
   prediction accuracy of 0.7135 or 71.35% in using wounded organized crime members
   and all weapons seized to predict whether people would be detained or not.  The
   cubic confusion matrix shows that the model correctly predicted that no one
@@ -233,7 +236,6 @@ ggplot(data = AllData) +
   xlab("No One Detained (x = 0) vs. Detained (x = 1")
 ```
 
-
 ###1f)	provide your code, and a single visualization per question that summarizes 
 ###your finding
   * need help graphing fitted (p_cubic) vs. actual (cubic) values 
@@ -268,34 +270,6 @@ ggplot(AllData) +
   geom_smooth(aes(organized.crime.wounded, detained_resp), method = lm, se = TRUE) +
   labs(x = "Predicted", 
        y = "Number of Detained")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```
 
 ###1g)	phrase your finding for each question in two ways:
@@ -315,78 +289,229 @@ ggplot(AllData) +
   be detained.
         
 ###1h)	make sure to also include your code
-  
   * The code is included under each quetsion above.
   
 #__Model #2 for question #1:__
 
-###1.)	Ask two (2) questions that might help you understand better the dynamics of 
+###1.	Ask two (2) questions that might help you understand better the dynamics of 
 ###violence contained on our datas et. Apply one algorithm per question and share 
 ###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 ###finding! It tells you whether a question is worth pursuing further or not.
   
-  * Brandon
+  * Does the specific government group involved with an event (AFI, Army, 
+  Federal Police, Ministerial Police, Municipal Police, Navy, Other, and State 
+  Police) have a positive or negative relationship with Perfect Lethality? We can 
+  see from the graph below that there are about 1500 cases with perfect lethality 
+  therefore I believe it is acceptable to examine this question.
    
 ```{r}
-
+library(ggplot2)
+pl <- ggplot(AllData, aes(perfect.lethality))
+pl + geom_bar()
 ```
 
-###1a)	perform the necessary transformations in your data - if any are needed, 
+###1a	perform the necessary transformations in your data - if any are needed, 
 ###and explain why you did that
-  * 
+  * We used the same code used above to create a variable for total weaponry 
+  seized (`weapons_seized`) by using the sum of the variables `clips.seized`,
+  `cartridge.sezied`, `small.arms.seized`, `long.guns.seized`. This variable 
+  will be used in order to control for all weaponary seized in our analysis.
   
 ```{r}
-
+# used Stephanie's code to create one variable to sum weaponry seized
+AllData$weapons_seized <- transform(AllData$clips.seized + 
+                                      AllData$cartridge.sezied +
+                                      AllData$small.arms.seized +
+                                      AllData$long.guns.seized)
+AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized)))
 ```
 
-###1b)	show the output from your analysis in a consumable form
-  * 
+###1b	show the output from your analysis in a consumable form
+  * In order to answer our hypothesis we ran a multiple logistic regression on 
+  perfect lethality by the involvment of the AFI, Army, Federal Police, 
+  Ministerial Police, Municipal Police, Navy, Other, and State Police. A number 
+  of control variables were also included which are municipality code, number of
+  detained in the events, the date of each event, the total people dead in the 
+  events, the total people wounded in the events, weaponry seized in the events, 
+  and the source of the data for the events (Confrontations or Aggresions database). 
+  We are using logistic regression becuase the variables being used are binary (0,1).  
 
 ```{r}
-
+logit.perf_leth3 <- glm(perfect.lethality ~ afi + army + federal.police + ministerial.police + municipal.police + navy + other + state.police + mun_code + detained + date + total.people.dead + total.people.wounded + weapons_seized + source, family = binomial (link = logit), data = AllData)
+summary(logit.perf_leth3)
 ```
 
-###1c)	be explicit about the limitations of your anaylisis, due to estimation 
+###1c	be explicit about the limitations of your anaylisis, due to estimation 
 ###or to the data itself
-  * 
-  
-```{r}
+  * There are a number of limitations with the anaylisis. One limitation is 
+  that not all government groups were involved in a large sum of events. For 
+  example, the Navy was only involved in 89 cases and the AFI was only involved 
+  in 13 cases. The graphs below display the cases in which the navy and AFI were 
+  involved. Having such a small sample can be problematic.   
 
+```{r}
+afi <- ggplot(AllData, aes(afi))
+afi + geom_bar() +
+      ggtitle("AFI")
+
+n <- ggplot(AllData, aes(navy))
+n + geom_bar() +
+    ggtitle("NAVY")
 ```
 
-###1d)	did you find something interesting? what is that? does your finding 
+It should also be noted that the 'source' of the data was highly significant 
+in the model and if that variable is not included Ministerial Police, Municipal 
+Police, and State Police involvment all  become significant. I beleive this is 
+problematic becuase the two datasets might not be collected in the same fashion. 
+This model with and without the variable 'source' can be viewed below. It is also 
+a limitation that logistic models are more difficult to explain/interpret in 
+comparison to simple linear regression models. 
+  
+```{r}
+logit.perf_leth2 <- glm(perfect.lethality ~ afi + army + federal.police + 
+                          ministerial.police + municipal.police + navy + 
+                          other + state.police + mun_code + detained + 
+                          date + total.people.dead + total.people.wounded + 
+                          weapons_seized, family = binomial (link = logit), 
+                        data = AllData)
+summary(logit.perf_leth2)
+summary(logit.perf_leth3)
+#explain limitation with datasets and also explain how logit are hard to explain/interpret
+```
+
+###1d	did you find something interesting? what is that? does your finding 
 ###suggest this question is worth pursuing further? why or why not?
-    * 
+    * We found that the navy and the army seem to a statistically significant 
+    and positive relationship to perfect lethality, controlling for all other 
+    variables included in the model. This means that if the Army or Navy is 
+    involved in an event the event has higher odds of being an event of perfect 
+    lethality. I feel this finding does suggest this question is worth pursuing 
+    further because it is important to know the effectivness of each individual 
+    group to know what groups to send into specific situations. 
   
-```{r}
-
-```
-
-###1e)	if you did not find something interesting, explain why, and whether 
+###1e	if you did not find something interesting, explain why, and whether 
 ###there is some additional information that would help in answering your question
   * 
   
-```{r}
-
-```
-
-###1f)	provide your code, and a single visualization per question that summarizes 
+###1f	provide your code, and a single visualization per question that summarizes 
 ###your finding
-  * 
   
-```{r}
+```{r fig.width=12, fig.height=12}
+library(popbio)
+par(mfrow = c(4, 2))
 
+logi.hist.plot(AllData$army, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE,
+               logi.mod = 1, 
+               type = "hist", 
+               col = "gray", 
+               counts = TRUE, 
+               mainlabel = "ARMY Perfect Lethality", 
+               xlabel = "ARMY Participation")
+
+logi.hist.plot(AllData$afi, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE,
+               logi.mod = 1, 
+               type = "hist", 
+               col = "gray", 
+               counts = TRUE, 
+               mainlabel = "AFI Perfect Lethality", 
+               xlabel = "AFI Participation")
+
+logi.hist.plot(AllData$federal.police, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE,
+               logi.mod = 1, 
+               type = "hist", 
+               col="gray", 
+               counts = TRUE, 
+               mainlabel = "Federal Police Perfect Lethality", 
+               xlabel = "Federal Police Participation")
+
+logi.hist.plot(AllData$ministerial.police, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE,
+               logi.mod = 1, 
+               type = "hist", 
+               col = "gray", 
+               counts = TRUE, 
+               mainlabel = "Ministerial Police Perfect Lethality", 
+               xlabel = "Ministerial Police Participation")
+
+logi.hist.plot(AllData$municipal.police, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE,
+               logi.mod = 1, 
+               type = "hist", 
+               col = "gray", 
+               counts = TRUE, 
+               mainlabel = "Municipal Police Perfect Lethality", 
+               xlabel = "Municipal Police Participation")
+
+logi.hist.plot(AllData$navy, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE, 
+               logi.mod = 1, 
+               type = "hist", 
+               col = "gray", 
+               counts = TRUE, 
+               mainlabel = "NAVY Perfect Lethality", 
+               xlabel = "NAVY Participation")
+
+logi.hist.plot(AllData$other, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE,
+               logi.mod = 1, 
+               type = "hist", 
+               col = "gray", 
+               counts = TRUE, 
+               mainlabel ="OtherPerfect Lethality" , 
+               xlabel = "Other Participation")
+
+logi.hist.plot(AllData$state.police, 
+               AllData$perfect.lethality, 
+               boxp = FALSE, 
+               rug = FALSE,
+               logi.mod = 1, 
+               type = "hist", 
+               col = "gray", 
+               counts = TRUE, 
+               mainlabel = "State Police Perfect Lethality", 
+               xlabel = "State Police Participation")
 ```
 
-###1g)	phrase your finding for each question in two ways:
-###1g-1)	one sentence that summarizes your insight
-  * 
 
-###1g-2)	one paragraph that reflects all nuance in your insight
-  * 
+###1g	phrase your finding for each question in two ways:
+###1g-1	one sentence that summarizes your insight
+  * The invovlment of the Navy or Army in an event on average increase the 
+  chances of said event being one of perfect lethality.
+
+###1g-2	one paragraph that reflects all nuance in your insight
+  * It is very interesting that the conttrol variables municipality code, number 
+  of  detained in the events, the date of each event, the total people dead in 
+  the events, the total people wounded in the events, and the source of the data 
+  for the events (Confrontations or Aggresions database) all were statistically 
+  significant. This means that the municipality in which the event took place is 
+  related to whether or not the event was one of perfect lethality. This is a 
+  question that could be further examined. It is also worth noting that the navy 
+  was only included in 89 events yet 75 of the events were ones of perfect 
+  lethality. When seeing those numbers it does seem clear that the navy is 
+  important when it come to perfect lethality, yet they are not involved in 
+  many cases whatsover. The Army on the other hand was involved in 1057 events
+  and 797 of said events had perfect lethality. The army and the Navy seem to be 
+  well trained at killing in comparison to the AFI, Federal Police, Ministerial 
+  Police, Municipal Police, State Police, and other. 
         
-###1h)	make sure to also include your code
-  
+###1h	make sure to also include your code
   * The code is included under each quetsion above.
   
 #__Model #1 for question #2:__
