@@ -94,8 +94,8 @@ AllData$weapons_seized <- transform(AllData$clips.seized +
                                       AllData$long.guns.seized)
 
 typeof(AllData$weapons_seized)
-AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized))) 
-# ^convert from list to numeric for regression models
+AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized))) # convert 
+# from list to numeric for regression models
 
 AllData$detained_resp <- ifelse(AllData$detained > 0, 1, 0) 
 
@@ -103,7 +103,7 @@ AllData <- as.data.frame(AllData)
 ```
 
 ###1b)	show the output from your analysis in a consumable form
-  * Regression Models:
+  * __Regression Models:__
 ```{r}
 set.seed(1234)  # for reproducibility 
 train <- sample(nrow(AllData), 2698) # randomly sample half of the data
@@ -123,8 +123,8 @@ quartic <- lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, deg
               data = training) # quartic regression
 
 p_linear <- predict(linear, newdata = testing, type = "response") # predict the repsonse 
-p_liner_table <- confusionMatrix(testing$detained_resp, as.integer(p_linear > 0.5)) 
-# ^confusion matrix
+p_liner_table <- confusionMatrix(testing$detained_resp, 
+                                 as.integer(p_linear > 0.5)) # confusion matrix
  
 p_quadratic <- predict(quadratic, newdata = testing, type = "response")
 p_quadratic_table <- confusionMatrix(testing$detained_resp, as.integer(p_quadratic > 0.5)) 
@@ -135,7 +135,7 @@ p_cubic_table <- confusionMatrix(testing$detained_resp, as.integer(p_cubic > 0.5
 p_quartic <- predict(quartic, newdata = testing, type = "response")
 p_quartic_table <- confusionMatrix(testing$detained_resp, as.integer(p_quartic > 0.5))
 ```
-  * Regression Results:
+  * __Regression Results:__
   A confusion matrix was constructed for each of the models and ranked in 
   order from worst to best prediction accuracy:
 ```{r}
@@ -238,38 +238,38 @@ ggplot(data = AllData) +
 
 ###1f)	provide your code, and a single visualization per question that summarizes 
 ###your finding
-  * need help graphing fitted (p_cubic) vs. actual (cubic) values 
+  * To contextualize the prediction model, the following visualizations show the 
+  total number of weapons seized when people are detained versus not detained,
+  and the total number of organized crime members wounded when people are 
+  detained versus not detained.  These graphs should help the Mexican government
+  decide whether it is worth pursuing a strategy 
   
 ```{r}
-ggplot()
+detained_subset <- subset(AllData,
+                          detained_resp == 1,
+                          select = c(weapons_seized, organized.crime.wounded))
 
-ggplot(training, aes(cubic)) + 
-   geom_line() +
-   geom_line(data = testing, color = "red")
+not_detained_subset <- subset(AllData,
+                              detained_resp == 0,
+                              select = c(weapons_seized, organized.crime.wounded))
 
-ggplot(data = AllData) +
-  geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = "red") +
-  geom_point(mapping = aes(x = weapons_seized, y = detained_resp), color = "red") +
-  geom_point(mapping = aes(x = organized.crime.wounded, y = detained_resp), color = "blue") #+
-#  geom_smooth()
+det_weap_total <- sum(detained_subset$weapons_seized) # total weapons seized 
+# when people were detained
 
-ggplot(data = training, testing) +
-  geom_point(aes(cubic, p_cubic)) #+
-  #geom_point(aes(p_cubic))
+n_det_weap_total <- sum(not_detained_subset$weapons_seized) # total weapons seized 
+# when people were NOT detained
+ 
+det_ocw_total <- sum(detained_subset$organized.crime.wounded) # total number of
+# organized crime members wounded when people were detained
 
-plot(AllData$organized.crime.wounded, AllData$detained_resp, 
-     xlim = range(AllData$organized.crime.wounded, AllData$weapons_seized), 
-     ylim = range(AllData$detained_resp, AllData$detained_resp)) 
+n_det_ocw_total <- sum(not_detained_subset$organized.crime.wounded) # total number of
+# organized crime members wounded when people were NOT detained
 
-points(AllData$weapons_seized, AllData$detained_resp, col='red') 
-
-ggplot(AllData) + 
-  geom_jitter(aes(weapons_seized, detained_resp), color = "blue") + 
-  geom_smooth(aes(weapons_seized, detained_resp), method = lm, se = TRUE) +
-  geom_jitter(aes(organized.crime.wounded, detained_resp), color = "green") + 
-  geom_smooth(aes(organized.crime.wounded, detained_resp), method = lm, se = TRUE) +
-  labs(x = "Predicted", 
-       y = "Number of Detained")
+library(tibble)
+tibble(det_weap_total,
+        n_det_weap_total,
+        det_ocw_total,
+        n_det_ocw_total)
 ```
 
 ###1g)	phrase your finding for each question in two ways:
