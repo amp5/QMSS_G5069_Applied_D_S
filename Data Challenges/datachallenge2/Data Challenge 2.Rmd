@@ -244,13 +244,6 @@ suggest this question is worth pursuing further? why or why not?
 
 __1e)__	if you did not find something interesting, explain why, and whether 
 there is some additional information that would help in answering your question
- 
-  * The poor prediction accuracy of the cubic model in predicting when people will 
-  be detained may be attributed to the skewness of the data.  Below, we see that 
-  there were 3,787 events when no one was detained and 1,609 when people were 
-  detained.  Therefore, the model may not have enough data to better predict when
-  people will be detained.  The model may be more effective once more data are 
-  collected and the data become normally distributed. 
   
 ```{r}
 nrow(AllData[AllData$detained_resp == "0",]) # Number of events when no one was detained
@@ -285,22 +278,34 @@ ggplot(data = data_dist, aes(x = totals, y = type, fill = totals)) +
   )
 ```
 
+
+  * The poor prediction accuracy of the cubic model in predicting when people will 
+  be detained may be attributed to the skewness of the data.  Above, we see that 
+  there were 3,787 events when no one was detained and 1,609 when people were 
+  detained.  Therefore, the model may not have enough data to better predict when
+  people will be detained.  The model may be more effective once more data are 
+  collected and the data become normally distributed. 
+  
 __1f)__	provide your code, and a single visualization per question that summarizes 
 your finding
 
   * To contextualize the usefulness of the prediction model, the following 
-  visualizations show the total number of weapons seized when people are detained 
+  visualization shows the total number of weapons seized when people are detained 
   versus not detained and the total number of organized crime members wounded when 
-  people are detained versus not detained.  These graphs should help the Mexican 
+  people are detained versus not detained.  This graph should help the Mexican 
   government decide whether it is worth pursuing a strategy centered around detaining 
   more people if the goal is to maximize the number of weapons seized and organized crime
   members wounded.
   
 ```{r}
+# Create a smaller dataset to build the visualization: 
+
+# Subset of `weapons_seized` and `organized.crime.wounded` when peoeple were detained:
 detained_subset <- subset(AllData,
                           detained_resp == 1,
                           select = c(weapons_seized, organized.crime.wounded))
 
+# Subset of `weapons_seized` and `organized.crime.wounded` when no one was detained:
 not_detained_subset <- subset(AllData,
                               detained_resp == 0,
                               select = c(weapons_seized, organized.crime.wounded))
@@ -386,8 +391,8 @@ ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
   be detained based on thee varaibles as well as it predicts when people will 
   not be detained, this issue may be solved once more data are collected. 
   The current dataset is heavily skewed towards cases when no one was detained, 
-  as seen above in quest 1e.  Once more data are colelcted, the distribution should
-  normlaize and the cubc model may have a more balanced success rate. 
+  as seen above in question ___1e___.  Once more data are colelcted, the distribution should
+  normalize and the cubic model may have a more balanced success rate. 
   
 __1g)__	phrase your finding for each question in two ways:
 
@@ -402,11 +407,11 @@ __1g-2)__	one paragraph that reflects all nuance in your insight
   * A cubic model used the number of organized crime members wounded and weapons 
   seized per event to successfully predict when people will not be detained but 
   not when people will be detained with the same level of accuracy. The distribution
-  of the data is not normal and skewed with more cases when people were not detained.
+  of the data is not normal and skewed towards more cases when people were not detained.
   Additionally, the data suffers from heteroscedasticity and extreme outliers that
-  influence the regression results.  Overall, the cubic model violates multiple
+  influence the regression results.  Overall, the cubic model violates many
   regression assumptions and the ouput is not useful in predicting when people will
-  be detained.
+  be detained.  
         
 __1h)__	make sure to also include your code
   
