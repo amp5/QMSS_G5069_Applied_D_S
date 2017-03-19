@@ -15,7 +15,6 @@ rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
 library(readr)          # easier reading of flat files
 library(caret)          # classification and regresssion training package
-library(randomForest)   # Random Forests package
 
 # ::::::: SOME USEFUL DEFINITIONS :::::::::::::::::::::::::::::::::::::::::::::  
 
@@ -74,22 +73,26 @@ violence contained on our dataset. Apply one algorithm per question and share
 your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 finding! It tells you whether a question is worth pursuing further or not.
   
-  * Which type of regression model (linear, quadreatic, cubic, quartic) best 
+  * Which type of regression model (linear, quadratic, cubic, quartic) best 
   predicts whether or not people will be detained using 
   all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`, and
   `long.guns.seized`) seized and wounded organized crime members as predictors?
   Will this model help the Mexican government formulate a strategy when the goal
-  is to maxiize the number of people detained? 
+  is to maximize the number of people detained? 
 
 __1a)__	perform the necessary transformations in your data - if any are needed, 
 and explain why you did that
 
-  * The variables `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
+  * The variables `clips.seized`, `cartridge.sezied`, `small.arms.seized`, and
   `long.guns.seized` will be summed into one variable named `weapons_seized`.
+  This new variable will allow us to analyze the total number of weapons seized.
+  We want to understand how seizing any type of weapon relates to 
+  whether people are detained rather than the number of each type of weapon
+  seized.  We are including `clips.seized` because clips are part of weapons.
   
   * A new variable will be created named `detained_resp` to record whether people 
-  where detained (`1`) or not (`0`) in order to predict the response of whether
-  people will be detained or not.
+  where detained (`1`) or not (`0`).  We want to predict the response of whether
+  people will be detained or not rather than the number of people detained.
   
 ```{r}
 AllData$weapons_seized <- transform(AllData$clips.seized + 
@@ -103,7 +106,8 @@ AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized))) # convert
 
 AllData$detained_resp <- ifelse(AllData$detained > 0, 1, 0) 
 
-AllData <- as.data.frame(AllData)
+typeof(AllData)
+AllData <- as.data.frame(AllData) # convert from list to data.frame
 ```
 
 __1b)__	show the output from your analysis in a consumable form
@@ -157,7 +161,7 @@ p_cubic_table # cubic regression confusion matrix
   The cubic regression model had the highest 
   prediction accuracy of 0.7135 or 71.35% in using wounded organized crime members
   and all weapons seized to predict whether people would be detained or not.  The
-  cubic confusion matrix shows that the model correctly predicted that no one
+  cubic model's confusion matrix shows that the model correctly predicted that no one
   would be detained 1,875 times and people would be detained 50 times. Although 
   the model has the highest prediction accuracy, it is mainly driven by correct 
   predictions of no one being detained.  Overall, it does not successfully 
@@ -178,11 +182,19 @@ or to the data itself
 ```{r}
 plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
         data = AllData)) # cubic regression
+
+library(MASS)
+hist(studres(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 3),
+                data = AllData)),
+     main = "Distribution of Studentized Residuals") ## The Studentized 
+## residuals, like standardized residuals, are normalized to unit 
+## variance, but the Studentized version is fitted ignoring the current 
+## data point. 
 ```  
 
   * __Residuals vs Fitted plot:__ This plot shows whether the residuals have non-linear 
   patterns.  Although the cubic model had the highest prediction accuracy of all
-  the regression models,the residuals do not show cubic relationship on this plot,
+  the regression models,the residuals do not show a cubic relationship on this plot,
   but rather two linear lines that have a clear turning point.  Therefore, the cubic
   nature of the model may not actually be the most appropriate fit for the data. This
   may help explain why there was unbalanced prediction accuracy in that more "not detained"
@@ -193,18 +205,21 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   normally distributed.  This may represent bias or skewness in the data, which may be 
   attributed to unbalanced cases of detained versus not detained.  If this is the case, 
   this may support the claim that there are more cases of people not being detained.
+  To understand the distribution of the data, the histrogram of the 
+  `Distribution of Studentized Residuals` shows that the data are heavily skewed
+  towards events when no one was detained.
   
   * __Scale-Location plot:__ This plot shows whether the residuals are spread 
   equally along the ranges of predictors.  Since the predictors are not equally 
   spread throughout the graph, this suggests that the data suffer from heterscedasticity, 
   meaning that variance among the residuals is not equal.  This seriously 
-  undermines the validity of the model because the modeling errors my not be 
+  undermines the validity of the model because the modeling errors may not be 
   uncorrelated and uniform. 
   
   * __Residuals vs Leverage plot:__ This plot illumiates outliers that may 
   be influential to regresson results.  The extreme outliers # 135 and 1429 
   are outside of the Cook’s distance (represented by the dotted line).  These
-  cases are influential to the regression results, which will be altered if
+  cases are influential to the regression results, which would be altered if
   these cases are excluded from the model.
 
   * __Conclusion:__ Given the analysis of the diagnostic plots above, the cubic 
@@ -221,7 +236,7 @@ suggest this question is worth pursuing further? why or why not?
   but the predicitons are skewed towards predicting when no one will be detained.
   This skewness in the prediction may be attributed to the findings noted in #1c 
   above related to the violations of regression assumptions, especially that the 
-  data are notmally distributed. Predicting whether or not people will be detained 
+  data are not normally distributed. Predicting whether or not people will be detained 
   using all weapons seized and wounded organized crime members as predictors is not
   worth pursuing because the model poorly predicts cases when people will be detained.
   Moreover, since the model is not in compliance with the regression assumptions, the
@@ -246,6 +261,25 @@ library(ggplot2)
 ggplot(data = AllData) +
   geom_histogram(mapping = aes(detained_resp)) +
   xlab("No One Detained (x = 0) vs. Detained (x = 1")
+
+
+ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("red", "green", "red", "green")) +
+  coord_flip() +
+  ggtitle("Total Weapons Seized and Organized Crime\nMembers Wounded Based on Detention") + # title line break
+  geom_text(aes(label = Totals), vjust = 0, colour = "black") +
+  theme(axis.line = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position = "none",
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_blank())
 ```
 
 __1f)__	provide your code, and a single visualization per question that summarizes 
