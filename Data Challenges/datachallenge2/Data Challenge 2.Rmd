@@ -272,9 +272,17 @@ library(ggplot2)
 
 ggplot(data = data_dist, aes(x = totals, y = type, fill = totals)) +
   geom_bar(stat = "identity") +
-  ggtitle("Distribution of Events When People Were Detained or Not") 
-
-
+  ggtitle("Distribution of Events When People Were Detained or Not") +
+  scale_fill_discrete(name = "Legend",
+                      breaks = c("1609", "3787"),
+                      labels = c("People Detained", "No One Detained")) +
+  geom_text(aes(label = totals, vjust = 0)) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.text = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  )
 ```
 
 __1f)__	provide your code, and a single visualization per question that summarizes 
