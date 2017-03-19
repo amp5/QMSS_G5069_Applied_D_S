@@ -256,30 +256,20 @@ there is some additional information that would help in answering your question
 nrow(AllData[AllData$detained_resp == "0",]) # Number of events when no one was detained
 nrow(AllData[AllData$detained_resp == "1",]) # Number of events when people were detained
 
+data_dist <- matrix(c("3787",
+                      "1609",
+                      "No One Detained",
+                      "Detained"),
+                    ncol = 2,
+                    nrow = 2)
+
+data_dist <- as.data.frame(data_dist)
+
 library(ggplot2)
 
-ggplot(data = AllData) +
-  geom_histogram(mapping = aes(detained_resp)) +
-  xlab("No One Detained (x = 0) vs. Detained (x = 1")
-
-
-ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
+ggplot(data = data_dist, aes(x = V1, y = V2, fill = V1)) +
   geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("red", "green", "red", "green")) +
-  coord_flip() +
-  ggtitle("Total Weapons Seized and Organized Crime\nMembers Wounded Based on Detention") + # title line break
-  geom_text(aes(label = Totals), vjust = 0, colour = "black") +
-  theme(axis.line = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks = element_blank(),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        legend.position = "none",
-        panel.background = element_blank(),
-        panel.border = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        plot.background = element_blank())
+  ggtitle("Distribution of Events When People Were Detained or Not") 
 ```
 
 __1f)__	provide your code, and a single visualization per question that summarizes 
