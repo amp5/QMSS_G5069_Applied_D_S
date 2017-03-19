@@ -506,17 +506,7 @@ ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
 </div>
 <div id="model-2-for-question-1" class="section level1">
 <h1><strong>Model #2 for question #1:</strong></h1>
-<div id="ask-two-2-questions-that-might-help-you-understand-better-the-dynamics-of" class="section level3">
-<h3>1. Ask two (2) questions that might help you understand better the dynamics of</h3>
-</div>
-<div id="violence-contained-on-our-datas-et.-apply-one-algorithm-per-question-and-share" class="section level3">
-<h3>violence contained on our datas et. Apply one algorithm per question and share</h3>
-</div>
-<div id="your-insights-from-each-analysis.-50-pts-remember-a-non-finding-is-also-a" class="section level3">
-<h3>your insights from each analysis. [50 pts] Remember: a non-finding is also a</h3>
-</div>
-<div id="finding-it-tells-you-whether-a-question-is-worth-pursuing-further-or-not." class="section level3">
-<h3>finding! It tells you whether a question is worth pursuing further or not.</h3>
+<p><strong>1.)</strong> Ask two (2) questions that might help you understand better the dynamics of violence contained on our datas et. Apply one algorithm per question and share your insights from each analysis. [50 pts] Remember: a non-finding is also a finding! It tells you whether a question is worth pursuing further or not.</p>
 <ul>
 <li>Does the specific government group involved with an event (AFI, Army, Federal Police, Ministerial Police, Municipal Police, Navy, Other, and State Police) have a positive or negative relationship with Perfect Lethality? We can see from the graph below that there are about 1500 cases with perfect lethality therefore I believe it is acceptable to examine this question.</li>
 </ul>
@@ -536,7 +526,7 @@ AllData$weapons_seized &lt;- transform(AllData$clips.seized +
 AllData$weapons_seized &lt;- as.numeric(unlist((AllData$weapons_seized)))</code></pre>
 <p><strong>1b)</strong> show the output from your analysis in a consumable form</p>
 <ul>
-<li>In order to answer our hypothesis we ran a multiple logistic regression on perfect lethality by the involvment of the AFI, Army, Federal Police, Ministerial Police, Municipal Police, Navy, Other, and State Police. A number of control variables were also included which are municipality code, number of detained in the events, the date of each event, the total people dead in the events, the total people wounded in the events, weaponry seized in the events, and the source of the data for the events (Confrontations or Aggresions database). We are using logistic regression becuase the variables being used are binary (0,1).</li>
+<li>In order to answer our hypothesis we ran a multiple logistic regression on perfect lethality by the involvment of the AFI, Army, Federal Police, Ministerial Police, Municipal Police, Navy, Other, and State Police. A number of control variables were also included which are municipality code, number of detained in the events, the date of each event, the total people dead in the events, the total people wounded in the events, weaponry seized in the events, and the source of the data for the events (Confrontations or Aggresions database). We are using logistic regression becuase the variables being used are binary (0, 1).</li>
 </ul>
 <pre class="r"><code>logit.perf_leth3 &lt;- glm(perfect.lethality ~ afi + army + federal.police + ministerial.police + municipal.police + navy + other + state.police + mun_code + detained + date + total.people.dead + total.people.wounded + weapons_seized + source, family = binomial (link = logit), data = AllData)</code></pre>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
@@ -683,14 +673,14 @@ n + geom_bar() +
 ## AIC: 4084.7
 ## 
 ## Number of Fisher Scoring iterations: 7</code></pre>
-<pre class="r"><code>#explain limitation with datasets and also explain how logit are hard to explain/interpret</code></pre>
+<pre class="r"><code># explain limitation with datasets and also explain how logit are hard to explain/interpret</code></pre>
 <p><strong>1d)</strong> did you find something interesting? what is that? does your finding suggest this question is worth pursuing further? why or why not?</p>
 <ul>
 <li>We found that the navy and the army seem to a statistically significant and positive relationship to perfect lethality, controlling for all other variables included in the model. This means that if the Army or Navy is involved in an event the event has higher odds of being an event of perfect lethality. I feel this finding does suggest this question is worth pursuing further because it is important to know the effectivness of each individual group to know what groups to send into specific situations.</li>
 </ul>
 <p><strong>1e)</strong> if you did not find something interesting, explain why, and whether there is some additional information that would help in answering your question</p>
 <ul>
-<li></li>
+<li>Not applicable.</li>
 </ul>
 <p><strong>1f)</strong> provide your code, and a single visualization per question that summarizes your finding</p>
 <pre class="r"><code>library(popbio)</code></pre>
@@ -802,7 +792,6 @@ logi.hist.plot(AllData$state.police,
 <ul>
 <li>The code is included under each quetsion above.</li>
 </ul>
-</div>
 </div>
 <div id="model-1-for-question-2" class="section level1">
 <h1><strong>Model #1 for question #2:</strong></h1>

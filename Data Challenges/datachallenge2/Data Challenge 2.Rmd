@@ -374,10 +374,10 @@ __1h)__	make sure to also include your code
   
 #__Model #2 for question #1:__
 
-###1.	Ask two (2) questions that might help you understand better the dynamics of 
-###violence contained on our datas et. Apply one algorithm per question and share 
-###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
-###finding! It tells you whether a question is worth pursuing further or not.
+__1.)__	Ask two (2) questions that might help you understand better the dynamics of 
+violence contained on our datas et. Apply one algorithm per question and share 
+your insights from each analysis. [50 pts] Remember: a non-finding is also a 
+finding! It tells you whether a question is worth pursuing further or not.
   
   * Does the specific government group involved with an event (AFI, Army, 
   Federal Police, Ministerial Police, Municipal Police, Navy, Other, and State 
@@ -417,7 +417,7 @@ __1b)__	show the output from your analysis in a consumable form
   detained in the events, the date of each event, the total people dead in the 
   events, the total people wounded in the events, weaponry seized in the events, 
   and the source of the data for the events (Confrontations or Aggresions database). 
-  We are using logistic regression becuase the variables being used are binary (0,1).  
+  We are using logistic regression becuase the variables being used are binary (0, 1).  
 
 ```{r}
 logit.perf_leth3 <- glm(perfect.lethality ~ afi + army + federal.police + ministerial.police + municipal.police + navy + other + state.police + mun_code + detained + date + total.people.dead + total.people.wounded + weapons_seized + source, family = binomial (link = logit), data = AllData)
@@ -460,7 +460,7 @@ logit.perf_leth2 <- glm(perfect.lethality ~ afi + army + federal.police +
                         data = AllData)
 summary(logit.perf_leth2)
 summary(logit.perf_leth3)
-#explain limitation with datasets and also explain how logit are hard to explain/interpret
+# explain limitation with datasets and also explain how logit are hard to explain/interpret
 ```
 
 __1d)__	did you find something interesting? what is that? does your finding 
@@ -477,7 +477,7 @@ suggest this question is worth pursuing further? why or why not?
 __1e)__	if you did not find something interesting, explain why, and whether 
 there is some additional information that would help in answering your question
 
-  * 
+  * Not applicable. 
   
 __1f)__	provide your code, and a single visualization per question that summarizes 
 your finding
