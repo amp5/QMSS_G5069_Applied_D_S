@@ -1,14 +1,15 @@
----
-title: 'Data Challenge #2'
-authors: "Brandon Wolff, Zachary Heinemann, and Stephanie Langeland"
-due date: "3/22/2017"
----
+Title: Data Challenge #2
+
+Authors: Brandon Wolff, Zachary Heinemann, and Stephanie Langeland
+
+Due date: 3/22/2017
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Review the data: 
+__Review/load the data: __
+
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
@@ -66,19 +67,19 @@ auth_lookup_data <- read.csv(auth_lookup)
 This is a team assignment. Please create a file on your team GitHub repo where 
 you answer the challenge, including links to your code, and graphs.
 
-#__Model #1 for question #1:__
+# Model #1 for question #1:
 
-###1.)	Ask two (2) questions that might help you understand better the dynamics of 
-###violence contained on our dataset. Apply one algorithm per question and share 
-###your insights from each analysis. [50 pts] Remember: a non-finding is also a 
-###finding! It tells you whether a question is worth pursuing further or not.
+__1.)__	Ask two (2) questions that might help you understand better the dynamics of 
+violence contained on our dataset. Apply one algorithm per question and share 
+your insights from each analysis. [50 pts] Remember: a non-finding is also a 
+finding! It tells you whether a question is worth pursuing further or not.
   
   * Which regression model best predicts whether or not people will be detained using 
   all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
   `long.guns.seized`) seized and wounded organized crime members as predictors?
 
-###1a)	perform the necessary transformations in your data - if any are needed, 
-###and explain why you did that
+__1a)__	perform the necessary transformations in your data - if any are needed, 
+and explain why you did that
 
   * The variables `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
   `long.guns.seized` will be summed into one variable named `weapons_seized`.
@@ -102,8 +103,10 @@ AllData$detained_resp <- ifelse(AllData$detained > 0, 1, 0)
 AllData <- as.data.frame(AllData)
 ```
 
-###1b)	show the output from your analysis in a consumable form
+__1b)__	show the output from your analysis in a consumable form
+  
   * __Regression Models:__
+  
 ```{r}
 set.seed(1234)  # for reproducibility 
 train <- sample(nrow(AllData), 2698) # randomly sample half of the data
@@ -135,16 +138,19 @@ p_cubic_table <- confusionMatrix(testing$detained_resp, as.integer(p_cubic > 0.5
 p_quartic <- predict(quartic, newdata = testing, type = "response")
 p_quartic_table <- confusionMatrix(testing$detained_resp, as.integer(p_quartic > 0.5))
 ```
+  
   * __Regression Results:__
   A confusion matrix was constructed for each of the models and ranked in 
   order from worst to best prediction accuracy:
+  
 ```{r}
 p_quadratic_table # quadratic regression confusion matrix 
 p_liner_table # linear regression confusion matrix 
 p_quartic_table # quartic regression confusion matrix
 p_cubic_table # cubic regression confusion matrix 
 ```
-  *__Analysis of the output:__
+  
+  * __Analysis of the output:__
   The cubic regression model had the highest 
   prediction accuracy of 0.7135 or 71.35% in using wounded organized crime members
   and all weapons seized to predict whether people would be detained or not.  The
@@ -160,8 +166,9 @@ p_cubic_table # cubic regression confusion matrix
   It also incorrectly predicted that people would not be detained when people were
   detained in 36 events.
 
-###1c)	be explicit about the limitations of your anaylisis, due to estimation 
-###or to the data itself
+__1c)__	be explicit about the limitations of your anaylisis, due to estimation 
+or to the data itself
+  
   * The limitations of the cubic regression model are shown through various diagnostic 
   plots using the entire dataset.  Refer to the analysis below the plots. 
 
@@ -170,7 +177,7 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
         data = AllData)) # cubic regression
 ```  
 
-  1.) __Residuals vs Fitted plot:__ This plot shows whether the residuals have non-linear 
+  * __Residuals vs Fitted plot:__ This plot shows whether the residuals have non-linear 
   patterns.  Although the cubic model had the highest prediction accuracy of all
   the regression models,the residuals do not show cubic relationship on this plot,
   but rather two linear lines that have a clear turning point.  Therefore, the cubic
@@ -178,46 +185,48 @@ plot(lm(detained_resp ~ poly(weapons_seized + organized.crime.wounded, degree = 
   may help explain why there was unbalanced prediction accuracy in that more "not detained"
   cases were predicted than "detained" cases. 
   
-  2.) __Normal Q-Q plot:__ This plot shows whether the residuals are normally distributed.  
+  * __Normal Q-Q plot:__ This plot shows whether the residuals are normally distributed.  
   Since the residuals on the graph do not follow the straight dashed line, the data are not 
   normally distributed.  This may represent bias or skewness in the data, which may be 
   attributed to unbalanced cases of detained versus not detained.  If this is the case, 
   this may support the claim that there are more cases of people not being detained.
   
-  3.) __Scale-Location plot:__ This plot shows whether the residuals are spread 
+  * __Scale-Location plot:__ This plot shows whether the residuals are spread 
   equally along the ranges of predictors.  Since the predictors are not equally 
   spread throughout the graph, this suggests that the data suffer from heterscedasticity, 
   meaning that variance among the residuals is not equal.  This seriously 
   undermines the validity of the model because the modeling errors my not be 
   uncorrelated and uniform. 
   
-  4.) __Residuals vs Leverage plot:__ This plot illumiates outliers that may 
+  * __Residuals vs Leverage plot:__ This plot illumiates outliers that may 
   be influential to regresson results.  The extreme outliers # 135 and 1429 
   are outside of the Cook’s distance (represented by the dotted line).  These
   cases are influential to the regression results, which will be altered if
   these cases are excluded from the model.
 
-  __Conclusion:__ Given the analysis of the diagnostic plots above, the cubic 
+  * __Conclusion:__ Given the analysis of the diagnostic plots above, the cubic 
   model has serious limitations that violate the basic regression assumptions.
   These limitations may invalidate the regression results.  The severity  of
   these limitations may become less influential as more data are collected.
   As more data are collected, theoretically, the distribution should normalize
   and become homoscedastic.
   
-###1d)	did you find something interesting? what is that? does your finding 
-###suggest this question is worth pursuing further? why or why not?
-    * It is interesting that the cubic model predicts the best out of all the models
-    but the predicitons are skewed towards predicting when no one will be detained.
-    This skewness in the prediction may be attributed to the findings noted in #1c 
-    above related to the violations of regression assumptions, especially that the 
-    data are notmally distributed. Predicting whether or not people will be detained 
-    using all weapons seized and wounded organized crime members as predictors is not
-    worth pursuing because the model poorly predicts cases when people will be detained.
-    Moreover, since the model is not in compliance with the regression assumptions, the
-    results may not be true findings. 
+__1d)__ did you find something interesting? what is that? does your finding 
+suggest this question is worth pursuing further? why or why not?
+   
+  * It is interesting that the cubic model predicts the best out of all the models
+  but the predicitons are skewed towards predicting when no one will be detained.
+  This skewness in the prediction may be attributed to the findings noted in #1c 
+  above related to the violations of regression assumptions, especially that the 
+  data are notmally distributed. Predicting whether or not people will be detained 
+  using all weapons seized and wounded organized crime members as predictors is not
+  worth pursuing because the model poorly predicts cases when people will be detained.
+  Moreover, since the model is not in compliance with the regression assumptions, the
+  results may not be true findings. 
 
-###1e)	if you did not find something interesting, explain why, and whether 
-###there is some additional information that would help in answering your question
+__1e)__	if you did not find something interesting, explain why, and whether 
+there is some additional information that would help in answering your question
+ 
   * The poor prediction accuracy of the cubic model in predicting when people will 
   be detained may be attributed to the skewness of the data.  Below, we see that 
   there were 3,787 events when no one was detained and 1,609 when people were 
@@ -236,8 +245,9 @@ ggplot(data = AllData) +
   xlab("No One Detained (x = 0) vs. Detained (x = 1")
 ```
 
-###1f)	provide your code, and a single visualization per question that summarizes 
-###your finding
+__1f)__	provide your code, and a single visualization per question that summarizes 
+your finding
+
   * To contextualize the usefulness of the prediction model, the following 
   visualizations show the total number of weapons seized when people are detained 
   versus not detained and the total number of organized crime members wounded when 
@@ -339,13 +349,16 @@ ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
   as seen above in quest 1e.  Once more data are colelcted, the distribution should
   normlaize and the cubc model may have a more balanced success rate. 
   
-###1g)	phrase your finding for each question in two ways:
-###1g-1)	one sentence that summarizes your insight
+__1g)__	phrase your finding for each question in two ways:
+
+__1g-1)__	one sentence that summarizes your insight
+
   * A cubic model used the number of organized crime members wounded and weapons 
   seized per event to successfully predict when people will not be detained but 
   not when people will be detained with the same level of accuracy. 
 
-###1g-2)	one paragraph that reflects all nuance in your insight
+__1g-2)__	one paragraph that reflects all nuance in your insight
+ 
   * A cubic model used the number of organized crime members wounded and weapons 
   seized per event to successfully predict when people will not be detained but 
   not when people will be detained with the same level of accuracy. The distribution
@@ -355,7 +368,8 @@ ggplot(data = total_figures_new, aes(y = Totals, x = subject, fill = subject)) +
   regression assumptions and the ouput is not useful in predicting when people will
   be detained.
         
-###1h)	make sure to also include your code
+__1h)__	make sure to also include your code
+  
   * The code is included under each quetsion above.
   
 #__Model #2 for question #1:__
@@ -377,8 +391,9 @@ pl <- ggplot(AllData, aes(perfect.lethality))
 pl + geom_bar()
 ```
 
-###1a	perform the necessary transformations in your data - if any are needed, 
-###and explain why you did that
+__1a)__	perform the necessary transformations in your data - if any are needed, 
+and explain why you did that
+
   * We used the same code used above to create a variable for total weaponry 
   seized (`weapons_seized`) by using the sum of the variables `clips.seized`,
   `cartridge.sezied`, `small.arms.seized`, `long.guns.seized`. This variable 
@@ -393,7 +408,8 @@ AllData$weapons_seized <- transform(AllData$clips.seized +
 AllData$weapons_seized <- as.numeric(unlist((AllData$weapons_seized)))
 ```
 
-###1b	show the output from your analysis in a consumable form
+__1b)__	show the output from your analysis in a consumable form
+  
   * In order to answer our hypothesis we ran a multiple logistic regression on 
   perfect lethality by the involvment of the AFI, Army, Federal Police, 
   Ministerial Police, Municipal Police, Navy, Other, and State Police. A number 
@@ -408,8 +424,9 @@ logit.perf_leth3 <- glm(perfect.lethality ~ afi + army + federal.police + minist
 summary(logit.perf_leth3)
 ```
 
-###1c	be explicit about the limitations of your anaylisis, due to estimation 
-###or to the data itself
+__1c__	be explicit about the limitations of your anaylisis, due to estimation 
+or to the data itself
+
   * There are a number of limitations with the anaylisis. One limitation is 
   that not all government groups were involved in a large sum of events. For 
   example, the Navy was only involved in 89 cases and the AFI was only involved 
@@ -426,13 +443,13 @@ n + geom_bar() +
     ggtitle("NAVY")
 ```
 
-It should also be noted that the 'source' of the data was highly significant 
-in the model and if that variable is not included Ministerial Police, Municipal 
-Police, and State Police involvment all  become significant. I beleive this is 
-problematic becuase the two datasets might not be collected in the same fashion. 
-This model with and without the variable 'source' can be viewed below. It is also 
-a limitation that logistic models are more difficult to explain/interpret in 
-comparison to simple linear regression models. 
+  * It should also be noted that the 'source' of the data was highly significant 
+  in the model and if that variable is not included Ministerial Police, Municipal 
+  Police, and State Police involvment all  become significant. I beleive this is 
+  problematic becuase the two datasets might not be collected in the same fashion. 
+  This model with and without the variable 'source' can be viewed below. It is also 
+  a limitation that logistic models are more difficult to explain/interpret in 
+  comparison to simple linear regression models. 
   
 ```{r}
 logit.perf_leth2 <- glm(perfect.lethality ~ afi + army + federal.police + 
@@ -446,22 +463,24 @@ summary(logit.perf_leth3)
 #explain limitation with datasets and also explain how logit are hard to explain/interpret
 ```
 
-###1d	did you find something interesting? what is that? does your finding 
-###suggest this question is worth pursuing further? why or why not?
-    * We found that the navy and the army seem to a statistically significant 
-    and positive relationship to perfect lethality, controlling for all other 
-    variables included in the model. This means that if the Army or Navy is 
-    involved in an event the event has higher odds of being an event of perfect 
-    lethality. I feel this finding does suggest this question is worth pursuing 
-    further because it is important to know the effectivness of each individual 
-    group to know what groups to send into specific situations. 
+__1d)__	did you find something interesting? what is that? does your finding 
+suggest this question is worth pursuing further? why or why not?
+
+  * We found that the navy and the army seem to a statistically significant 
+  and positive relationship to perfect lethality, controlling for all other 
+  variables included in the model. This means that if the Army or Navy is 
+  involved in an event the event has higher odds of being an event of perfect 
+  lethality. I feel this finding does suggest this question is worth pursuing 
+  further because it is important to know the effectivness of each individual 
+  group to know what groups to send into specific situations. 
   
-###1e	if you did not find something interesting, explain why, and whether 
-###there is some additional information that would help in answering your question
+__1e)__	if you did not find something interesting, explain why, and whether 
+there is some additional information that would help in answering your question
+
   * 
   
-###1f	provide your code, and a single visualization per question that summarizes 
-###your finding
+__1f)__	provide your code, and a single visualization per question that summarizes 
+your finding
   
 ```{r fig.width=12, fig.height=12}
 library(popbio)
@@ -557,12 +576,15 @@ logi.hist.plot(AllData$state.police,
 ```
 
 
-###1g	phrase your finding for each question in two ways:
-###1g-1	one sentence that summarizes your insight
+__1g)__	phrase your finding for each question in two ways:
+
+__1g-1)__	one sentence that summarizes your insight
+  
   * The invovlment of the Navy or Army in an event on average increase the 
   chances of said event being one of perfect lethality.
 
-###1g-2	one paragraph that reflects all nuance in your insight
+__1g-2)__	one paragraph that reflects all nuance in your insight
+  
   * It is very interesting that the conttrol variables municipality code, number 
   of  detained in the events, the date of each event, the total people dead in 
   the events, the total people wounded in the events, and the source of the data 
@@ -578,112 +600,129 @@ logi.hist.plot(AllData$state.police,
   well trained at killing in comparison to the AFI, Federal Police, Ministerial 
   Police, Municipal Police, State Police, and other. 
         
-###1h	make sure to also include your code
+__1h)__	make sure to also include your code
+  
   * The code is included under each quetsion above.
   
 #__Model #1 for question #2:__
   
-###2.)	Formulate two (2) conditional hypotheses that you seek to investigate with 
-###the data. One of your hypotheses should condition on two variables (as the 
-###example on the slides), and the other should condition on three variables. [50 pts]
+__2.)__	Formulate two (2) conditional hypotheses that you seek to investigate with 
+the data. One of your hypotheses should condition on two variables (as the 
+example on the slides), and the other should condition on three variables. [50 pts]
     
-    * ZACH 
+  * ZACH 
 
 ```{r}
 
 ```
 
-  
-###2a)	formulate each one of your hypotheses explicitly in substantive terms (as 
-###opposed to statistical terms) using 2-3 lines at most
+__2a)__	formulate each one of your hypotheses explicitly in substantive terms (as 
+opposed to statistical terms) using 2-3 lines at most
+
   * 
   
-###2b)	show exactly how each one of your hypotheses translates into the marginal 
-###effect that you will seek to estimate from the data
+__2b)__	show exactly how each one of your hypotheses translates into the marginal 
+effect that you will seek to estimate from the data
+
   * 
   
-###2c)	show the output from your analysis in a consumable form
-  * 
-
-```{r}
-
-```
-
-###2dv	show all your computations to estimate the corresponding marginal effect 
-###and its standard error
+__2c)__	show the output from your analysis in a consumable form
+ 
   * 
 
 ```{r}
 
 ```
 
-###2e)	be explicit in your assumptions
+__2d)__	show all your computations to estimate the corresponding marginal effect 
+and its standard error
+
+  * 
+
+```{r}
+
+```
+
+__2e)__	be explicit in your assumptions
+
   * 
   
-###2f	be explicit in the limitations of your inferences
+__2f)__	be explicit in the limitations of your inferences
+
   * 
   
-###2g)	phrase your finding for each question in two ways:
-###2g-1)	one sentence that summarizes your insight
+__2g)__	phrase your finding for each question in two ways:
+
+__2g-1)__	one sentence that summarizes your insight
+  
+  * 
+
+__2g-2)__	one paragraph that reflects all nuance in your insight
+  
   * 
   
-###2g-2)	one paragraph that reflects all nuance in your insight
-  * 
-  
-###2h)	make sure to also include your code
+__2h)__	make sure to also include your code
   
   * The code is included under each quetsion above.
 
 #__Model #1 for question #2:__
 
-###2.)	Formulate two (2) conditional hypotheses that you seek to investigate with 
-###the data. One of your hypotheses should condition on two variables (as the 
-###example on the slides), and the other should condition on three variables. [50 pts]
+__2.)__	Formulate two (2) conditional hypotheses that you seek to investigate with 
+the data. One of your hypotheses should condition on two variables (as the 
+example on the slides), and the other should condition on three variables. [50 pts]
     
-    * ZACH:  
+  * ZACH:  
 
 ```{r}
 
 ```
   
-###2a)	formulate each one of your hypotheses explicitly in substantive terms (as 
-###opposed to statistical terms) using 2-3 lines at most
+__2a)__	formulate each one of your hypotheses explicitly in substantive terms (as 
+opposed to statistical terms) using 2-3 lines at most
+
   * 
   
-###2b)	show exactly how each one of your hypotheses translates into the marginal 
-###effect that you will seek to estimate from the data
+__2b)__	show exactly how each one of your hypotheses translates into the marginal 
+effect that you will seek to estimate from the data
+
   * 
   
-###2c)	show the output from your analysis in a consumable form
-  * 
-
-```{r}
-
-```
-
-###2d)	show all your computations to estimate the corresponding marginal effect 
-###and its standard error
+__2c)__	show the output from your analysis in a consumable form
+  
   * 
 
 ```{r}
 
 ```
 
-###2e)	be explicit in your assumptions
+__2d)__	show all your computations to estimate the corresponding marginal effect 
+and its standard error
+
+  * 
+
+```{r}
+
+```
+
+__2e)__	be explicit in your assumptions
+  
   * 
   
-###2f)	be explicit in the limitations of your inferences
+__2f)__	be explicit in the limitations of your inferences
+  
   * 
   
-###2g)	phrase your finding for each question in two ways:
-###2g-1)	one sentence that summarizes your insight
+__2g)__	phrase your finding for each question in two ways:
+
+__2g-1)__	one sentence that summarizes your insight
+
+  *
+  
+__2g-2)__	one paragraph that reflects all nuance in your insight
+  
   * 
   
-###2g-2)	one paragraph that reflects all nuance in your insight
-  * 
-  
-###2h)	make sure to also include your code
+__2h)__	make sure to also include your code
   
   * The code is included under each quetsion above.
-  
   
