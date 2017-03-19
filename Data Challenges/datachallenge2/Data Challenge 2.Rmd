@@ -74,9 +74,12 @@ violence contained on our dataset. Apply one algorithm per question and share
 your insights from each analysis. [50 pts] Remember: a non-finding is also a 
 finding! It tells you whether a question is worth pursuing further or not.
   
-  * Which regression model best predicts whether or not people will be detained using 
-  all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`,
+  * Which type of regression model (linear, quadreatic, cubic, quartic) best 
+  predicts whether or not people will be detained using 
+  all weapons (defined as `clips.seized`, `cartridge.sezied`, `small.arms.seized`, and
   `long.guns.seized`) seized and wounded organized crime members as predictors?
+  Will this model help the Mexican government formulate a strategy when the goal
+  is to maxiize the number of people detained? 
 
 __1a)__	perform the necessary transformations in your data - if any are needed, 
 and explain why you did that
@@ -665,7 +668,7 @@ __2h)__	make sure to also include your code
   
   * The code is included under each quetsion above.
 
-#__Model #1 for question #2:__
+#__Model #2 for question #2:__
 
 __2.)__	Formulate two (2) conditional hypotheses that you seek to investigate with 
 the data. One of your hypotheses should condition on two variables (as the 
