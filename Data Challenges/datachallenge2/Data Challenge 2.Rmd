@@ -265,11 +265,16 @@ data_dist <- matrix(c("3787",
 
 data_dist <- as.data.frame(data_dist)
 
+library(plyr)
+data_dist <- rename(data_dist, c("V1" = "totals", "V2" = "type"))
+
 library(ggplot2)
 
-ggplot(data = data_dist, aes(x = V1, y = V2, fill = V1)) +
+ggplot(data = data_dist, aes(x = totals, y = type, fill = totals)) +
   geom_bar(stat = "identity") +
   ggtitle("Distribution of Events When People Were Detained or Not") 
+
+
 ```
 
 __1f)__	provide your code, and a single visualization per question that summarizes 
