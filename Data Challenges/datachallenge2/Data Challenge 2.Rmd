@@ -776,7 +776,7 @@ and its standard error
 
   * The marginal effect for a three variable conditioning hypothesis will be formulated using tables from Aiken & West (1991; see attached picture for formulas) which give the marginal effects and standard errors for a three-way interaction. 
   
-![Formulas for Marginal Effects](/Users/zachheinemann/Downloads/AikenWest.jpg)
+![Formulas for Marginal Effects](/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges/datachallenge2/AikenWest.jpg)
   
   The formula for marginal effect is the long gun term added with the army -- long gun interaction term, the source -- long gun interaction term, and the three-way interaction term like such:
   
