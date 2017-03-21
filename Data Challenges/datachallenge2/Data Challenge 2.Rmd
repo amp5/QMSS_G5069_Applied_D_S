@@ -819,7 +819,7 @@ __2e)__	be explicit in your assumptions
   
 __2f)__	be explicit in the limitations of your inferences
   
-    * Because of similarities between this model and the last, some of the limitations stated are repeated here.
+  * Because of similarities between this model and the last, some of the limitations stated are repeated here.
   * The model has a series of limitations insofar as the dependent variable is not necessarily distributed ideally for the model used. Because this is not a count variable, one must take the interpretation of the model with skepticism (for example, some combination of predictors could result in non-integer or negative number of deaths, both of which are non-possible values).
   * Additionally, one must recognize that the inter-correlation between the predictors means that these estimates may be even more unstable than one might think and therefore we are limited in the extent to which we are confident in any of the model's parameters due to this inter-correlation.
   *It is worth noting that there is a censorship on the dependent variable, as only the cases in which they are defined as a confrontation are documented, and therefore this censorship means that the inferences that one can make from the data are limited by the collection and scope of the data itself, indicating that perhaps we should be skeptical of the extent to which the estimates and insights from this dataset may extrapolate out of the scope of time, location, and data gathering method that this data possesses.
