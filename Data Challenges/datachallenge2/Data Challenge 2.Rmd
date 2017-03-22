@@ -441,7 +441,7 @@ and explain why you did that
 
   * We used the same code used above to create a variable for total weaponry 
   seized (`weapons_seized`) by using the sum of the variables `clips.seized`,
-  `cartridge.sezied`, `small.arms.seized`, `long.guns.seized`. This variable 
+  `cartridge.seized`, `small.arms.seized`, `long.guns.seized`. This variable 
   will be used in order to control for all weaponary seized in our analysis.
   
 ```{r}
@@ -461,7 +461,7 @@ __1b)__	show the output from your analysis in a consumable form
   of control variables were also included which are municipality code, number of
   detained in the events, the date of each event, the total people dead in the 
   events, the total people wounded in the events, weaponry seized in the events, 
-  and the source of the data for the events (Confrontations or Aggresions database). 
+  and the source of the data for the events (Confrontations or Aggressions database). 
   We are using logistic regression becuase the variables being used are binary (0, 1).  
 
 ```{r}
@@ -472,7 +472,7 @@ summary(logit.perf_leth3)
 __1c__	be explicit about the limitations of your anaylisis, due to estimation 
 or to the data itself
 
-  * There are a number of limitations with the anaylisis. One limitation is 
+  * There are a number of limitations with the analysis. One limitation is 
   that not all government groups were involved in a large sum of events. For 
   example, the Navy was only involved in 89 cases and the AFI was only involved 
   in 13 cases. The graphs below display the cases in which the navy and AFI were 
@@ -511,7 +511,7 @@ summary(logit.perf_leth3)
 __1d)__	did you find something interesting? what is that? does your finding 
 suggest this question is worth pursuing further? why or why not?
 
-  * We found that the navy and the army seem to a statistically significant 
+  * We found that the navy and the army seem to have a statistically significant 
   and positive relationship to perfect lethality, controlling for all other 
   variables included in the model. This means that if the Army or Navy is 
   involved in an event the event has higher odds of being an event of perfect 
@@ -625,22 +625,22 @@ __1g)__	phrase your finding for each question in two ways:
 
 __1g-1)__	one sentence that summarizes your insight
   
-  * The invovlment of the Navy or Army in an event on average increase the 
+  * The involvement of the Navy or Army in an event on average increases the 
   chances of said event being one of perfect lethality.
 
 __1g-2)__	one paragraph that reflects all nuance in your insight
   
-  * It is very interesting that the conttrol variables municipality code, number 
+  * It is very interesting that the control variables municipality code, number 
   of  detained in the events, the date of each event, the total people dead in 
   the events, the total people wounded in the events, and the source of the data 
-  for the events (Confrontations or Aggresions database) all were statistically 
+  for the events (Confrontations or Aggressions database) all were statistically 
   significant. This means that the municipality in which the event took place is 
   related to whether or not the event was one of perfect lethality. This is a 
   question that could be further examined. It is also worth noting that the navy 
   was only included in 89 events yet 75 of the events were ones of perfect 
   lethality. When seeing those numbers it does seem clear that the navy is 
-  important when it come to perfect lethality, yet they are not involved in 
-  many cases whatsover. The Army on the other hand was involved in 1057 events
+  important when it comes to perfect lethality, yet they are not involved in 
+  many cases whatsoever. The Army on the other hand was involved in 1057 events
   and 797 of said events had perfect lethality. The army and the Navy seem to be 
   well trained at killing in comparison to the AFI, Federal Police, Ministerial 
   Police, Municipal Police, State Police, and other. 
@@ -654,8 +654,6 @@ __1h)__	make sure to also include your code
 __2.)__	Formulate two (2) conditional hypotheses that you seek to investigate with 
 the data. One of your hypotheses should condition on two variables (as the 
 example on the slides), and the other should condition on three variables. [50 pts]
-    
-  * ZACH 
 
 ```{r}
 fit <- lm(total.people.dead ~ cartridge.sezied + army + federal.police + ministerial.police + municipal.police + navy + state.police + long.guns.seized * source + small.arms.seized + clips.seized + vehicles.seized, data = AllData)
@@ -664,12 +662,12 @@ fit <- lm(total.people.dead ~ cartridge.sezied + army + federal.police + ministe
 __2a)__	formulate each one of your hypotheses explicitly in substantive terms (as 
 opposed to statistical terms) using 2-3 lines at most
 
-  * Our first hypothesis is such that there is a relationship between long guns seized and number of people dead such that as more long guns are seized (a proxy for severity of the incident as long guns are most lethal of the arms listed), there will be more people dead; further, becuase of the clear differences in datasets (seen in exploratory analysis), we expect that this relationship may differ as a function of the source of the dataset.
+  * Our first hypothesis is such that there is a relationship between long guns seized and number of people dead such that as more long guns are seized (a proxy for severity of the incident as long guns are most lethal of the arms listed), there will be more people dead; further, because of the clear differences in datasets (seen in exploratory analysis), we expect that this relationship may differ as a function of the source of the dataset.
   
 __2b)__	show exactly how each one of your hypotheses translates into the marginal 
 effect that you will seek to estimate from the data
 
-  * Given that the Aggressions dataset appears to have less lethality, we may expect that the relationship between long guns seized and people dead would be lower in this dataset as opposed to the confrontations dataset -- therefore the interaction term would be positive and the marginal effect of 'source' being the confrontations (as opposed to aggression) would be higher than if we were to estimate the relationship without this conditional variable. Rather, we expect the positive relationship between long guns seized and people dead to be lower for the aggressions data, therefore making the marginal effect an effect lower than the effect for 1) the confrontation dataset and 2) the overall dataset aggregating between confrontations and aggresions.
+  * Given that the Aggressions dataset appears to have less lethality, we may expect that the relationship between long guns seized and people dead would be lower in this dataset as opposed to the confrontations dataset -- therefore the interaction term would be positive and the marginal effect of 'source' being the confrontations (as opposed to aggression) would be higher than if we were to estimate the relationship without this conditional variable. Rather, we expect the positive relationship between long guns seized and people dead to be lower for the aggressions data, therefore making the marginal effect an effect lower than the effect for 1) the confrontation dataset and 2) the overall dataset aggregating between confrontations and aggressions.
   
 __2c)__	show the output from your analysis in a consumable form
  
@@ -677,48 +675,58 @@ __2c)__	show the output from your analysis in a consumable form
 summary(fit)
 ```
 
-  * This model includes a series of controls in order to adequately control for other possible mechanisms related to the outcome (see assumptions section for further discussion of this). For the purpose of the output, we will focus on the two constituent main effects, long guns seized and source, as well as their interaction. 
-  * First, the long guns seized term indicates that for every one more long guns seized, .984 more people are dead net of all other factors and when source is the aggressions data, but this is not significant at the .05 level. This is the opposite of what we originally hypothesized. 
-  * The source term indicates that on average in the confrontations dataset, net of all other factors and when long guns seized is 0, there are 7.106 more people dead than in the aggressions dataset and it is significant at the .001 level. As aforementioned, conditional hypotheses give new meanings to the constituent variables. Rather, the terms for 'source' and 'long guns seized' indicate net of all other factors and when the other variable is at zero. 
+  * This model includes a series of controls in order to adequately control for other possible mechanisms related to the outcome (see assumptions section for further discussion of this topic). For the purpose of the output, we will focus on the two constituent main effects, long guns seized and source, as well as their interaction. 
+  * First, the long guns seized term indicates that for every one more long guns seized, 0.984 more people are dead net of all other factors and when source is the aggressions data, but this is not significant at the 0.05 level. This is the opposite of what we originally hypothesized. 
+  * The source term indicates that on average in the confrontations dataset, net of all other factors and when long guns seized is 0, there are 7.106 more people dead than in the aggressions dataset and it is significant at the 0.001 level. As aforementioned, conditional hypotheses give new meanings to the constituent variables. Rather, the terms for 'source' and 'long guns seized' indicate net of all other factors and when the other variable is at zero. 
   
-  * The interaction term is testing for a differences in slopes; specifically whether or not the relationship between long guns seized and total people dead is significantly different for the aggression versus the confrontations dataset. This term indicates that when the dataset is confrontations, every one unit increase in long guns seized (or for every additional long gun seized), there are 1.992 more dead than the original long gun seized term (which is .984). Substantively, this indicates that the slope between long guns seized and total people dead is 1.992 more for the confrontations dataset than the aggressions dataset. The interaction term is significant at the .05 level.
+  * The interaction term is testing for a difference in slopes; specifically whether or not the relationship between long guns seized and total people dead is significantly different for the aggression versus the confrontations dataset. This term indicates that when the dataset is confrontations, every one unit increase in long guns seized (or for every additional long gun seized), there are 1.992 more dead than the original long gun seized term (which is 0.984). Substantively, this indicates that the slope between long guns seized and total people dead is 1.992 more for the confrontations dataset than the aggressions dataset. The interaction term is significant at the 0.05 level.
 
 __2d)__	show all your computations to estimate the corresponding marginal effect 
 and its standard error
 
-  * The marginal effect, as indicated in class, can be found by compounding the original slope term (in our case, the long gun seized term) and the interaction term. Therefore, this would be .984 + 1.992 = 2.976. This indicates that when the dataset is confrontations (as opposed to aggressions), for every long gun seized, 2.976 more people are dead.
-  * The standard error of the marginal effect is calculated using the following formula: var(B1) + Z^2 * var(B3) + 2ZCov(B1, B3), where in our case:
-  B1: long guns seized slope
-  Z: source (0 = aggressions, 1 = confrontations)
-  B3: long guns seized * source interaction term
+  * The marginal effect, as indicated in class, can be found by compounding the original slope term (in our case, the long gun seized term) and the interaction term. Therefore, this would be 0.984 + 1.992 = 2.976. This indicates that when the dataset is confrontations (as opposed to aggressions), for every long gun seized, 2.976 more people are dead.
   
-We can first extract the variance - covariance matrix necessary to calculate this using the following code:
+  * The standard error of the marginal effect is calculated using the following formula: var(B1) + Z^2 * var(B3) + 2ZCov(B1, B3), where in our case:
+ 
+  * B1: long guns seized slope
+ 
+  * Z: source (0 = aggressions, 1 = confrontations)
+  
+  * B3: long guns seized * source interaction term
+  
+We can first extract the variance - a covariance matrix is necessary to calculate this using the following code:
 
 ```{r}
 vcov(fit)
 ```
 
 From this, we can calculate:
+
 ```{r}
 var <- .002647219 + 1 * 1 *.002573099 + 2 * 1 * .002557878
 var
 sqrt(var)
 ```
 
-Therefore the standard error of the marginal effect is .10167 (which matches the interaction term of the regression).
+Therefore the standard error of the marginal effect is 0.10167 (which matches the interaction term of the regression).
 
 __2e)__	be explicit in your assumptions
 
   * There are quite a number of assumptions within this model. First off, a linear regression model was used -- which indicates that we are assuming the dependent variable to be continuous and that there is a linear relationship between the predictors and the dependent variable. The dependent variable is not properly continuous as it can only have integer values and it cannot have any negative values; however for the purpose of drawing overall insight we may still be able to use this method to gain some understanding of the relationship between the variables, but a poisson or zero-inflated binomial regression would theoretically be better suited for the nature of the data.
-  * A linear model, by definition, assumes that the predictors are not significantly correlated to one another (rather, that they are orthogonal). In this case, it is likely that these variables are at least somewhat correlated as the presence of one type of armed force (i.e. army) is likely correlated with another, as is the type of weaponry seized is likely correlated as well (long guns, for example, require cartridges in order to operate, therefore these metrics are likely correlated). However, this assumption may be somewhat malleable depending on how correlated the variables are, and insight can still be discerned overall from the model -- although one must be skeptical of the insight gleaned.
-  * Because the dependent variable is a composite, we are collapsing different forms of death. As this model does not condition on the depenvent variable, we are making the implicit assumption that the predictors predict different types of death (i.e. civilian vs. non-civilian) to be equivalent, as the two are collapsed into total and the model is predicting this aggregated value. This perhaps is not necessarily the case and one could, with more complicated machinery, condition on the dependent variable as well to account for the potentially differential relationship.
+
+  * A linear model, by definition, assumes that the predictors are not significantly correlated to one another (rather, that they are orthogonal). In this case, it is likely that these variables are at least somewhat correlated as the presence of one type of armed force (e.g. army) is likely correlated with another, as is the type of weaponry seized is likely correlated as well (long guns, for example, require cartridges in order to operate, therefore these metrics are likely correlated). However, this assumption may be somewhat malleable depending on how correlated the variables are, and insight can still be discerned overall from the model -- although one must be skeptical of the insight gleaned.
+
+  * Since the dependent variable is a composite, we are collapsing different forms of death. As this model does not condition on the depenvent variable, we are making the implicit assumption that the predictors predict different types of death (e.g. civilian vs. non-civilian) to be equivalent, as the two are collapsed into total and the model is predicting this aggregated value. This perhaps is not necessarily the case and one could, with more complicated machinery, condition on the dependent variable as well to account for the potentially differential relationship.
+
   * Furthermore, it is worth noting that because this model does not condition on any other variables or does not include an interaction between 'source' and any other variables, it is implicitly assuming that the relationship between any other predictor and total dead is constant as a function of source, which is likely not the case.
   
 __2f)__	be explicit in the limitations of your inferences
 
   * The model has a series of limitations insofar as the dependent variable is not necessarily distributed ideally for the model used. Because this is not a count variable, one must take the interpretation of the model with skepticism (for example, some combination of predictors could result in non-integer or negative number of deaths, both of which are non-possible values).
+
   * Additionally, one must recognize that the inter-correlation between the predictors means that these estimates may be even more unstable than one might think and therefore we are limited in the extent to which we are confident in any of the model's parameters due to this inter-correlation.
-  *It is worth noting that there is a censorship on the dependent variable, as only the cases in which they are defined as a confrontation are documented, and therefore this censorship means that the inferences that one can make from the data are limited by the collection and scope of the data itself, indicating that perhaps we should be skeptical of the extent to which the estimates and insights from this dataset may extrapolate out of the scope of time, location, and data gathering method that this data possesses.
+
+  * It is worth noting that there is a censorship on the dependent variable, as only the cases in which they are defined as a confrontation are documented, and therefore this censorship means that the inferences that one can make from the data are limited by the collection and scope of the data itself, indicating that perhaps we should be skeptical of the extent to which the estimates and insights from this dataset may extrapolate out of the scope of time, location, and data gathering method that this data possesses.
   
 __2g)__	phrase your finding for each question in two ways:
 
@@ -728,7 +736,7 @@ __2g-1)__	one sentence that summarizes your insight
 
 __2g-2)__	one paragraph that reflects all nuance in your insight
   
-  * There appears to be some evidence of a relationship that indicates the more long guns seized, the more dangerous (lethal) the situation is overall. Furthermore, the relationship between long gun seizure and death is three times stronger for the cases in the confrontations dataset than the aggressions dataset, controlling for all of the other types of ammunition seized and types of armed forces involved. The relationship between long guns and death is not statistically significant in the aggressions dataset, but it is in the confrontations set and the two relationships are significantly different -- indicating that these two datasets are clearly examining quite different cases and capturing quite different relationships, while claiming to be coming from the same data-generating process. This is case for further investigation of the data gathering processes of these two datasets and further examination of why lethality differs so greatly, as well as seizure lethality relationships, between two ostensibly identical data-generating processes.
+  * There appears to be some evidence of a relationship that indicates the more long guns seized, the more dangerous (lethal) the situation is overall. Furthermore, the relationship between long gun seizure and death is three times stronger for the cases in the confrontations dataset than the aggressions dataset, controlling for all of the other types of ammunition seized and types of armed forces involved. The relationship between long guns and death is not statistically significant in the aggressions dataset, but it is in the confrontations set and the two relationships are significantly different -- indicating that these two datasets are clearly examining quite different cases and capturing quite different relationships, while claiming to be coming from the same data-generating process. This is a case for further investigation of the data gathering processes of these two datasets and further examination of why lethality differs so greatly, as well as seizure lethality relationships, between two ostensibly identical data-generating processes.
   
 __2h)__	make sure to also include your code
   
@@ -739,8 +747,6 @@ __2h)__	make sure to also include your code
 __2.)__	Formulate two (2) conditional hypotheses that you seek to investigate with 
 the data. One of your hypotheses should condition on two variables (as the 
 example on the slides), and the other should condition on three variables. [50 pts]
-    
-  * ZACH:  
 
 ```{r}
 fit <- lm(total.people.dead ~ cartridge.sezied + federal.police + ministerial.police + municipal.police + navy + state.police + long.guns.seized * source * army + small.arms.seized + clips.seized + vehicles.seized, data = AllData)
@@ -762,78 +768,105 @@ __2c)__	show the output from your analysis in a consumable form
 summary(fit)
 ```
 
-  * This model includes a series of controls in order to adequately control for other possible mechanisms related to the outcome (see assumptions section for further discussion of this). For the purpose of the output, we will focus on the three constituent main effects, long guns seized, source and army, as well as their two-way interactions, and then the three way interaction term (the main conditional hypothesis).
-  * The first main effect is long guns seized; the term in the model indicates that when army and source are 0 (indicating an instance from the aggression set with no army presence), for every long gun seized, .045 more people are dead net of all other factors, but this is not significant at the .05 level.
-  * The second main effect is source; the term in the model indicates that when long guns seized and army are 0 (indicating an instance with no long guns seized and no army presence), the confrontations set on average has .449 more deaths than the aggression set per instance net of all other factors and this is significant at the .001 level.
-  * The third main effect is army; the term in the model indicates that when long guns seized and source are 0 ( indicating an instance from the aggression set with no long guns seized), having army presence indicates on average .458 less deaths net of all other factors and this is significant at the .05 level.
-  * The first two-way interaction is between long guns seized and source such that the slope between long guns seized and deaths is .168 higher for the confrontations data set than the aggressions dataset net of all other factors and when army is not present; it is significant at the .01 level.
-  * The second two-way interaction is between long guns seized and army such that the slope between long guns seized and deaths is .0056 lower when the army is present as opposed to when the army is present net of all other factors and when source is 0 (meaning in the aggressions dataset). This term, however, is not statistically significant at the .05 level.
-  * The third two-way interaction is between source and army such that when looking at the confrontations dataset and the army is present, the average number of deaths is .1233 higher than when neither or only one of them is present net of all other factors and when long gun seizure is 0. This term, however, is not statistically significant at the .05 level.
-  * The three-way interaction term (or three way conditional hypothesis) is testing whether the slope of long guns predicting death varies as a function of both source and army. The term indicates that when source and army are 1 (indicating the army is present and the source is the confrontations set), the effect of long guns seizes on total deaths is -.085 less when neither or only one is present net of all other factors. This term, however, is not statistically significant at the .05 level. See next section for further discussion for the marginal effect estimated by this term.
+  * This model includes a series of controls in order to adequately control for other possible mechanisms related to the outcome (see assumptions section for further discussion of this topic). For the purpose of the output, we will focus on the three constituent main effects, long guns seized, source, and army, as well as their two-way interactions, and then the three way interaction term (the main conditional hypothesis).
+
+  * The first main effect is long guns seized; the term in the model indicates that when army and source are 0 (indicating an instance from the aggression set with no army presence), for every long gun seized, 0.045 more people are dead net of all other factors, but this is not significant at the 0.05 level.
+
+  * The second main effect is source; the term in the model indicates that when long guns seized and army are 0 (indicating an instance with no long guns seized and no army presence), the confrontations set on average has 0.449 more deaths than the aggression set per instance net of all other factors and this is significant at the 0.001 level.
+
+  * The third main effect is army; the term in the model indicates that when long guns seized and source are 0 ( indicating an instance from the aggression set with no long guns seized), having army presence indicates on average 0.458 less deaths net of all other factors and this is significant at the 0.05 level.
+
+  * The first two-way interaction is between long guns seized and source such that the slope between long guns seized and deaths is 0.168 higher for the confrontations data set than the aggressions dataset net of all other factors and when army is not present; it is significant at the 0.01 level.
+
+  * The second two-way interaction is between long guns seized and army such that the slope between long guns seized and deaths is 0.0056 lower when the army is present as opposed to when the army is present net of all other factors and when source is 0 (meaning in the aggressions dataset). This term, however, is not statistically significant at the 0.05 level.
+
+  * The third two-way interaction is between source and army such that when looking at the confrontations dataset and the army is present, the average number of deaths is 0.1233 higher than when neither or only one of them is present net of all other factors and when long gun seizure is 0. This term, however, is not statistically significant at the 0.05 level.
+ 
+  * The three-way interaction term (or three way conditional hypothesis) is testing whether the slope of long guns predicting death varies as a function of both source and army. The term indicates that when source and army are 1 (indicating the army is present and the source is the confrontations set), the effect of long guns seized on total deaths is -0.085 less when neither or only one is present net of all other factors. This term, however, is not statistically significant at the 0.05 level. See next section for further discussion for the marginal effect estimated by this term.
   
 __2d)__	show all your computations to estimate the corresponding marginal effect 
 and its standard error
 
   * The marginal effect for a three variable conditioning hypothesis will be formulated using tables from Aiken & West (1991; see attached picture for formulas) which give the marginal effects and standard errors for a three-way interaction. 
   
-![Formulas for Marginal Effects](/Users/zachheinemann/Downloads/AikenWest.jpg)
+![Formulas for Marginal Effects](/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data Challenges/datachallenge2/AikenWest.jpg)
   
-  The formula for marginal effect is the long gun term added with the army -- long gun interaction term, the source -- long gun interaction term, and the three-way interaction term like such:
+  The formula for marginal effect is the long gun term added with the army -- long gun interaction term, the source -- long gun interaction term, and the three-way interaction term as such:
   
-  .0452 + .1683 - .0056 - .0846 = .1233
+  0.0452 + 0.1683 - 0.0056 - 0.0846 = 0.1233
   
-  This indicates that when army is present and it is the confrontations dataset, each long gun seized results in .1233 more deaths. Let's now calculate the standard error of this marginal effect.
+  This indicates that when army is present using the confrontations dataset, each long gun seized results in 0.1233 more deaths. Let's now calculate the standard error of this marginal effect:
   
-  * The standard error of the marginal effect is calculated using the following formula: var(B1) + Z^2 var(B4) + W^2 var(B5) + Z^2 W^2 var(B7) + 2ZCov(B1, B4) + 2Wcov(B1,B5) + 2ZWcov(B1,B7) + 2ZWcov(B4,B5) + 2WZ^2cov(B4, B7) + 2ZW^2cov(B5, B7), where in our case:
-  B1: long guns seized slope
-  Z: source (0 = aggressions, 1 = confrontations)
-  W: army (0 = no army, 1 = army)
-  B4: long guns seized * source interaction term
-  B5: long guns seized * army interaction term
-  B7: long guns seized, army, source interaction term
+  * The standard error of the marginal effect is calculated using the following formula: var(B1) + Z^2 var(B4) + W^2 var(B5) + Z^2 W^2 var(B7) + 2ZCov(B1, B4) + 2Wcov(B1,B5) + 2ZWcov(B1, B7) + 2ZWcov(B4, B5) + 2WZ^2cov(B4, B7) + 2ZW^2cov(B5, B7), where in our case:
   
-We can first extract the variance - covariance matrix necessary to calculate this using the following code:
+  * B1: long guns seized slope
+  
+  * Z: source (0 = aggressions, 1 = confrontations)
+  
+  * W: army (0 = no army, 1 = army)
+  
+  * B4: long guns seized * source interaction term
+  
+  * B5: long guns seized * army interaction term
+  
+  * B7: long guns seized, army, source interaction term
+  
+We can first extract the variance - a covariance matrix is necessary to calculate this using the following code:
 
 ```{r}
 vcov(fit)
 ```
 
-From this, we can calculate (because Z and W are 1, they are dropped from this equation for simplicity's sake):
+From this, we can calculate (because Z and W are 1, they are dropped from this equation for simplicity):
+
 ```{r}
 var <- 5.780256e-03 + 5.824379e-03 + 1.074442e-02 + 1.093731e-02 + 2 * -5.699216e-03 + 2 * -5.687154e-03 + 2 * 5.697308e-03 + 2 * 5.670264e-03 + 2 * -5.829394e-03 + 2 * -1.073217e-02
 var
 sqrt(var)
 ```
 
-Becuase we are just evaluating the standard error of the marginal effect, it does not necessarily match the standard error of the three-way interaciton term itself (as this is also including the two-way interaction between source and army, which does not impact the marginal effect of long guns on total death in this instance), the standard error of the marginal effect is .0112.
+Because we are just evaluating the standard error of the marginal effect, it does not necessarily match the standard error of the three-way interaction term itself (as this is also including the two-way interaction between source and army, which does not impact the marginal effect of long guns on total death in this instance), the standard error of the marginal effect is 0.0112.
 
 __2e)__	be explicit in your assumptions
   
-  * Because of similarities between this model and the last, some of the assumptions stated are repeated here.
+  * Due to similarities between this model and the last, some of the assumptions stated are repeated here.
+  
   * There are quite a number of assumptions within this model. First off, a linear regression model was used -- which indicates that we are assuming the dependent variable to be continuous and that there is a linear relationship between the predictors and the dependent variable. The dependent variable is not properly continuous as it can only have integer values and it cannot have any negative values; however for the purpose of drawing overall insight we may still be able to use this method to gain some understanding of the relationship between the variables, but a poisson or zero-inflated binomial regression would theoretically be better suited for the nature of the data.
-  * A linear model, by definition, assumes that the predictors are not significantly correlated to one another (rather, that they are orthogonal). In this case, it is likely that these variables are at least somewhat correlated as the presence of one type of armed force (i.e. army) is likely correlated with another, as is the type of weaponry seized is likely correlated as well (long guns, for example, require cartridges in order to operate, therefore these metrics are likely correlated). However, this assumption may be somewhat malleable depending on how correlated the variables are, and insight can still be discerned overall from the model -- although one must be skeptical of the insight gleaned.
-  * Because the dependent variable is a composite, we are collapsing different forms of death. As this model does not condition on the depenvent variable, we are making the implicit assumption that the predictors predict different types of death (i.e. civilian vs. non-civilian) to be equivalent, as the two are collapsed into total and the model is predicting this aggregated value. This perhaps is not necessarily the case and one could, with more complicated machinery, condition on the dependent variable as well to account for the potentially differential relationship.
+ 
+  * A linear model, by definition, assumes that the predictors are not significantly correlated to one another (rather, that they are orthogonal). In this case, it is likely that these variables are at least somewhat correlated as the presence of one type of armed force (e.g. army) is likely correlated with another, as is the type of weaponry seized is likely correlated as well (long guns, for example, require cartridges in order to operate, therefore these metrics are likely correlated). However, this assumption may be somewhat malleable depending on how correlated the variables are, and insight can still be discerned overall from the model -- although one must be skeptical of the insight gleaned.
+ 
+  * Since the dependent variable is a composite, we are collapsing different forms of death. As this model does not condition on the depenvent variable, we are making the implicit assumption that the predictors predict different types of death (e.g. civilian vs. non-civilian) to be equivalent, as the two are collapsed into total and the model is predicting this aggregated value. This perhaps is not necessarily the case and one could, with more complicated machinery, condition on the dependent variable as well to account for the potentially differential relationship.
+
   * Furthermore, it is worth noting that because this model does not condition on any other variables or does not include an interaction between 'source' and any other variables, it is implicitly assuming that the relationship between any other predictor and total dead is constant as a function of source, which is likely not the case.
-  * Additionally, this model is making an assumption or rather including a term such that the two-way relationship between long gun seizure and total deaths varies as a function of whether or not the army is present (which is what the three-way interaction term includes), but this assumption that these relationships vary as a function of whether or not army is present may not be true (and given the context of our model and the p-value, does not appear to hold true). Therefore, in allowing for this three-way interaction we are making an implicit assumption of allowing the relationships to vary as a function of the conditioning on the third variable.
+
+  * Additionally, this model is making an assumption or rather including a term such that the two-way relationship between long gun seizure and total deaths varies as a function of whether or not the army is present (which is what the three-way interaction term includes), but this assumption that these relationships vary as a function of whether or not the army is present may not be true (and given the context of our model and the p-value, does not appear to hold true). Therefore, in allowing for this three-way interaction we are making an implicit assumption of allowing the relationships to vary as a function of the conditioning on the third variable.
 
   
 __2f)__	be explicit in the limitations of your inferences
   
   * Because of similarities between this model and the last, some of the limitations stated are repeated here.
+<<<<<<< HEAD
   * The model has a series of limitations insofar as the dependent variable is not necessarily distributed ideally for the model used. Because this is not a count variable, one must take the interpretation of the model with skepticism (for example, some combination of predictors could result in non-integer or negative number of deaths, both of which are non-possible values).
+=======
+
+  * The model has a series of limitations insofar as the dependent variable is not necessarily distributed ideally for the model used. Because this is not a count variable, one must take the interpretation of the model with skepticism (for example, some combination of predictors could result in a non-integer or negative number of deaths, both of which are non-possible values).
+
+>>>>>>> origin/master
   * Additionally, one must recognize that the inter-correlation between the predictors means that these estimates may be even more unstable than one might think and therefore we are limited in the extent to which we are confident in any of the model's parameters due to this inter-correlation.
-  *It is worth noting that there is a censorship on the dependent variable, as only the cases in which they are defined as a confrontation are documented, and therefore this censorship means that the inferences that one can make from the data are limited by the collection and scope of the data itself, indicating that perhaps we should be skeptical of the extent to which the estimates and insights from this dataset may extrapolate out of the scope of time, location, and data gathering method that this data possesses.
+
+  * It is worth noting that there is a censorship on the dependent variable, as only the cases in which they are defined as a confrontation are documented, and therefore this censorship means that the inferences that one can make from the data are limited by the collection and scope of the data itself, indicating that perhaps we should be skeptical of the extent to which the estimates and insights from this dataset may extrapolate out of the scope of time, location, and data gathering method that this dataset possesses.
+
   * There is a limitation in the three-way interaction term because of the relative number of scenarios in each cell. For example, there is not an equivalent number of instances whether army = 1 and source = 0 as compared with when army = 0 and source = 1. The interaction term is allowing for there to be differential long gun seizure -- death count slopes amongst the four categories and a marginal effect when both are present. However, the different sample sizes in the various cells may limit the extent to which particular slopes may be estimated and whether or not a subsequent interaction term can be estimated; making the overall inferences from the interaction term limited in nature. A more deliberately balanced dataset may ameliorate this problem, although this then ignores the naturalistic relationship between these variables occurring together.
   
 __2g)__	phrase your finding for each question in two ways:
 
 __2g-1)__	one sentence that summarizes your insight
 
-  * The more long guns seized, the more deaths overall in the confrontations data but not the aggressions data and this effect does not change whether the army is there or not regardless of dataset.
+  * The more long guns seized, the more deaths overall in the confrontations data but not the aggressions data and this effect does not change whether the army is there or not regardless of the dataset used.
   
 __2g-2)__	one paragraph that reflects all nuance in your insight
   
-  * The more long guns seized, the more deaths overall in the confrontations data but not the aggressions data. However, there is no significant relationship between long guns and deaths in the aggressions dataset when army is present or army is not present. Furthermore, the presence of the army in the confrontations set does not significantly impact the relationship between long gun seizure and deaths above and beyond the previously observed relationship between the two in the confrontations dataset irrespective of the presence of the army.
+  * The more long guns seized, the more deaths overall in the confrontations data but not the aggressions data. However, there is no significant relationship between long guns and deaths in the aggressions dataset when the army is present or not. Furthermore, the presence of the army in the confrontations set does not significantly impact the relationship between long gun seizure and deaths above and beyond the previously observed relationship between the two in the confrontations dataset irrespective of the presence of the army.
   
 __2h)__	make sure to also include your code
   

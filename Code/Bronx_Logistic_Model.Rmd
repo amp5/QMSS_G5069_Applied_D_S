@@ -1,0 +1,54 @@
+---
+title: "Logistic Regression"
+author: "Brandon Wolff"
+date: "March 20, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bronx Logit
+```{r}
+stop_frisk <- read.csv("2015_stopandfrisk_CLEAN_w_counties.CSV")
+
+sf_bronx <- stop_frisk[stop_frisk$city == 'Bronx',]
+```
+
+
+
+
+
+```{r}
+sf_bronx$race <- as.factor(sf_bronx$race)
+sf_bronx <- within(sf_bronx, race <- relevel(race, ref = 4))
+
+summary(fit <- glm(pforce ~ race + sex, data = sf_bronx, family = "binomial"))
+```
+
+When running a logistic regression for the Bronx only on "pforce" meaning the police used force or did not with race 
+(white as the reference group) and sex alone we see that this model does not have significant coefficients for any of
+the minority groups except American Indian / Alaskan Native people. According to the results being American Indian / 
+Alaskan Native increases the log odds relative to being white and net of all other factors by 1.72 and this is significant
+at the .05 level.
+
+```{r}
+summary(fit <- glm(pforce ~ race + sex + build+ ac_incid + ac_time + armed + offunif + inout, data = sf_bronx, family = binomial(link = "logit")))
+```
+
+
+```{r}
+summary(fit <- glm(pforce ~ race + sex + build+ ac_incid + ac_time + armed + offunif + inout + arstmade + explnstp + frisked, data = sf_bronx, family = binomial(link = "logit")))
+```
+
+When running a logistic regression for the Bronx on "pforce" meaning the police used force or did not with race 
+(white as the reference group), Sex, body build, "ac_incid" which is whther the event took place in a high crime
+or not, "ac_time" (if event took place at abnormal time), "armed" (person was armed or not), "offunif" (if office
+was in uniform or not), "inout" (whether event took place in or outside), "arstmade" (if arrest was made or not),
+"explnstp" (if the person was given reason for the stop or not), and finally "frisked" (if the person was frisked
+or not) we see that this model does not have significant coefficients for any of the minority groups except American
+Indian / Alaskan Native people. According to the results being American Indian / Alaskan Native increases the log odds
+relative to being white and net of all other factors by 1.90 and this is significant at the .05 level. It is also good
+to note that according to the results having a muscular build increases the log odds relative to being heavy and net of
+all other factors by 0.85 and this is significant at the .01 level.
