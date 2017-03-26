@@ -1,6 +1,42 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
 <p align="center">
+  <b>03/26/17 - Crime data by Precinct  - Alexandra </b>
+</p>
+
+CONFIRM WITH STEPHANIE THAT THIS PRECINCT DATA IS 2000-2015 OR JUST 2015. IF FORMER, CHANGE TITLE AND DATA SOURCE ON IMPAGE BELOW
+Thee types of main crimes published at precinct level
+
+![](https://cloud.githubusercontent.com/assets/5368361/24334127/dcbef55a-1232-11e7-86dd-a2008f987117.png)
+
+Next steps:
+1. overlay stop and frisk data over these maps
+2. to clustering with this precint data and SaF data
+3. There should be a fourth category.... http://www.nyc.gov/html/nypd/downloads/pdf/analysis_and_planning/seven_major_felony_offenses_2000_2015.pdf
+
+
+
+<p align="center">
+  <b>03/25/17 - Identifying Variables to include in Models  - Alexandra </b>
+</p>
+
+The image below shows the results of a random forest using the following model:
+
+``` r
+fit2 <- randomForest(as.factor(pforce) ~ rf_furt + rf_knowl + rf_verbl + rf_rfcmp + rf_vcact + rf_attir + 
+                       rf_othsw + rf_vcrim + othrweap + machgun + knifcuti + asltweap + riflshot + pistol + 
+                       adtlrept + contrabn + searched + frisked + weight + age  + rf_bulg + pct, 
+                        data = pf_data, 
+                        importance=TRUE, 
+                        ntree=100)
+```
+
+![](https://cloud.githubusercontent.com/assets/5368361/24328074/0e5e91b8-11ae-11e7-86cc-aa789fb324fa.png)
+
+
+I wasnt able to add race to the model since there were NAs in there but we already know that this is an important factor. Others that are important include searched, pct, frisked, rf_vcrim, age, and weight.
+
+<p align="center">
   <b>03/02/17 - Maps by Race - Alexandra </b>
 </p>
 
