@@ -1,6 +1,17 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
 <p align="center">
+  <b>03/26/17 - Crime data by Precinct  - Alexandra </b>
+</p>
+Thee types of main crimes published at precinct level
+![](https://cloud.githubusercontent.com/assets/5368361/24334127/dcbef55a-1232-11e7-86dd-a2008f987117.png)
+Next steps:
+1. overlay stop and frisk data over these maps
+2. to clustering with this precint data and SaF data
+
+
+
+<p align="center">
   <b>03/25/17 - Identifying Variables to include in Models  - Alexandra </b>
 </p>
 
