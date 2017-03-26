@@ -1,0 +1,135 @@
+---
+title: "Time Series Analysis"
+author: "Zach Heinemann"
+date: "3/22/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+stop_frisk <- read.csv('/Users/zachheinemann/GitHub/QMSS_G5069_Applied_D_S/Data+Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv')
+
+stop_frisk$datestop <- as.character(stop_frisk$datestop)
+```
+
+Long story short, the way that the date data is spit out is a literal and actual nightmare. As such we have to get crafty with the re-formatting.
+```{r}
+for(i in 1:21747){
+  if(nchar(stop_frisk$datestop[i]) == 3){
+    if(substr(stop_frisk$datestop[i],1,1) == "1"){
+      stop_frisk$datestop[i] <- paste0("-01-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "2"){
+      stop_frisk$datestop[i] <- paste0("-02-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "3"){
+      stop_frisk$datestop[i] <- paste0("-03-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "4"){
+      stop_frisk$datestop[i] <- paste0("-04-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "5"){
+      stop_frisk$datestop[i] <- paste0("-05-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "6"){
+      stop_frisk$datestop[i] <- paste0("-06-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "7"){
+      stop_frisk$datestop[i] <- paste0("-07-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "8"){
+      stop_frisk$datestop[i] <- paste0("-08-",substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i],1,1) == "9"){
+      stop_frisk$datestop[i] <- paste0("-09-",substring(stop_frisk$datestop[i],2))
+    } 
+  } else if (nchar(stop_frisk$datestop[i]) == 4){
+    if(substr(stop_frisk$datestop[i],1,2) == "11"){
+      stop_frisk$datestop[i] <- paste0("-11-",substring(stop_frisk$datestop[i],3))
+    } else if (substr(stop_frisk$datestop[i],1,2) == "12"){
+      stop_frisk$datestop[i] <- paste0("-12-",substring(stop_frisk$datestop[i],3))
+    } else if (substr(stop_frisk$datestop[i],1,2) == "10"){
+      stop_frisk$datestop[i] <- paste0("-10-",substring(stop_frisk$datestop[i],3))
+    }
+  }
+}
+
+stop_frisk$datestop <- paste0("2015", stop_frisk$datestop)
+```
+
+Tada! Now we can begin to model.
+
+```{r}
+sf_bronx <- stop_frisk[stop_frisk$city == 'Bronx',]
+
+sf_bronx$race <- as.factor(sf_bronx$race)
+sf_bronx <- within(sf_bronx, race <- relevel(race, ref = 4))
+
+sf_bronx$datestop <- as.Date(sf_bronx$datestop)
+
+sf_bronx$pforce[sf_bronx$pforce == 1] <- "Physical Force"
+sf_bronx$pforce[sf_bronx$pforce == 0] <- "No Physical Force"
+
+sf_bronx$pforce <- as.factor(sf_bronx$pforce)
+
+library(ggplot2)
+library(ggthemes)
+ggplot(sf_bronx, aes(x = datestop, fill = pforce)) + geom_histogram(bins = 100) + theme_tufte() + ylab("Number of Stop and Frisks") + xlab("Date of Stop") +   ggtitle("Stop and Frisk Incidences in the Bronx") + scale_fill_discrete(name = "", labels = c("No Physical Force", "Physical Force"))
+
+ggplot(sf_bronx, aes(x = datestop, fill = pforce)) + geom_density(alpha = .3) + theme_tufte() + ylab("Density of Stop and Frisks") + xlab("Date of Stop") +   ggtitle("Stop and Frisk Incidences in the Bronx") + scale_fill_discrete(name = "", labels = c("No Physical Force", "Physical Force"))
+
+ggplot(sf_bronx, aes(x = datestop, y = ..density..)) + geom_histogram(bins = 100, fill = "light blue", colour = "light blue", size = .2) + geom_density() + theme_tufte() + facet_grid(pforce ~ .) + ylab("Density of Stop and Frisks") + xlab("Date of Stop") +   ggtitle("Stop and Frisk Incidences in the Bronx") 
+```
+
+Interestingly enough, it appears that the incidences of stop and frisk as well as physical violence decrease over the course of the year. Let's first investigate this with a regression.
+
+```{r}
+summary(fit <- glm(pforce ~ race + sex + build+ ac_incid + ac_time + armed + offunif + inout + arstmade + explnstp + frisked + datestop, data = sf_bronx, family = binomial(link = "logit")))
+```
+
+Interestingly, we don't find any evidence that the physical violence is necessarily decreasing over time. Let's examine this now using more sophisticated methods for assessing trends over time.
+
+```{r}
+library(lmtest)
+library(car)
+dwtest(fit)
+durbinWatsonTest(fit, max.lag = 5)
+```
+
+Yikes, these are very very auto-correlated and the highest evidence is for AR(1) although there is evidence for other auto-correlation structures. Let's try and deal with that; there are a number of methods -- but a simple first-attempt solution is robust standard errors:
+
+```{r}
+coeftest(fit, vcov = NeweyWest(fit, lag = 4))
+```
+
+This yields virtually identical results to what we've seen before; however it appears that the problem of the auto-correlation has not quite been dealt with. Instead, let's use an ARIMA which has a function for number of lags, number of differences to estimate, and how many moving averages to calculate.
+
+```{r}
+library(forecast)
+e2 <- fit$residuals
+auto.arima(e2)
+```
+
+This function tells what the optimal arima to use on the data is. In this case it is 2 lags, no differences, no moving averages. Let's estimate this model now.
+
+```{r}
+
+bronx_full <- sf_bronx[, c("race", "sex", "build", "ac_incid", "ac_time","armed", "offunif","inout", "arstmade","explnstp","frisked","datestop","pforce")]
+bronx_full <- bronx_full[complete.cases(bronx_full) == TRUE, ]
+xvars <- bronx_full[, -13]
+xreg <- cbind(race=model.matrix(~as.factor(bronx_full$race)), 
+              ac_incid=bronx_full$ac_incid,
+              ac_time=bronx_full$ac_time,
+              armed = bronx_full$armed,
+              offunif = bronx_full$offunif,
+              arstmade = bronx_full$arstmade,
+              explnstp = bronx_full$explnstp,
+              frisked = bronx_full$frisked,
+              datestop = bronx_full$datestop,
+              sex=model.matrix(~as.factor(bronx_full$sex)),
+              build=model.matrix(~as.factor(bronx_full$build)),
+              inout=model.matrix(~as.factor(bronx_full$inout)))
+
+xreg <- as.data.frame(xreg[,-c(1,14,16,20)])
+
+arima1 <- arima(bronx_full[,"pforce"], order = c(2,0,0), xreg = xreg)
+arima1
+(1-pnorm(abs(arima1$coef)/sqrt(diag(arima1$var.coef))))*2
+```
+
+This model gives a lot of the same information: there is a significant effect for American Indian / Alaska Native, Ac_incid, Ac_time, Arstmade, Frisked, and Muscular.
