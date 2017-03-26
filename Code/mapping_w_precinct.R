@@ -32,6 +32,8 @@ p_data <- read.csv(file.choose())
 
 # Code --------------------------------------------------------------------
 
+
+# Random Forest -----------------------------------------------------------
 bronx_d <- filter(s_a_f, county == "Bronx")
 
 
@@ -72,7 +74,31 @@ fit2 <- randomForest(as.factor(pforce) ~ rf_furt + rf_knowl + rf_verbl + rf_rfcm
 
 varImpPlot(fit2)
 
+# Mapping Precinct data ---------------------------------------------------
+precincts <- unique(pf_data$pct)
+
+
+bronx_pct <- subset(p_data, pct == "40" | pct =="41" | pct =="42" | pct =="43"
+                    | pct =="44" | pct =="45" | pct =="46" | pct =="47" | pct =="48"
+                    | pct =="49" | pct =="50" | pct =="52")
+
+str(bronx_pct)
+
+pct_crimes <- aggregate(crimes_count ~ pct + type, data=bronx_pct, FUN=sum)
+
+pct_crimes_1 <- filter(pct_crimes, type == "misdemeanor_offenses")
+pct_crimes_2 <- filter(pct_crimes, type == "non_seven_major_felony_offenses")
+pct_crimes_3 <- filter(pct_crimes, type == "violation_offenses")
+
+
+pct_crimes_new <- merge(pct_crimes_1, pct_crimes_2, by = "pct", all = TRUE)
+pct_crimes_new <- merge(pct_crimes_new, pct_crimes_3, by = "pct", all = TRUE)
+
+names(pct_crimes_new) <-  c("pct", "misdemeanor_offenses", "m_o_count", "non_seven_major_felony_offenses",
+                            "nsm_fo_count", "violation_offenses", "v_o_count")
 
 # Output ------------------------------------------------------------------
+write.csv(pct_crimes_new, 'Data:Code Book/Cleaned/bronx_pct_crimes.csv')
+
 
 
