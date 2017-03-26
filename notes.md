@@ -12,6 +12,7 @@ Thee types of main crimes published at precinct level
 Next steps:
 1. overlay stop and frisk data over these maps
 2. to clustering with this precint data and SaF data
+3. There should be a fourth category.... http://www.nyc.gov/html/nypd/downloads/pdf/analysis_and_planning/seven_major_felony_offenses_2000_2015.pdf
 
 
 
