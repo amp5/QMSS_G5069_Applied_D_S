@@ -14,6 +14,8 @@ Next steps:
 2. to clustering with this precint data and SaF data
 3. There should be a fourth category.... http://www.nyc.gov/html/nypd/downloads/pdf/analysis_and_planning/seven_major_felony_offenses_2000_2015.pdf
 
+Add legend with names of neighborhoods to above viz: https://www.nyc-arecs.org/bronxx.pdf
+
 
 
 <p align="center">
