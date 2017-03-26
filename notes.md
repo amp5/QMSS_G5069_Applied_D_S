@@ -3,6 +3,8 @@
 <p align="center">
   <b>03/26/17 - Crime data by Precinct  - Alexandra </b>
 </p>
+
+CONFIRM WITH STEPHANIE THAT THIS PRECINCT DATA IS 2000-2015 OR JUST 2015. IF FORMER, CHANGE TITLE AND DATA SOURCE ON IMPAGE BELOW
 Thee types of main crimes published at precinct level
 
 ![](https://cloud.githubusercontent.com/assets/5368361/24334127/dcbef55a-1232-11e7-86dd-a2008f987117.png)
