@@ -18,7 +18,7 @@
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
-sfd <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv") # cleaned stop and frisk data 
+sfd <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data+Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv") # cleaned stop and frisk data 
 
 # SPACE FOR SOMEONE ELSE TO COMMENT OUT MY PATH ABOVE AND PUT THEIR PATH IN HERE
 ```
@@ -48,7 +48,7 @@ data source: https://factfinder.census.gov/faces/tableservices/jsf/pages/product
 
 
 # this dataest is in a really strange format 
-pop <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Cleaned/CLEAN_ACS_15_5YR_DP05.csv")
+pop <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data+Code Book/Cleaned/CLEAN_ACS_15_5YR_DP05.csv")
 
 #pop <- pop[-22, ] # delete duplicate rows
 #pop <- pop[-21, ] # delete duplicate rows
@@ -107,13 +107,25 @@ ggplot(stops_by_race2, aes(x = race, y = count)) +
 #FINAL GRAPHS for 03/08/17 class:
 ```{r}
 #stop and frisk events by race:
-stops_by_race_graph <- ggplot(stops_by_race2, aes(x = race, y = count)) +
+stops_by_race_graph <- ggplot(stops_by_race2, aes(x = race, y = count, fill = race)) +
   geom_bar(stat = "identity") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1)) +
   ylab("Number of Stop & Frisk Events") +
   xlab("Race") +
   ggtitle("Stop & Frisk Events by Race") +
-  geom_text(aes(label = count), vjust = 0, colour = "black")
+  geom_text(aes(label = count), vjust = 0, colour = "black") +
+  scale_color_brewer(palette = "Greens") +
+  theme(axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        #axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position = "none",
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_blank())
 
 stops_by_race2
 
@@ -153,13 +165,25 @@ demographic4
 demographic4[5, 1] <- "Asian/Native Hawaiian and Other Pacific Islander"
 demographic4
 
-population_race_graph <- ggplot(demographic4, aes(x = Subject, y = Estimate)) +
+population_race_graph <- ggplot(demographic4, aes(x = Subject, y = Estimate, fill = Subject)) +
   geom_bar(stat = "identity") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1)) +
   xlab("Race") +
   ylab("Population Estimate") +
   ggtitle("2015 Bronx Population by Race") +
-  geom_text(aes(label = Estimate), vjust = 0.05, colour = "black")
+  geom_text(aes(label = Estimate), vjust = 0.05, colour = "black") +
+  scale_color_brewer(palette = "Greens") +
+  theme(axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        #axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position = "none",
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_blank())
 
 #percentage comparison stop and frisk events / pop race cat:
 stops_by_race2
@@ -190,13 +214,24 @@ comparison2 <- comparison2[-1, 1:2]
 
 comparison2
 
-comparison_graph <- ggplot(comparison2, aes(x = V1, y = V2)) +
+comparison_graph <- ggplot(comparison2, aes(x = V1, y = V2, fill = V1)) +
   geom_bar(stat = "identity") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1)) +
   xlab("Race") +
   ylab("Percentage") +
   ggtitle("Percentage of Each Race of the Bronx Population Being Stopped & Frisked") +
-  geom_text(aes(label = V2), vjust = 0, colour = "black")
+  geom_text(aes(label = V2), vjust = 0, colour = "black") +
+  theme(axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        #axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position = "none",
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_blank())
 ```
 
 __03/08/17 Class Update for Team 3:__
@@ -227,7 +262,7 @@ https://stackoverflow.com/questions/37509886/how-to-read-merged-excel-cells-with
 ```{r}
 rm(list = ls(all = TRUE))   # cleans everything in the workspace
 
-path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data:Code Book/Raw:Outdated/crime data_combined_raw2.csv"
+path <- "/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data+Code Book/Raw:Outdated/crime data_combined_raw2.csv"
 
 raw_crime <- read.csv(path)
 raw_crime1 <- raw_crime ## create raw_crime1 to alter the data so that raw_crime stays in its original form
