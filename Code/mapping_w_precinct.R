@@ -36,6 +36,12 @@ p_data <- read.csv(file.choose())
 # Random Forest -----------------------------------------------------------
 bronx_d <- filter(s_a_f, county == "Bronx")
 
+bronx_pct_d <- bronx_d[c("pforce", "pct", "xcoord", "ycoord")]
+bronx_pct_pforce <-  aggregate(pforce ~ pct + xcoord + ycoord, data = bronx_pct_d, FUN = sum)
+
+
+
+
 
 
 pf_data <- bronx_d[c("pforce", "rf_furt", "rf_knowl", "rf_verbl", "rf_rfcmp",
@@ -98,7 +104,11 @@ names(pct_crimes_new) <-  c("pct", "misdemeanor_offenses", "m_o_count", "non_sev
                             "nsm_fo_count", "violation_offenses", "v_o_count")
 
 # Output ------------------------------------------------------------------
-write.csv(pct_crimes_new, 'Data:Code Book/Cleaned/bronx_pct_crimes.csv')
+write.csv(pct_crimes_new, 'Data+Code Book/Cleaned/bronx_pct_crimes.csv')
+write.csv(bronx_pct_pforce, 'Data+Code Book/Cleaned/bronx_pct_pforce.csv')
+
+
+
 
 
 
