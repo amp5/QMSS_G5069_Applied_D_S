@@ -1,6 +1,18 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
 <p align="center">
+  <b>04/02/17 - Spatial Clusters  - Alexandra </b>
+</p>
+
+
+![](https://cloud.githubusercontent.com/assets/5368361/24591226/aab12a5e-17ca-11e7-882f-84ffd0a31a58.png)
+![](https://cloud.githubusercontent.com/assets/5368361/24591227/b2287116-17ca-11e7-8f3f-e897e8e1e963.png)
+
+
+Estimated area between the surveyed points by performing a local interpolation method which requires us to make the assumption that pforce is a variable that spatially represents a continuous surface. Given the fact that the precincts are different sizes and shaps, we will use the PFmean to standardize for variance in potential volume. In left-hand side of map, there seems to be definite clusters of precincts with high and low levels of police force. Since we have a contiguous precincts, we used 1st order contiguity matrix with Queen's connectivity rules. The results in the scatterplot indicate that there is a positive spatial dependence in the data (Moran's I = 0.463883). This indicates that values of each precinct's police force usages tend to be directly associated with the police force usage of neighboring precincts. 
+
+
+<p align="center">
   <b>03/26/17 - Crime data by Precinct  - Alexandra </b>
 </p>
 
