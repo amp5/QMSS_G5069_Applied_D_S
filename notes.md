@@ -1,6 +1,8 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
-1) File Structure (keep at top of file so that readers can understand where files are saved)
+<p align="left">
+  <b> 1) File Structure Notes (keep this blurb at the top of this file so that readers can understand where files are saved) </b>
+</p>
 
 **1) Background folder**: Zach's NYPD project and any other research we have and want to save goes into this folder:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
 
@@ -15,16 +17,16 @@
 **4) Reports folder**: All of our written assignments are saved here e.g., proposal (one pager).  Going forward, we'll save our final presentation and paper here as well: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Reports
 
 <p align="center">
-  <b> Moved from the README file </b>
+  <b> Additional Resources: </b>
 </p>
-
-**Additional Resources:** 
 
 http://jlegewie.com/files/Legewie-2016-Racial-Profiling-and-Use-of-Force-in-Police-Stops.pdf
 
 http://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page
 
-2) Progress Notes
+<p align="left">
+  <b> 2) Progress Notes </b>
+</p>
 
 <p align="center">
   <b>04/02/17 - Spatial Clusters  - Alexandra </b>
