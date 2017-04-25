@@ -1,43 +1,64 @@
-stop_frisk <- read.csv('/Users/zachheinemann/GitHub/QMSS_G5069_Applied_D_S/Data+Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv')
+#############################################################
+# File-Name:  DataScienceBMLMSkeleton.R
+# Version: 1
+# Date: 04/25/17
+# Author: Zachary Heinemann 
+# Purpose: Build a bayesian muilt-level model
+# Input Files: "2015_stopandfrisk_CLEAN_w_counties.csv"
+# Output Files: None yet
+# Data Output: none  
+# Previous files: None
+# Dependencies: None
+# Required by: Data Analysis Final Project
+# Status: In progress 
+# Machine: MacBook 
+# R version 3.3.3
+#############################################################
 
-stop_frisk$datestop <- as.character(stop_frisk$datestop)
+##::::::::::::::::: Set path:
+
+# stop_frisk <- read.csv('/Users/zachheinemann/GitHub/QMSS_G5069_Applied_D_S/Data+Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv') ## zach's path
+
+stop_frisk <- read.csv("/Users/StephanieLangeland/Desktop/Columbia/Applied Data Science/Git/QMSS_G5069_Applied_D_S/Data+Code Book/Cleaned/2015_stopandfrisk_CLEAN_w_counties.csv") ## stephanie's path
+
+##::::::::::::::::: Prepare the data:
+stop_frisk$datestop <- as.character(stop_frisk$datestop) 
 
 for(i in 1:21747){
   if(nchar(stop_frisk$datestop[i]) == 3){
-    if(substr(stop_frisk$datestop[i],1,1) == "1"){
-      stop_frisk$datestop[i] <- paste0("-01-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "2"){
-      stop_frisk$datestop[i] <- paste0("-02-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "3"){
-      stop_frisk$datestop[i] <- paste0("-03-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "4"){
-      stop_frisk$datestop[i] <- paste0("-04-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "5"){
-      stop_frisk$datestop[i] <- paste0("-05-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "6"){
-      stop_frisk$datestop[i] <- paste0("-06-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "7"){
-      stop_frisk$datestop[i] <- paste0("-07-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "8"){
-      stop_frisk$datestop[i] <- paste0("-08-",substring(stop_frisk$datestop[i],2))
-    } else if (substr(stop_frisk$datestop[i],1,1) == "9"){
-      stop_frisk$datestop[i] <- paste0("-09-",substring(stop_frisk$datestop[i],2))
+    if(substr(stop_frisk$datestop[i], 1, 1) == "1") {
+      stop_frisk$datestop[i] <- paste0("-01-", substring(stop_frisk$datestop[i], 2))
+    } else if (substr(stop_frisk$datestop[i], 1, 1) == "2") {
+      stop_frisk$datestop[i] <- paste0("-02-", substring(stop_frisk$datestop[i],2))
+    } else if (substr(stop_frisk$datestop[i], 1 , 1) == "3") {
+      stop_frisk$datestop[i] <- paste0("-03-", substring(stop_frisk$datestop[i], 2))
+    } else if (substr(stop_frisk$datestop[i], 1, 1) == "4") {
+      stop_frisk$datestop[i] <- paste0("-04-", substring(stop_frisk$datestop[i],  2))
+    } else if (substr(stop_frisk$datestop[i], 1, 1) == "5") {
+      stop_frisk$datestop[i] <- paste0("-05-", substring(stop_frisk$datestop[i], 2))
+    } else if (substr(stop_frisk$datestop[i], 1, 1) == "6") {
+      stop_frisk$datestop[i] <- paste0("-06-", substring(stop_frisk$datestop[i], 2))
+    } else if (substr(stop_frisk$datestop[i], 1, 1) == "7") {
+      stop_frisk$datestop[i] <- paste0("-07-", substring(stop_frisk$datestop[i], 2))
+    } else if (substr(stop_frisk$datestop[i], 1, 1) == "8") {
+      stop_frisk$datestop[i] <- paste0("-08-", substring(stop_frisk$datestop[i], 2))
+    } else if (substr(stop_frisk$datestop[i], 1, 1) == "9") {
+      stop_frisk$datestop[i] <- paste0("-09-", substring(stop_frisk$datestop[i], 2))
     } 
-  } else if (nchar(stop_frisk$datestop[i]) == 4){
-    if(substr(stop_frisk$datestop[i],1,2) == "11"){
-      stop_frisk$datestop[i] <- paste0("-11-",substring(stop_frisk$datestop[i],3))
-    } else if (substr(stop_frisk$datestop[i],1,2) == "12"){
-      stop_frisk$datestop[i] <- paste0("-12-",substring(stop_frisk$datestop[i],3))
-    } else if (substr(stop_frisk$datestop[i],1,2) == "10"){
-      stop_frisk$datestop[i] <- paste0("-10-",substring(stop_frisk$datestop[i],3))
+  } else if (nchar(stop_frisk$datestop[i]) == 4) {
+    if(substr(stop_frisk$datestop[i], 1, 2) == "11") {
+      stop_frisk$datestop[i] <- paste0("-11-", substring(stop_frisk$datestop[i], 3))
+    } else if (substr(stop_frisk$datestop[i], 1, 2) == "12") {
+      stop_frisk$datestop[i] <- paste0("-12-", substring(stop_frisk$datestop[i], 3))
+    } else if (substr(stop_frisk$datestop[i], 1, 2) == "10") {
+      stop_frisk$datestop[i] <- paste0("-10-", substring(stop_frisk$datestop[i], 3))
     }
   }
 }
 
 stop_frisk$datestop <- paste0("2015", stop_frisk$datestop)
 
-
-sf_bronx <- stop_frisk[stop_frisk$city == 'Bronx',]
+sf_bronx <- stop_frisk[stop_frisk$city == 'Bronx', ]
 
 sf_bronx$race <- as.factor(sf_bronx$race)
 sf_bronx <- within(sf_bronx, race <- relevel(race, ref = 4))
