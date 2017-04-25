@@ -1,5 +1,31 @@
 **Purpose:** The purpose of this file is for the team to document what they have done so far and what important information should be noted. 
 
+1) File Structure (keep at top of file so that readers can understand where files are saved)
+
+**1) Background folder**: Zach's NYPD project and any other research we have and want to save goes into this folder:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
+
+**2) Code folder**:  All current/up-to-date/relevant code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** - please move outdated code files from the **Code** folder to this subfolder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
+
+**3) Data/Code Book** folder: The code book is here (https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book) as well as 2 subfolders:
+
+  **3a) Cleaned**: All cleaned datasets that we are currently using: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Cleaned
+  
+  **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets from the **Cleaned** folder to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated
+
+**4) Reports folder**: All of our written assignments are saved here e.g., proposal (one pager).  Going forward, we'll save our final presentation and paper here as well: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Reports
+
+<p align="center">
+  <b> Moved from the README file </b>
+</p>
+
+**Additional Resources:** 
+
+http://jlegewie.com/files/Legewie-2016-Racial-Profiling-and-Use-of-Force-in-Police-Stops.pdf
+
+http://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page
+
+2) Progress Notes
+
 <p align="center">
   <b>04/02/17 - Spatial Clusters  - Alexandra </b>
 </p>
@@ -89,30 +115,6 @@ This one was not used because it is quantile distribution. It makes things look 
 <p align="center">
   <b>02/28/17 - File Structure - Stephanie </b>
 </p>
-
-I organized our files as such:
-
-**1) Background folder**: Zach's NYPD project and any other research we have and want to save goes into this folder:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Background
-
-**2) Code folder**:  All current/up-to-date/relevant code is saved here:  https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code and within this folder, there is a subfolder for all **outdated code** - please move outdated code files from the **Code** folder to this subfolder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Code/Outdated%20Code
-
-**3) Data/Code Book** folder: The code book is here (https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book) as well as 2 subfolders:
-
-  **3a) Cleaned**: All cleaned datasets that we are currently using: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Cleaned
-  
-  **3b) Raw/Outdated**: All datasets that we aren't using anymore are saved here - please move outdated datasets from the **Cleaned** folder to this folder when appropriate: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Data:Code%20Book/Raw:Outdated
-
-**4) Reports folder**: All of our written assignments are saved here e.g., proposal (one pager).  Going forward, we'll save our final presentation and paper here as well: https://github.com/amp5/QMSS_G5069_Applied_D_S/tree/master/Reports
-
-<p align="center">
-  <b> Moved from the README file </b>
-</p>
-
-**Additional Resources:** 
-
-http://jlegewie.com/files/Legewie-2016-Racial-Profiling-and-Use-of-Force-in-Police-Stops.pdf
-
-http://www1.nyc.gov/site/planning/data-maps/open-data/districts-download-metadata.page
 
 <p align="center">
   <b>2/25/17 - Mapped data - Alexandra </b>
